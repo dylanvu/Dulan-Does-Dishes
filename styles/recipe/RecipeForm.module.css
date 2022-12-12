@@ -28,16 +28,3 @@
     padding-left: 0.3em;
 
 }
-
-.new-item-btn {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    background-color: #79B4B7;
-    transition: background-color 0.1s;
-    padding: 0.5em;
-    border-radius: 0.2em;
-}
-
-.new-item-btn:hover {
-    background-color: #629194;
-}

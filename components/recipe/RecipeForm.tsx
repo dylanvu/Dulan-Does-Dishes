@@ -127,7 +127,7 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
                     )}
                 </Droppable>
             </DragDropContext>
-            <button onClick={addNewitem} className={styles["new-item-btn"]}>
+            <button onClick={addNewitem} className={inputStyles["generic-btn"]}>
                 Add new {singularTitle.toLowerCase()}
             </button>
         </div>
