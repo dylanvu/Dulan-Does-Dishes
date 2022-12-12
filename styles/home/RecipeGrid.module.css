@@ -1,0 +1,14 @@
+.recipe-flex-grid {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: center;
+}
+
+.recipe-grid-container {
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 10vw;
+}

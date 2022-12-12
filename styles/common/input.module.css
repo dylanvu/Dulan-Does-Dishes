@@ -1,0 +1,19 @@
+.generic-input {
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+.generic-textarea-div-wrapper {
+    margin-bottom: 1em;
+}
+
+.generic-textarea {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-bottom: 0.5em;
+    min-height: 50px;
+    padding: 0.5em;
+    border-radius: 0.2em;
+    width: 80%;
+}

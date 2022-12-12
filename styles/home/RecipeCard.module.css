@@ -1,0 +1,66 @@
+/* RecipeCard.tsx */
+
+.recipe-card {
+    position: relative;
+    /* Cursor will be set to pointer on scroll view */
+    cursor: default;
+    align-self: center;
+    /* TODO: Define a custom mobile top margin */
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    flex-shrink: 0;
+    /* Opacity will be set to 1 on scroll view */
+    opacity: 0;
+    transition: opacity 0.4s, transform 0.2s;
+}
+
+.recipe-card-img-container {
+    min-width: 200px;
+    min-height: 200px;
+    width: 15vw;
+    height: 15vw;
+    /* for image size */
+    position: relative;
+    border-radius: 0.3em;
+    /* for actually showing the border: https: //stackoverflow.com/questions/68920647/how-to-add-border-radius-to-next-js-image */
+    overflow: hidden;
+}
+
+.recipe-card-label {
+    position: absolute;
+    bottom: 5%;
+    right: 0;
+    padding: 5%;
+    max-width: 70%;
+    /* #F8F0DF */
+    background-color: rgba(248, 240, 223, 0.7);
+    border-radius: 0.3em 0 0.3em 0;
+    opacity: 0;
+
+    -webkit-transition: 0.1s opacity;
+    -webkit-transition-delay: 0.05s;
+    -moz-transition: 0.1s opacity;
+    -moz-transition-delay: 0.05s;
+    -ms-transition: 0.1s opacity;
+    -ms-transition-delay: 0.05s;
+    -o-transition: 0.1s opacity;
+    -o-transition-delay: 0.05s;
+    transition: 0.1s opacity;
+    transition-delay: 0.05s;
+}
+
+/* easy hovering: https: //stackoverflow.com/questions/14263594/how-to-show-text-on-image-when-hovering */
+.recipe-card:hover .recipe-card-label {
+    opacity: 1;
+    /* delay transitions off hover: https: //stackoverflow.com/questions/9393125/delay-mouseout-hover-with-css3-transitions */
+    -webkit-transition-delay: 0s;
+    -moz-transition-delay: 0s;
+    -ms-transition-delay: 0s;
+    -o-transition-delay: 0s;
+    transition-delay: 0s;
+}
+
+.recipe-card:hover {
+    transform: scale(1.005);
+}

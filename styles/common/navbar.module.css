@@ -1,0 +1,213 @@
+/* <--------------- Nav bar ------------------> */
+
+.logo-nav {
+    width: 40px;
+    z-index: 10;
+    vertical-align: middle;
+}
+
+.navbar {
+    overflow: hidden;
+    display: flex;
+    justify-content: left;
+    align-items: stretch;
+    /* flex-wrap: wrap; */
+    background-color: #79B4B7;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 10;
+    width: 100%;
+    /* Due to using vh, there is a weird gap with the navbar when top = 0. Move it back up */
+    top: 0;
+    font-size: larger;
+}
+
+/* Navbar links */
+.navbar a {
+    float: left;
+    align-items: center;
+    font-size: 20px;
+    display: flex;
+    color: #716F81;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    transition: background-color 0.25s;
+    cursor: pointer;
+    padding-bottom: 0.75rem;
+    padding-top: 0.75rem;
+}
+
+/* The navbar icons */
+.navbar a span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.navbar a:hover {
+    background-color: #F8F0DF;
+}
+
+/* <--------------- HAMBURGER AND ANIMATION ----------------> */
+/* Credit to: https://codepen.io/RRoberts/pen/ZBYaJr hamburger-1 */
+
+.hamburger .line {
+    width: 40px;
+    height: 4px;
+    background-color: #f2f2f2;
+    display: none;
+    margin: 8px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger {
+    align-self: center;
+}
+
+.hamburger:hover {
+    cursor: pointer;
+}
+
+#hamburger.is-responsive .line:nth-child(2) {
+    opacity: 0;
+}
+
+#hamburger.is-responsive .line:nth-child(1) {
+    -webkit-transform: translateY(12px) rotate(45deg);
+    -ms-transform: translateY(12px) rotate(45deg);
+    -o-transform: translateY(12px) rotate(45deg);
+    transform: translateY(12px) rotate(45deg);
+}
+
+#hamburger.is-responsive .line:nth-child(3) {
+    -webkit-transform: translateY(-12px) rotate(-45deg);
+    -ms-transform: translateY(-12px) rotate(-45deg);
+    -o-transform: translateY(-12px) rotate(-45deg);
+    transform: translateY(-12px) rotate(-45deg);
+}
+
+/* <--------------- mobile most of hamburger/general rules ----------------> */
+
+@media screen and (max-width: 1023px) {
+
+    /* When the screen is at maximum 1024px px in size, hide all the navbar links */
+
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .hamburger {
+        padding: 10px;
+        /* padding-bottom: 14px; */
+    }
+
+    .logo-nav {
+        width: 50px;
+    }
+
+    .hamburger .line {
+        display: block;
+    }
+
+    .navbar a {
+        transition: height 0.5s;
+    }
+
+    .navbar.inactive a:not(:first-child) {
+        display: none;
+    }
+
+    /* Once the hamburger menu is clicked, is-responsive is added to the navbar and all the links are shown */
+
+    .navbar.is-responsive {
+        justify-content: flex-start;
+    }
+
+    .navbar {
+        justify-content: space-between;
+    }
+
+    .icon {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .contribution {
+        font-size: 1.1em;
+    }
+
+}
+
+
+
+/* <--------------- mobile, device specific ----------------> */
+
+/* Fixing navbar orientation for smaller devices */
+
+@media screen and (max-height: 569px) and (min-height: 376px) {
+    /* For small, short mobile devices like iPhone 5 in portrait mode, iPhone 6 in landscape*/
+
+    /* shorter orientations get an ugly version of the navbar */
+    .navbar.is-responsive a {
+        display: flex;
+        width: auto;
+        transition: background-color 0.25s;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-height: 570px) {
+
+    /* This is large mobile device portrait mode */
+
+    /* Tall enough orientations to accomodate for a "row by row" nav bar */
+    .navbar.is-responsive a {
+        display: flex;
+        width: 100%;
+        transition: background-color 0.25s;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-height: 570px) {
+
+    /* This is large mobile device landscape mode and also iPhone X portrait */
+
+    /* Tall enough orientations to accomodate for a "row by row" nav bar */
+    .navbar.is-responsive a {
+        display: flex;
+        width: 100%;
+        transition: background-color 0.25s;
+    }
+
+    .navbar a,
+    .navbar .name {
+        font-size: 1.35rem;
+    }
+
+}
+
+@media screen and (min-width: 767px) and (max-width: 1366px) and (min-height: 768px) and (max-height: 1025px) {
+
+    /* Fix hamburger menu size for iPad and iPad pro */
+    .hamburger .line {
+        width: 50px;
+        height: 5px;
+    }
+
+
+    #hamburger.is-responsive .line:nth-child(1) {
+        -webkit-transform: translateY(13px) rotate(45deg);
+        -ms-transform: translateY(13px) rotate(45deg);
+        -o-transform: translateY(13px) rotate(45deg);
+        transform: translateY(13px) rotate(45deg);
+    }
+
+    #hamburger.is-responsive .line:nth-child(3) {
+        -webkit-transform: translateY(-13px) rotate(-45deg);
+        -ms-transform: translateY(-13px) rotate(-45deg);
+        -o-transform: translateY(-13px) rotate(-45deg);
+        transform: translateY(-13px) rotate(-45deg);
+    }
+}
