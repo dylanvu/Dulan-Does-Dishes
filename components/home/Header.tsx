@@ -6,7 +6,7 @@ const Header = () => {
     useEffect(() => {
         // Home animation function
         function AnimateHome() {
-            let intro = "Dulan Does Dishes";
+            let intro = "Dulan Does Dishes - Coming Soon";
             let currHeaderText = intro[0];
             let i = 0;
             // Animate "typing"

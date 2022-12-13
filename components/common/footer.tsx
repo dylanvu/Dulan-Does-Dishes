@@ -1,8 +1,10 @@
 import styles from "../../styles/common/footer.module.css";
 import Image from "next/image";
+import { Input, Button } from "@chakra-ui/react";
 
 const Footer = () => {
     const year = new Date().getFullYear();
+    const logoSize = "70px";
     return (
         <footer className={styles["footer"]}>
             <div>
@@ -12,6 +14,12 @@ const Footer = () => {
                 {year === 2022 ? `2022` : `2022 - ${year}`}
             </div>
             <br />
+            <br />
+            <div>
+                <a href="/login">
+                    <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} />
+                </a>
+            </div>
             <a
                 href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
                 target="_blank"

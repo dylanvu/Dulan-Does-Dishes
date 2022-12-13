@@ -1,21 +1,9 @@
-import React, { useState } from 'react'
-import styles from '../../styles/common/navbar.module.css'
+import React, { useState } from 'react';
+import styles from '../../styles/common/navbar.module.css';
+import Image from 'next/image';
 
 const Navbar = () => {
     const [responsiveClass, setResponsive] = useState("inactive");
-    // function scrolling(id: string) {
-    //     if (responsiveClass === "is-responsive") {
-    //         setResponsive('inactive');
-    //     }
-    //     const scrollingDocument = document.getElementById(id);
-    //     if (scrollingDocument) {
-    //         scrollingDocument.scrollIntoView({ behavior: "smooth" });
-    //     } else {
-    //         // throw new Error(`Could not find ${id} id.`);
-    //         console.error(`Could not find ${id} id.`);
-    //     }
-    // }
-
     function toggleBurger() {
         // console.log("Burger clicked");
         if (responsiveClass === "inactive") {
@@ -25,13 +13,18 @@ const Navbar = () => {
         }
     }
 
+    const logoSize = "50px";
+
     return (
         <nav className={`${styles.navbar} ${styles[responsiveClass]}`} id="navbar">
+            <a className={styles["main-link"]} href="/">
+                <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} />
+                <span>Dulan Does Dishes</span>
+            </a>
 
-            {/* eslint-disable-next-line */}
-            <a className={styles["nav-link"]} href="/"><span>Dulan Does Dishes</span></a>
-            {/* eslint-disable-next-line */}
+            <a className={styles["nav-link"]} href="/about"><span>About</span></a>
             <a className={styles["nav-link"]} href="/recipes"><span>Recipes</span></a>
+            <a className={styles["nav-link"]} href="https://vu-dylan.github.io/" target="_blank" rel="noopener noreferrer"><span>"Cooking's like coding!"</span></a>
 
             <div className={`${styles.hamburger} ${styles[responsiveClass]}`} id="hamburger" onClick={() => toggleBurger()}>
                 <span className={styles.line}></span>

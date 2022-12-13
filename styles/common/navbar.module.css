@@ -39,6 +39,10 @@
     padding-top: 0.75rem;
 }
 
+.main-link {
+    flex-grow: 3;
+}
+
 /* The navbar icons */
 .navbar a span {
     display: inline-block;
