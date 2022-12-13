@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { useState, useRef, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from "react-beautiful-dnd";
-import { resetServerContext } from "react-beautiful-dnd"
+import { resetServerContext } from "react-beautiful-dnd";
+import { trashCanIconSrc, draggableIconSrc } from './constants';
 import styles from "../../styles/recipe/RecipeForm.module.css";
 import inputStyles from "../../styles/common/input.module.css";
 import titleStyles from "../../styles/common/title.module.css";
@@ -24,7 +25,9 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
 
     // the value of each textarea input
     // TODO: Can I refactor this so that I remove this all together?
-    const [inputs, setInputs] = useState<any>({});
+    const [inputs, setInputs] = useState<{
+        [x: string]: string;
+    }>({});
 
     useEffect(() => {
         // create an initial first item
@@ -77,6 +80,21 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
         );
     }
 
+    const deleteItem = (index: number) => {
+        const itemsCopy = items;
+        // remove out the index
+        itemsCopy.splice(index, 1);
+        // regenerate inputs now and reorder
+        let newInputs: { [x: string]: string } = {};
+        for (let i = 0; i < itemsCopy.length; i++) {
+            const step = itemsCopy.at(i);
+            if (step) {
+                newInputs[`item-${i}`] = step;
+            }
+        }
+        reorder(newInputs, 0, 0);
+    }
+
     const addNewitem = () => {
         const newIndex = Object.keys(inputs).length;
         const inputsCopy = inputs;
@@ -89,7 +107,7 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
         reorder({ ...inputs, [e.target.name]: e.target.value }, 0, 0);
     };
 
-    const dragIconSize = "25px";
+    const iconSize = "25px";
 
     return (
 
@@ -116,7 +134,13 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
                                                     {/* Add one to start at item 1 */}
                                                     {numbered ? <label className={styles["recipe-item-number"]}>{index + 1}. </label> : null}
                                                     <textarea name={`item-${index}`} value={inputs[`item-${index}`]} placeholder={`${singularTitle} ${index + 1}...`} onChange={handleInputChange} ref={currInputRef} className={inputStyles["generic-textarea"]}></textarea>
-                                                    <Image className={styles["drag-icon"]} src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAAAaUlEQVRIie3SMQqAMAxG4ace2lHdvJYUz1UXCyItlEjTwf9B1n6EBlR9K7D3QOM9bvgTdcNzqPvm6nOB8j9aJ7yRsfESqejkqLp0XKpZOi7VpZnyAS098OZoDjehkxE+gQE4gM34xs+6ANmTZE/DLPMrAAAAAElFTkSuQmCC" alt={"draggable icon"} layout="fixed" width={dragIconSize} height={dragIconSize} />
+                                                    <span>&nbsp;&nbsp;</span>
+                                                    <Image className={styles["drag-icon"]} src={draggableIconSrc} alt={"Draggable Icon"} layout="fixed" width={iconSize} height={iconSize} />
+                                                    <span>&nbsp;&nbsp;</span>
+                                                    <Image className={styles["trash-icon"]} src={trashCanIconSrc} alt={"Trash Can Icon"} layout="fixed" width={iconSize} height={iconSize} onClick={() => {
+                                                        console.log("Deleting step" + index);
+                                                        deleteItem(index);
+                                                    }} />
                                                 </div>
                                             )}
                                         </Draggable>

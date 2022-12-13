@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import Head from 'next/head'
+import Head from 'next/head';
 import styles from "../../styles/recipe/NewRecipe.module.css";
 import inputStyles from "../../styles/common/input.module.css";
 import titleStyles from "../../styles/common/title.module.css";
@@ -95,11 +95,10 @@ const NewRecipe: NextPage = () => {
                 <RecipeForm title="Ingredients" numbered={false} changeListState={changeIngredientsList} />
                 <RecipeForm title="Steps" numbered={true} changeListState={changeRecipeSteps} />
                 {/* background/other information in a free text box */}
-                <TextAreaInput title="Background" placeholder="What's the background? Who or what inspired you? Why did you make this?" changeTextAreaState={changeBackground} />
-                <TextAreaInput title="Post-Cooking Remarks" placeholder="What happened during or after cooking? Any other random information?" changeTextAreaState={changePostCooking} />
-
                 {/* rating comments/thoughts on the dish */}
                 <TextAreaInput title="Rating" placeholder="What did you think of the dish?" changeTextAreaState={changeRating} />
+                <TextAreaInput title="Background" placeholder="What's the background? Who or what inspired you? Why did you make this?" changeTextAreaState={changeBackground} />
+                <TextAreaInput title="Post-Cooking Remarks" placeholder="What happened during or after cooking? Any other random information?" changeTextAreaState={changePostCooking} />
 
 
                 {/* main image upload for the dish */}
@@ -119,11 +118,6 @@ const NewRecipe: NextPage = () => {
                     {uploadState === "api-error" ? <Progress value={100} hasStripe colorScheme="red" /> : null}
                     {uploadState === "success" ? <Progress value={100} colorScheme="green" /> : null}
                 </div>
-
-                <div>
-                    Placeholder
-                </div>
-
             </main>
         </div>
     )

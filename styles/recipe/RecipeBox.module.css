@@ -2,4 +2,35 @@
     background-color: #F8F0DF;
     width: 90%;
     margin: auto;
+    white-space: pre-wrap;
+    padding-bottom: 4em;
+}
+
+.recipe-list-wrapper {
+    margin: auto;
+    width: 50%;
+    text-align: left;
+}
+
+.rating-text-box {
+    margin: auto;
+    width: 70%;
+    text-align: left;
+    background-color: #9D9D9D;
+    padding: 2em;
+    border-radius: 1em;
+    color: #FEFBF3;
+    font-style: italic;
+    margin-bottom: 2em;
+
+}
+
+.recipe-box-text-block {
+    margin: auto;
+    text-align: left;
+}
+
+.accordion-wrapper {
+    width: 70%;
+    margin: auto;
 }
