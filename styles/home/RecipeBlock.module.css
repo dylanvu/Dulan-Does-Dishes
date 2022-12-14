@@ -25,23 +25,24 @@
 
 .see-recipe-container {
     position: absolute;
-    right: 1%;
-    bottom: 5%;
+    right: 3%;
+    bottom: -10%;
     display: flex;
     font-style: normal;
     float: right;
     background-color: #79B4B7;
-    padding: 0.5em;
+    padding: 1em 2.5em;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     border-radius: 0.5em;
     transition: transform 0.2s;
     transform: rotate(-3deg);
+    font-style: italic;
 }
 
 .see-recipe-container:hover {
-    transform: rotate(3deg);
+    transform: scale(1.04) rotate(-3deg);
 }
 
 .recipe-block-text-container {
@@ -57,11 +58,16 @@
     border-radius: 0.5em;
 }
 
+.recipe-block-text {
+    border-left: 0.3em solid #79B4B7;
+    border-top-left-radius: 0.3em;
+    border-bottom-left-radius: 0.3em;
+    padding: 0.5em;
+    width: 100%;
+}
+
 /* Holds the recipe image */
-.recipe-block-img-container {
-    align-self: center;
-    width: 15vw;
-    height: 15vw;
-    /* for image size */
-    position: relative;
+.block-card-container {
+    margin-left: -2.3vw;
+    margin-top: -2vh;
 }

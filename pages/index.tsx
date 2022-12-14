@@ -19,6 +19,16 @@ const Home: NextPage = () => {
     { title: "Mongolian Tofu", img: '/static/img/kho.jpg' }
   ];
 
+  const exampleCard: RecipeCard = {
+    title: "Thit Kho Test",
+    img: "/static/img/kho.jpg"
+  }
+
+  const exampleCard2: RecipeCard = {
+    title: "Thit Kho Test 2",
+    img: "/static/img/kho.jpg"
+  }
+
   return (
     <div className={styles["main"]}>
       <Head>
@@ -57,8 +67,8 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <RecipeBlock tilt='right' />
-        <RecipeBlock tilt='left' />
+        <RecipeBlock tilt='right' card={exampleCard} />
+        <RecipeBlock tilt='left' card={exampleCard2} />
         <br />
       </main>
     </div>

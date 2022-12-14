@@ -88,10 +88,11 @@ const NewRecipe: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main} id="main">
+                <h1 className={titleStyles["generic-h1"]}>Dish Name</h1>
                 <input placeholder={`My amazing dish...`} className={inputStyles["generic-input"]} onChange={(e) => {
                     e.preventDefault();
                     changeRecipeName(e.target.value.trim());
-                }} ></input>
+                }} />
                 <RecipeForm title="Ingredients" numbered={false} changeListState={changeIngredientsList} />
                 <RecipeForm title="Steps" numbered={true} changeListState={changeRecipeSteps} />
                 {/* background/other information in a free text box */}

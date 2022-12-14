@@ -16,7 +16,7 @@ interface RecipeCard {
     title: string
 }
 
-const RecipeCard = ({ card, size, tilt }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined }) => {
+const RecipeCard = ({ card, size, tilt }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null }) => {
     useEffect(() => {
         const recipeCardElem = document.querySelector(`#${createValidElementId(card.title)}`) as HTMLElement;
         if (recipeCardElem) {
