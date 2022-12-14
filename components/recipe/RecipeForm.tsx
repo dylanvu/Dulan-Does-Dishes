@@ -110,7 +110,6 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
     const iconSize = "25px";
 
     return (
-
         <div className={styles["recipe-form"]}>
             <h1 className={titleStyles["generic-h1"]}>{title}</h1>
             {/* draggable recipe items */}

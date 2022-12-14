@@ -1,0 +1,67 @@
+.recipe-block {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    gap: 1%;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.tilt-right {
+    transform: rotate(0.5deg);
+}
+
+.tilt-left {
+    transform: rotate(-0.5deg);
+}
+
+/* .recipe-block:hover {
+    transform: rotate(0deg);
+} */
+
+.arrow-icon {}
+
+.see-recipe-container {
+    position: absolute;
+    right: 1%;
+    bottom: 5%;
+    display: flex;
+    font-style: normal;
+    float: right;
+    background-color: #79B4B7;
+    padding: 0.5em;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 0.5em;
+    transition: transform 0.2s;
+    transform: rotate(-3deg);
+}
+
+.see-recipe-container:hover {
+    transform: rotate(3deg);
+}
+
+.recipe-block-text-container {
+    position: relative;
+    height: fit-content;
+    min-height: 15vw;
+    background-color: #9D9D9D;
+    text-align: left;
+    width: 80%;
+    padding: 2%;
+    font-style: italic;
+    white-space: pre-wrap;
+    border-radius: 0.5em;
+}
+
+/* Holds the recipe image */
+.recipe-block-img-container {
+    align-self: center;
+    width: 15vw;
+    height: 15vw;
+    /* for image size */
+    position: relative;
+}

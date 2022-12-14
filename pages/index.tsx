@@ -1,22 +1,65 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-import Header from '../components/home/Header';
 import styles from '../styles/home/Home.module.css';
-import RecipeCard from '../components/home/RecipeCard'
+import titleStyles from "../styles/common/title.module.css";
+import RecipeGrid from '../components/home/RecipeGrid';
+import RecipeCard from '../components/home/RecipeCard';
+import RecipeBlock from '../components/home/RecipeBlock';
 
 const Home: NextPage = () => {
 
+  const recipeTest = [
+    { title: "Thit Kho Gochujang", img: '/static/img/kho.jpg' },
+    { title: "Honey Garlic Chicken Noodles", img: '/static/img/kho.jpg' }
+  ];
+
+  const newRecipes = [
+    { title: "Salmon Garlic Oven Roast", img: '/static/img/kho.jpg' },
+    { title: "Mongolian Tofu", img: '/static/img/kho.jpg' }
+  ];
+
   return (
-    <div className={styles.container}>
+    <div className={styles["main"]}>
       <Head>
         <title>Dulan Does Dishes</title>
         <meta name="description" content="Cooking" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main} id="main">
-        <Header />
+      <main id="main">
+        <br />
+        {/* <h1 className={titleStyles["generic-title"]}>
+          Dishes of the Day
+        </h1>
+        <RecipeGrid size="large" recipes={recipeTest} flex={false} /> */}
+        <h1 className={titleStyles["generic-title"]}>
+          Latest
+        </h1>
+        <div className={styles["tilted-wrapper"]}>
+          <div className={styles["left-new"]}>
+            <RecipeCard card={newRecipes[0]} size="large" tilt="right" />
+          </div>
+          <div className={styles["right-new"]}>
+            <RecipeCard card={newRecipes[1]} size="large" tilt="left" />
+          </div>
+        </div>
+
+        <h1 className={titleStyles["generic-title"]}>
+          Dishes of the Day
+        </h1>
+        <div className={styles["tilted-wrapper"]}>
+          <div className={styles["right-new"]}>
+            <RecipeCard card={recipeTest[0]} size="large" tilt="left" />
+          </div>
+          <div className={styles["left-new"]}>
+            <RecipeCard card={recipeTest[1]} size="large" tilt="right" />
+          </div>
+        </div>
+
+        <RecipeBlock tilt='right' />
+        <RecipeBlock tilt='left' />
+        <br />
       </main>
     </div>
   )

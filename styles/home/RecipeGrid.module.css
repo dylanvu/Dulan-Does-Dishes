@@ -1,14 +1,22 @@
-.recipe-flex-grid {
+.recipe-flex-box {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    flex-wrap: wrap;
     align-items: stretch;
     align-content: center;
+    flex-wrap: wrap;
 }
 
 .recipe-grid-container {
     margin-left: 10vw;
     margin-right: 10vw;
     margin-bottom: 10vw;
+}
+
+.recipe-grid {
+    width: 75%;
+    display: inline-grid;
+    grid-template-columns: 49% 49%;
+    justify-items: center;
+    gap: 2%
 }

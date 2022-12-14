@@ -16,9 +16,9 @@ interface RecipeCard {
     title: string
 }
 
-const RecipeCard = (props: RecipeCard) => {
+const RecipeCard = ({ card, size, tilt }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined }) => {
     useEffect(() => {
-        const recipeCardElem = document.querySelector(`#${createValidElementId(props.title)}`) as HTMLElement;
+        const recipeCardElem = document.querySelector(`#${createValidElementId(card.title)}`) as HTMLElement;
         if (recipeCardElem) {
             const setVisible = (element: HTMLElement) => {
                 element.style.opacity = "1";
@@ -31,17 +31,17 @@ const RecipeCard = (props: RecipeCard) => {
             createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem);
             // createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem, setInvisible, recipeCardElem);
         } else {
-            throw new Error(`Tried to query ${createValidElementId(props.title)} for scrollable`)
+            throw new Error(`Tried to query ${createValidElementId(card.title)} for scrollable`)
         }
 
     })
     return (
-        <div id={createValidElementId(props.title)} className={styles["recipe-card"]}>
-            <div className={styles["recipe-card-img-container"]} >
-                <Image src={props.img} alt={props.title} layout="fill" />
+        <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? styles[`${tilt}-tilt`] : styles[`no-tilt`]}`}>
+            <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
+                <Image src={card.img} alt={card.title} layout="fill" />
             </div>
             <div className={styles["recipe-card-label"]}>
-                {props.title}
+                {card.title}
             </div>
         </div>
     )

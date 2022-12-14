@@ -3,17 +3,18 @@ import styles from "../../styles/home/RecipeGrid.module.css";
 
 interface RecipeGrid {
     recipes: RecipeCard[];
+    size: "small" | "large";
+    flex: boolean
 }
 
 const RecipeGrid = (props: RecipeGrid) => {
 
     return (
-        <div className={styles["recipe-grid-container"]}>
-            <div className={styles["recipe-flex-grid"]}>
+        <div className={`${styles["recipe-grid-container"]}`}>
+            <div className={props.flex ? styles["recipe-flex-box"] : styles["recipe-grid"]}>
                 {props.recipes.map((recipe) => {
-                    // console.log(`Creating ${recipe.title}`);
                     return (
-                        <RecipeCard img={recipe.img} title={recipe.title} key={recipe.title} />
+                        <RecipeCard card={recipe} key={recipe.title} size={props.size} />
                     )
                 })}
             </div>
