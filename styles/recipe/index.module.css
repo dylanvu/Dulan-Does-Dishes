@@ -1,0 +1,12 @@
+.search-container {
+    width: 60%;
+    margin: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.search-bar {
+    margin-bottom: 3vh;
+}
+
+.filter-options {}

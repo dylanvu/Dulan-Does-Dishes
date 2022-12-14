@@ -4,11 +4,12 @@ import styles from "../../styles/recipe/NewRecipe.module.css";
 import inputStyles from "../../styles/common/input.module.css";
 import titleStyles from "../../styles/common/title.module.css";
 import RecipeForm from '../../components/recipe/RecipeForm';
-import { useToast, UseToastOptions, CircularProgress, Progress } from '@chakra-ui/react';
+import { Button, useToast, UseToastOptions, CircularProgress, Progress, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from '@chakra-ui/react';
+import { uploadRecipe } from '../../services/api/upload';
 
 import TextAreaInput from '../../components/common/textAreaInput';
 
-import { useState, MouseEventHandler } from 'react';
+import { useState, MouseEventHandler, useRef } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
 const NewRecipe: NextPage = () => {
@@ -21,9 +22,33 @@ const NewRecipe: NextPage = () => {
 
     const [uploadState, changeUploadState] = useState<"uploading" | "success" | "idle" | "api-error">("idle");
 
+    const [tags, changeTags] = useState<Set<string>>(new Set());
+
+    const [warnState, changeWarnState] = useState(false);
+
+    const cancelRef = useRef<any>();
+
     const toast = useToast();
 
-    const uploadRecipe: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const handleUpload = () => {
+        // TODO: Remember to create a function to build a recipe object
+        // verification has been done already
+        changeUploadState("uploading");
+        // uploadRecipe()
+        //     .then(() =>
+        //         changeUploadState("success")
+        //     ).catch(() =>
+        //         changeUploadState("api-error")
+        //     );
+    }
+
+    const generateToast = (description: string, toastOptions: UseToastOptions): boolean => {
+        toastOptions.description = description;
+        toast(toastOptions);
+        return false;
+    }
+
+    const handleRecipeSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
 
         let genericErrorToast: UseToastOptions = {
@@ -35,31 +60,35 @@ const NewRecipe: NextPage = () => {
             position: "bottom-left"
         }
 
+        let genericWarningToast: UseToastOptions = {
+            description: "testing",
+            status: "warning",
+            duration: 9000,
+            isClosable: true,
+            variant: "subtle",
+            position: "bottom-left"
+        }
+
         toast.closeAll();
 
         // do some validation:
         // if the title is blank, yell at the user
         let isValid = true;
+        let noWarning = true;
         if (recipeName.length === 0) {
-            genericErrorToast.description = "Recipe name is blank."
-            toast(genericErrorToast);
-            isValid = false;
+            isValid = generateToast("Recipe name is blank.", genericErrorToast);
         }
 
         // if the steps or ingredients are all blank, yell at the user
         for (const ingredient of ingredientsList) {
             if (ingredient.length === 0) {
-                genericErrorToast.description = "No ingredients were added."
-                toast(genericErrorToast);
-                isValid = false;
+                isValid = generateToast("No ingredients were added.", genericErrorToast);
             }
         }
 
         for (const step of recipeSteps) {
             if (step.length === 0) {
-                genericErrorToast.description = "No steps were added."
-                toast(genericErrorToast);
-                isValid = false;
+                isValid = generateToast("No steps were added.", genericErrorToast);
             }
         }
 
@@ -67,14 +96,31 @@ const NewRecipe: NextPage = () => {
 
         // if any of the list steps are blank, remove the blank entries
 
-        // warn user if background, rating, and post cooking is blank
+        // warn user if background, rating, post cooking, and tags are blank
+        if (background.length === 0) {
+            noWarning = generateToast("Background is blank.", genericWarningToast);
+        }
+
+        if (rating.length === 0) {
+            noWarning = generateToast("Rating is blank.", genericWarningToast);
+        }
+
+        if (postCooking.length === 0) {
+            noWarning = generateToast("Post Cooking is blank.", genericWarningToast);
+        }
+
+        if (tags.size === 0) {
+            noWarning = generateToast("No tags specified.", genericWarningToast);
+        }
 
         if (isValid) {
-            console.log("Added recipe to database");
-            changeUploadState("uploading");
-            // api call
-            // on .catch, changeUploadState to be "api-error"
-            // on a .then, changeUploadState to be "success"
+            if (noWarning) {
+                // proceed with the upload
+                handleUpload();
+            } else {
+                // show a warning/finalization confirm warmup
+                changeWarnState(true);
+            }
         } else {
             console.error("One or more errors were found.");
         }
@@ -101,6 +147,10 @@ const NewRecipe: NextPage = () => {
                 <TextAreaInput title="Background" placeholder="What's the background? Who or what inspired you? Why did you make this?" changeTextAreaState={changeBackground} />
                 <TextAreaInput title="Post-Cooking Remarks" placeholder="What happened during or after cooking? Any other random information?" changeTextAreaState={changePostCooking} />
 
+                {/* Recipe tags */}
+                <h1 className={titleStyles["generic-h1"]}>Tags</h1>
+
+
 
                 {/* main image upload for the dish */}
                 <h1 className={titleStyles["generic-h1"]}>Upload Photo</h1>
@@ -114,11 +164,46 @@ const NewRecipe: NextPage = () => {
 
                 {/* submit/finalize button */}
                 <div className={styles["finalize-wrapper"]}>
-                    {uploadState === "idle" ? <button onClick={uploadRecipe} className={inputStyles["generic-btn"]}>Done!</button> : null}
+                    {uploadState === "idle" ? <button onClick={handleRecipeSubmit} className={inputStyles["generic-btn"]}>Done!</button> : null}
                     {uploadState === "uploading" ? <CircularProgress isIndeterminate color="#79B4B7" /> : null}
                     {uploadState === "api-error" ? <Progress value={100} hasStripe colorScheme="red" /> : null}
                     {uploadState === "success" ? <Progress value={100} colorScheme="green" /> : null}
                 </div>
+                <AlertDialog
+                    isOpen={warnState}
+                    leastDestructiveRef={cancelRef}
+                    onClose={() => { }}
+                >
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                                Upload Recipe
+                            </AlertDialogHeader>
+
+                            <AlertDialogBody>
+                                One or more optional fields are blank. Are you sure you want to continue?
+                                {/* // TODO Create an array of blank fields. */}
+                            </AlertDialogBody>
+
+                            <AlertDialogFooter>
+                                <Button ref={cancelRef} colorScheme='red' onClick={() => {
+                                    console.log("Cancelled upload");
+                                    changeWarnState(false);
+                                }}>
+                                    Cancel
+                                </Button>
+                                <Button colorScheme='teal' onClick={() => {
+                                    console.log("Starting upload anyways");
+                                    changeWarnState(false);
+                                    handleUpload();
+                                }}
+                                    ml={3}>
+                                    Get that Bread!
+                                </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
             </main>
         </div>
     )
