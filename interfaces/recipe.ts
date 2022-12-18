@@ -15,6 +15,9 @@ export interface Recipe {
      */
     url: string,
 
+    /**
+     * list of ingredients
+     */
     ingredients: string[];
 
     steps: string[];
@@ -25,5 +28,17 @@ export interface Recipe {
 
     postCooking: string | null;
 
-    tags: string[];
+    tags: tag[];
+}
+
+export interface RecipeBox extends Recipe {
+    /**
+     * Whether the component should show url at the top or not
+     */
+    previewURL: boolean;
+}
+
+export interface tag {
+    name: string,
+    color: string,
 }

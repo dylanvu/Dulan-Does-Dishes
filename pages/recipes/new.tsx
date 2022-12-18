@@ -12,6 +12,8 @@ import TextAreaInput from '../../components/common/textAreaInput';
 import { useState, MouseEventHandler, useRef } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
+import { tag } from "../../interfaces/recipe";
+
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
     const [recipeSteps, changeRecipeSteps] = useState<string[]>([]);
@@ -22,7 +24,7 @@ const NewRecipe: NextPage = () => {
 
     const [uploadState, changeUploadState] = useState<"uploading" | "success" | "idle" | "api-error">("idle");
 
-    const [tags, changeTags] = useState<Set<string>>(new Set());
+    const [tags, changeTags] = useState<tag[]>([]);
 
     const [warnState, changeWarnState] = useState(false);
 
@@ -109,7 +111,7 @@ const NewRecipe: NextPage = () => {
             noWarning = generateToast("Post Cooking is blank.", genericWarningToast);
         }
 
-        if (tags.size === 0) {
+        if (tags.length === 0) {
             noWarning = generateToast("No tags specified.", genericWarningToast);
         }
 
@@ -160,7 +162,7 @@ const NewRecipe: NextPage = () => {
 
                 {/* preview of the main recipe mini box */}
                 <h1 className={titleStyles["generic-h1"]}>Preview Recipe</h1>
-                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} photo="THIS IS A PLACEHOLDER IN NEW.TSX" />
+                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img="THIS IS A PLACEHOLDER IN NEW.TSX" tags={tags} url={recipeName} previewURL={true} />
 
                 {/* submit/finalize button */}
                 <div className={styles["finalize-wrapper"]}>
