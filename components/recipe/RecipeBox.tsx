@@ -6,12 +6,12 @@ import { Checkbox, OrderedList, VStack, ListItem, Accordion, AccordionItem, Acco
 import { RecipeBox } from "../../interfaces/recipe";
 import { createRecipeURL } from "../utils/id";
 import { useEffect, useState } from "react";
+import { Tag, TagLabel, HStack, Center } from "@chakra-ui/react";
+
 
 const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
     useEffect(() => {
         changeUrl(window.location.href + "/" + createRecipeURL(title));
-        console.log(background);
-        console.log(background?.length)
     }, [title]);
 
     const [url, changeUrl] = useState("");
@@ -28,18 +28,14 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                     <VStack align="start">
                         {ingredients.map((ingredient, index) => {
                             return (
-                                <Checkbox key={`${title}-ingredient-${index}`} colorScheme="teal" borderColor="#9D9D9D">
+                                <Checkbox key={`${title}-ingredient-${index}-recipe-box`} colorScheme="teal" borderColor="#9D9D9D">
                                     {ingredient}
                                 </Checkbox>
                             )
                         })}
                     </VStack>
                 }
-
-
-
             </div>
-
 
             <h1 className={titleStyles["generic-h1"]}>Steps</h1>
             <div className={styles["recipe-list-wrapper"]}>
@@ -48,7 +44,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                         <OrderedList spacing="0.5em">
                             {steps.map((step, index) => {
                                 return (
-                                    <ListItem key={`${title}-step-${index}`}>
+                                    <ListItem key={`${title}-step-${index}-recipe-box`}>
                                         {step}
                                     </ListItem>
                                 )
@@ -56,12 +52,6 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                         </OrderedList>
                     </VStack>
                 }
-
-
-
-
-
-
             </div>
 
             {/* Rating */}
@@ -73,7 +63,6 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                     </div>
                 </div>
             }
-
             <div className={styles["accordion-wrapper"]}>
                 <Accordion allowToggle allowMultiple={true} >
                     {/* Background */}
@@ -120,6 +109,28 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                     }
                 </Accordion>
             </div>
+
+            {tags === null || tags.length === 0 ? null :
+                <div className={styles["tags-wrapper"]}>
+                    <h1 className={titleStyles["generic-h1"]}>Tags</h1>
+                    <HStack align="center" justify="center" spacing={4}>
+                        {
+                            tags.map((tag, index) => {
+                                return (
+                                    <Center key={tag.name + tag.color + "-recipe-box"}>
+                                        <Tag cursor="pointer" backgroundColor={tag.color}>
+                                            <TagLabel>
+                                                {tag.name}
+                                            </TagLabel>
+                                        </Tag>
+                                    </Center>
+                                )
+                            })
+                        }
+                    </HStack>
+                </div>
+            }
+
         </div>
     )
 }

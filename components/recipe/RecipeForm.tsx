@@ -122,8 +122,8 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
                                 const currInputRef = (element: any) => (inputRefs.current?.push(element));
                                 // disable strict-mode to make draggable work https://stackoverflow.com/questions/71819073/react-beautiful-dnd-unable-to-find-draggable-with-id-x
                                 return (
-                                    <div key={`recipe-${index}`}>
-                                        <Draggable key={`${title}-item-${index}`} draggableId={`${title}-item-${index}`} index={index}>
+                                    <div key={`recipe-${index}-recipe-form`}>
+                                        <Draggable key={`${title}-item-${index}-recipe-form`} draggableId={`${title}-item-${index}`} index={index}>
                                             {(provided, snapshot) => (
                                                 <div style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                     {...provided.draggableProps}

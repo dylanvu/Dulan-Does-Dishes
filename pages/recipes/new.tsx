@@ -4,15 +4,18 @@ import styles from "../../styles/recipe/NewRecipe.module.css";
 import inputStyles from "../../styles/common/input.module.css";
 import titleStyles from "../../styles/common/title.module.css";
 import RecipeForm from '../../components/recipe/RecipeForm';
-import { Button, useToast, UseToastOptions, CircularProgress, Progress, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from '@chakra-ui/react';
+import { Button, useToast, UseToastOptions, CircularProgress, Progress } from '@chakra-ui/react';
+import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from "@chakra-ui/react";
+import { HStack, Center } from '@chakra-ui/react';
+import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 import { uploadRecipe } from '../../services/api/upload';
 
 import TextAreaInput from '../../components/common/textAreaInput';
 
-import { useState, MouseEventHandler, useRef } from 'react';
+import { useState, MouseEventHandler, useRef, useEffect } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
-import { tag } from "../../interfaces/recipe";
+import { tagButton, tag } from "../../interfaces/recipe";
 
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
@@ -24,13 +27,53 @@ const NewRecipe: NextPage = () => {
 
     const [uploadState, changeUploadState] = useState<"uploading" | "success" | "idle" | "api-error">("idle");
 
-    const [tags, changeTags] = useState<tag[]>([]);
+    /**
+     * All possible tags for a recipe
+     */
+    const [tags, changeTags] = useState<tagButton[]>([]);
+
+    /**
+     * All selected tags for a recipe
+     */
+    const [selectedTagsArray, changeSelectedTagsArray] = useState<tag[]>([]);
 
     const [warnState, changeWarnState] = useState(false);
 
     const cancelRef = useRef<any>();
 
     const toast = useToast();
+
+    /**
+     * Control the size of tags
+     */
+    const unselectedTagSize = "sm";
+    const selectedTagSize = "md";
+
+    useEffect(() => {
+        // query database for all available tags
+        // make everything small size for default and make larger when selected
+        const tagRes: tagButton[] = [{
+            name: "Dulan Does Dishes Original",
+            color: "#1abc9c",
+            size: 'sm'
+        },
+        {
+            name: "Dinner",
+            color: "#3498db",
+            size: 'sm'
+        }];
+        changeTags(tagRes);
+
+        // show list of tags
+    }, []);
+
+    useEffect(() => {
+        // when the selected tags are updated, filter out all the buttons that are large and add them to the new array
+        const selectedTags = tags.filter((tag) => {
+            return tag.size === selectedTagSize;
+        });
+        changeSelectedTagsArray([...selectedTags]);
+    }, [tags]);
 
     const handleUpload = () => {
         // TODO: Remember to create a function to build a recipe object
@@ -111,9 +154,19 @@ const NewRecipe: NextPage = () => {
             noWarning = generateToast("Post Cooking is blank.", genericWarningToast);
         }
 
-        if (tags.length === 0) {
+        // check if any tags are selected
+        // these will be the tags sent to the backend database
+        const allSelectTags: tag[] = [];
+        for (const tag of tags) {
+            if (tag.size === selectedTagSize) {
+                allSelectTags.push({ name: tag.name, color: tag.color })
+            }
+        }
+
+        if (allSelectTags.length === 0) {
             noWarning = generateToast("No tags specified.", genericWarningToast);
         }
+
 
         if (isValid) {
             if (noWarning) {
@@ -151,6 +204,37 @@ const NewRecipe: NextPage = () => {
 
                 {/* Recipe tags */}
                 <h1 className={titleStyles["generic-h1"]}>Tags</h1>
+                <HStack align="center" justify="center" spacing={4}>
+                    {
+                        tags.map((tag, index) => {
+                            console.log(tag.name + tag.color)
+                            return (
+                                <Center key={tag.name + tag.color + "-new"}>
+                                    <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
+                                        let tagsCopy = tags;
+                                        const thisTag = {
+                                            name: tag.name, color: tag.color
+                                        }
+                                        if (tag.size === unselectedTagSize) {
+                                            // make larger when clicked
+                                            tagsCopy[index] = { ...tagsCopy[index], size: selectedTagSize }
+                                        } else {
+                                            tagsCopy[index] = { ...tagsCopy[index], size: unselectedTagSize }
+                                        }
+
+                                        // add this modified tag back into the array of buttons
+                                        changeTags([...tagsCopy]);
+                                    }}>
+                                        <TagLabel>
+                                            {tag.name}
+                                        </TagLabel>
+                                        {tag.size === unselectedTagSize ? null : <TagCloseButton />}
+                                    </Tag>
+                                </Center>
+                            )
+                        })
+                    }
+                </HStack>
 
 
 
@@ -162,7 +246,7 @@ const NewRecipe: NextPage = () => {
 
                 {/* preview of the main recipe mini box */}
                 <h1 className={titleStyles["generic-h1"]}>Preview Recipe</h1>
-                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img="THIS IS A PLACEHOLDER IN NEW.TSX" tags={tags} url={recipeName} previewURL={true} />
+                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img="THIS IS A PLACEHOLDER IN NEW.TSX" tags={selectedTagsArray} url={recipeName} previewURL={true} />
 
                 {/* submit/finalize button */}
                 <div className={styles["finalize-wrapper"]}>
