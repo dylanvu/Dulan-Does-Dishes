@@ -207,7 +207,6 @@ const NewRecipe: NextPage = () => {
                 <HStack align="center" justify="center" spacing={4}>
                     {
                         tags.map((tag, index) => {
-                            console.log(tag.name + tag.color)
                             return (
                                 <Center key={tag.name + tag.color + "-new"}>
                                     <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
