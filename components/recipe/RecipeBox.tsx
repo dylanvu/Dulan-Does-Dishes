@@ -11,7 +11,12 @@ import { Tag, TagLabel, HStack, Center } from "@chakra-ui/react";
 
 const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
     useEffect(() => {
-        changeUrl(window.location.href + "/" + createRecipeURL(title));
+        if (title.length > 0) {
+            changeUrl(window.location.href + "/" + createRecipeURL(title));
+
+        } else {
+            changeUrl("");
+        }
     }, [title]);
 
     const [url, changeUrl] = useState("");
