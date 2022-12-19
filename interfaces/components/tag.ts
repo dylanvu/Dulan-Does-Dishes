@@ -1,4 +1,4 @@
-import { tag } from "../data/recipe"
+import { tag } from "../data/tag"
 /**
  * Interface for working with the chakra UI tag in the new recipe page
  */
