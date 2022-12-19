@@ -13,7 +13,6 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
     useEffect(() => {
         if (title.length > 0) {
             changeUrl(window.location.href + "/" + createRecipeURL(title));
-
         } else {
             changeUrl("");
         }
@@ -120,7 +119,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                     <h1 className={titleStyles["generic-h1"]}>Tags</h1>
                     <HStack align="center" justify="center" spacing={4}>
                         {
-                            tags.map((tag, index) => {
+                            tags.map((tag) => {
                                 return (
                                     <Center key={tag.name + tag.color + "-recipe-box"}>
                                         <Tag cursor="pointer" backgroundColor={tag.color}>
@@ -135,7 +134,6 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                     </HStack>
                 </div>
             }
-
         </div>
     )
 }
