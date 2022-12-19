@@ -46,7 +46,7 @@ const About: NextPage = () => {
                     Coding.
                     <br />
                     <br />
-                    This website was my way of learning Next.js and beefing (heh) up my UI skills. Kind of like how I approach learning how to cook. I think cooking's a bit like coding actually. Maybe this is why cooking is a pretty stereotypical hobby for CS majors. I'm most proud especially with the recipe editor/creator. This website's currently the culmination of my standard web development knowledge as of the end of December 2022 (so nearly 2 years or so since I learned React.js) and I think this sort of serves as a landmark/checkpoint in my current abilities. I developed most of this website over the winter break.
+                    This website was my way of learning Next.js and beefing (heh) up my UI skills. Kind of like how I approach learning how to cook. I think cooking's a bit like coding actually. Maybe this is why cooking is a pretty stereotypical hobby for CS majors. I'm most proud especially with the recipe editor/creator. This website's currently the culmination of my standard web development knowledge (excluding things I know about websockets) as of the end of December 2022 (so nearly 2 years or so since I learned React.js and started coding) and I think this sort of serves as a landmark/checkpoint in my current abilities. I developed most of this website over the winter break.
                     <br />
                     <br />
                     Here are the things I learned/took away/advanced in from this project:
