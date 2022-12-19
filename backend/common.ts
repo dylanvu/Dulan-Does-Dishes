@@ -48,7 +48,8 @@ export const getAllItems = async (collection: string): Promise<DBItem[] | null> 
  * @param data the data to update to
  */
 export const pushNewItem = async (collection: string, data: DBItem): Promise<void> => {
-    await firestore.collection(collection).doc(data.name).set(data, { merge: true });
-    console.log("done uploading new item")
+    const docName = "url" in data ? data.url as string : data.name;
+    await firestore.collection(collection).doc(docName).set(data, { merge: true });
+    console.log(`done uploading new item with id ${docName}`);
     return;
 }
