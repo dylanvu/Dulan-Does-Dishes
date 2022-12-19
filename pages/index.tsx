@@ -3,8 +3,8 @@ import Head from 'next/head';
 
 import styles from '../styles/home/Home.module.css';
 import titleStyles from "../styles/common/title.module.css";
-import RecipeGrid from '../components/home/RecipeGrid';
-import RecipeCard from '../components/home/RecipeCard';
+import RecipeGrid from '../components/recipe/RecipeGrid';
+import RecipeCard from '../components/common/RecipeCard';
 import RecipeBlock from '../components/home/RecipeBlock';
 
 const Home: NextPage = () => {

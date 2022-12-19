@@ -1,0 +1,26 @@
+.about {
+    margin-top: -10px;
+}
+
+.about-main {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+
+.about-image-container {
+    margin-bottom: 5%;
+}
+
+.bio {
+    white-space: pre-wrap;
+    display: block;
+    width: 80%;
+    margin: auto;
+    text-align: left;
+    font-size: 1em;
+}
+
+.bio ul {
+    margin-left: 2%;
+}

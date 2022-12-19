@@ -7,15 +7,15 @@ import { RecipeBox } from "../../interfaces/components/recipe";
 import { createRecipeURL } from "../utils/id";
 import { useEffect, useState } from "react";
 import { Tag, TagLabel, HStack, Center } from "@chakra-ui/react";
-import RecipeCard from "../home/RecipeCard";
+import RecipeCard from "../common/RecipeCard";
 
 
 const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
     useEffect(() => {
-        if (title.length > 0) {
-            changeUrl(window.location.href + "/" + createRecipeURL(title));
-        } else {
+        if (!previewURL || title === undefined || title === null || title.length > 0) {
             changeUrl("");
+        } else {
+            changeUrl(window.location.href + "/" + createRecipeURL(title));
         }
     }, [title]);
 
@@ -26,12 +26,12 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
             {previewURL ?
                 <h1 className={titleStyles["generic-title"]}>{url}</h1> : null}
 
-            <h1 className={titleStyles["generic-title"]}>{title.length === 0 ? "Untitled Dish" : title}</h1>
-            {img.length > 0 ? <RecipeCard card={{ img: img, title: title }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}
+            <h1 className={titleStyles["generic-title"]}>{title && title.length === 0 || title === undefined ? "Untitled Dish" : title}</h1>
+            {img && img.length > 0 ? <RecipeCard card={{ img: img, title: title }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}
 
             <h1 className={titleStyles["generic-h1"]}>Ingredients</h1>
             <div className={styles["recipe-list-wrapper"]}>
-                {ingredients.length === 0 || ingredients.at(0)?.length === 0 ? "No ingredients specified yet!" :
+                {(ingredients && ingredients.length === 0) || ingredients == undefined || ingredients.at(0)?.length === 0 ? "No ingredients specified yet!" :
                     <VStack align="start">
                         {ingredients.map((ingredient, index) => {
                             return (
@@ -46,7 +46,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
 
             <h1 className={titleStyles["generic-h1"]}>Steps</h1>
             <div className={styles["recipe-list-wrapper"]}>
-                {steps === null || steps.length === 0 || steps.at(0)?.length === 0 ? "No steps specified yet!" :
+                {steps === null || steps === undefined || steps.length === 0 || steps.at(0)?.length === 0 ? "No steps specified yet!" :
                     <VStack align="start" justify="left">
                         <OrderedList spacing="0.5em">
                             {steps.map((step, index) => {
@@ -62,7 +62,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
             </div>
 
             {/* Rating */}
-            {rating === null || rating.length === 0 ? null :
+            {rating === null || rating === undefined || rating.length === 0 ? null :
                 <div>
                     <h1 className={titleStyles["generic-h1"]}>Rating</h1>
                     <div className={styles["rating-text-box"]}>
@@ -73,7 +73,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
             <div className={styles["accordion-wrapper"]}>
                 <Accordion allowToggle allowMultiple={true} >
                     {/* Background */}
-                    {background === null || background.length === 0 ? null :
+                    {background === null || background === undefined || background.length === 0 ? null :
                         <AccordionItem borderColor="#9D9D9D">
                             <AccordionButton>
                                 <Box as="span" flex='1' textAlign='left'>
@@ -94,7 +94,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                         </AccordionItem>
                     }
                     {/* Post-cooking Remarks */}
-                    {postCooking === null || postCooking.length === 0 ? null :
+                    {postCooking === null || postCooking === undefined || postCooking.length === 0 ? null :
                         <AccordionItem borderColor="#9D9D9D">
                             <AccordionButton>
                                 <Box w="10%" as="span" flex='1' textAlign='left'>
@@ -117,7 +117,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                 </Accordion>
             </div>
 
-            {tags === null || tags.length === 0 ? null :
+            {tags === null || tags === undefined || tags.length === 0 ? null :
                 <div className={styles["tags-wrapper"]}>
                     <h1 className={titleStyles["generic-h1"]}>Tags</h1>
                     <HStack align="center" justify="center" spacing={4}>

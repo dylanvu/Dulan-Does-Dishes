@@ -1,5 +1,5 @@
-import RecipeCard from './RecipeCard';
-import styles from "../../styles/home/RecipeGrid.module.css";
+import RecipeCard from '../common/RecipeCard';
+import styles from "../../styles/recipe/RecipeGrid.module.css";
 
 interface RecipeGrid {
     recipes: RecipeCard[];

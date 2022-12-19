@@ -2,8 +2,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import styles from '../../styles/recipe/index.module.css';
-import RecipeCard from '../../components/home/RecipeCard';
-import RecipeGrid from '../../components/home/RecipeGrid';
+import RecipeCard from '../../components/common/RecipeCard';
+import RecipeGrid from '../../components/recipe/RecipeGrid';
 import titleStyles from "../../styles/common/title.module.css";
 import { useEffect, useState, ChangeEventHandler } from 'react';
 

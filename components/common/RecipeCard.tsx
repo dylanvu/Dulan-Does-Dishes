@@ -1,4 +1,4 @@
-import styles from "../../styles/home/RecipeCard.module.css";
+import styles from "../../styles/common/RecipeCard.module.css";
 import Image from 'next/image'
 import { createScrollObserver } from "../utils/scroll";
 import { createValidElementId } from "../utils/id";
@@ -26,7 +26,6 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
             }
         }
     }, []);
-    // TODO: RECIPE-CARD STYLING BREAKS THE IMAGE????
     return (
         <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : null}`}>
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
