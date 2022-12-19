@@ -48,7 +48,7 @@
 .recipe-block-text-container {
     position: relative;
     height: fit-content;
-    min-height: 15vw;
+    min-height: 5vw;
     background-color: #9D9D9D;
     text-align: left;
     width: 80%;
