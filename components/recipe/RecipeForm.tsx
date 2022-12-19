@@ -7,7 +7,7 @@ import styles from "../../styles/recipe/RecipeForm.module.css";
 import inputStyles from "../../styles/common/input.module.css";
 import titleStyles from "../../styles/common/title.module.css";
 
-// page to add new items and to show a preview of the recipe.
+// page to add new list of items
 
 resetServerContext();
 
@@ -18,35 +18,26 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
     // list of items that gets mapped
     const [items, setItems] = useState<string[]>([]);
 
-    const [singularTitle, setSingularTitle] = useState(title.slice(0, -1))
+    const singularTitle = title.slice(0, -1);
+
 
     // Array of refs: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
     const inputRefs = useRef<HTMLInputElement[]>([]);
 
-    // the value of each textarea input
-    // TODO: Can I refactor this so that I remove this all together?
-    const [inputs, setInputs] = useState<{
-        [x: string]: string;
-    }>({});
 
     useEffect(() => {
         // create an initial first item
         addNewitem();
     }, []);
 
-    // a function to help us with reordering the result, shamelessly stolen from the example from drag and drop
-    const reorder = (inputArg: { [x: string]: string }, startIndex: number, endIndex: number) => {
+    const reorder = (inputArg: string[], startIndex: number, endIndex: number) => {
         const list = Object.values(inputArg);
         const result: string[] = Array.from(list) as string[];
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
-        let i = 0;
-        for (const key of Object.keys(inputArg)) {
-            inputArg[key] = result[i];
-            i++;
-        }
+
         setItems(result);
-        setInputs(inputArg);
+        // setInputs(inputArg);
         changeListState(result);
         return result;
     };
@@ -74,7 +65,7 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
         }
 
         reorder(
-            inputs,
+            items,
             result.source.index,
             result.destination.index
         );
@@ -84,27 +75,21 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
         const itemsCopy = items;
         // remove out the index
         itemsCopy.splice(index, 1);
-        // regenerate inputs now and reorder
-        let newInputs: { [x: string]: string } = {};
-        for (let i = 0; i < itemsCopy.length; i++) {
-            const step = itemsCopy.at(i);
-            if (step) {
-                newInputs[`item-${i}`] = step;
-            }
-        }
-        reorder(newInputs, 0, 0);
+        reorder(itemsCopy, 0, 0);
     }
 
     const addNewitem = () => {
-        const newIndex = Object.keys(inputs).length;
-        const inputsCopy = inputs;
-        inputsCopy[`item-${newIndex}`] = "";
-        reorder(inputsCopy, 0, 0);
+        const itemCopy = items;
+        itemCopy.push("")
+        setItems([...itemCopy]);
+        // reorder(inputsCopy, 0, 0);
     }
 
-    const handleInputChange = (e: any) => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value });
-        reorder({ ...inputs, [e.target.name]: e.target.value }, 0, 0);
+    const handleInputChange = (value: string, index: number) => {
+        // setInputs({ ...inputs, [e.target.name]: e.target.value });
+        let itemCopy = items;
+        itemCopy[index] = value;
+        reorder(itemCopy, 0, 0);
     };
 
     const iconSize = "25px";
@@ -132,7 +117,7 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
                                                 >
                                                     {/* Add one to start at item 1 */}
                                                     {numbered ? <label className={styles["recipe-item-number"]}>{index + 1}. </label> : null}
-                                                    <textarea name={`item-${index}`} value={inputs[`item-${index}`]} placeholder={`${singularTitle} ${index + 1}...`} onChange={handleInputChange} ref={currInputRef} className={inputStyles["generic-textarea"]}></textarea>
+                                                    <textarea name={`item-${index}`} value={items[index]} placeholder={`${singularTitle} ${index + 1}...`} onChange={(e) => { handleInputChange(e.target.value, index) }} ref={currInputRef} className={inputStyles["generic-textarea"]}></textarea>
                                                     <span>&nbsp;&nbsp;</span>
                                                     <Image className={styles["drag-icon"]} src={draggableIconSrc} alt={"Draggable Icon"} layout="fixed" width={iconSize} height={iconSize} />
                                                     <span>&nbsp;&nbsp;</span>
