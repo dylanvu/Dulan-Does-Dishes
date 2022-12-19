@@ -12,10 +12,11 @@ import { uploadRecipe } from '../../services/api/upload';
 
 import TextAreaInput from '../../components/common/textAreaInput';
 
-import { useState, MouseEventHandler, useRef, useEffect } from 'react';
+import { useState, MouseEventHandler, useRef, useEffect, ChangeEventHandler } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
-import { tagButton, tag } from "../../interfaces/recipe";
+import { tag } from "../../interfaces/recipe";
+import { tagButton } from '../../interfaces/components/tag';
 
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
@@ -24,6 +25,11 @@ const NewRecipe: NextPage = () => {
     const [background, changeBackground] = useState("");
     const [postCooking, changePostCooking] = useState("");
     const [rating, changeRating] = useState("");
+
+    /**
+     * Photo of food item
+     */
+    const [pictures, changePictures] = useState<string[]>([]);
 
     /**
      * State to hold the value of the new tag
@@ -131,6 +137,31 @@ const NewRecipe: NextPage = () => {
         toastOption.description = description;
         toast(toastOption);
         return false;
+    }
+
+    const previewImage: ChangeEventHandler<HTMLInputElement> = (e) => {
+        const files = e.target.files;
+        if (files) {
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                changePictures([reader.result as string])
+            }
+            reader.readAsDataURL(file);
+            // for (let i = 0; i < file.length; i++) {
+            //     const fileItem = file.item(i);
+            //     if (fileItem) {
+            //         const picCopy = pictures;
+            //         // reader.readAsDataURL(fileItem);
+            //         const picURL = URL.createObjectURL(fileItem);
+            //         console.log(picURL);
+            //         changePictures([...picCopy, picURL]);
+            //     }
+            // }
+
+        } else {
+            changePictures([]);
+        }
     }
 
     const submitNewTag = () => {
@@ -299,12 +330,13 @@ const NewRecipe: NextPage = () => {
                 {/* main image upload for the dish */}
                 <h1 className={titleStyles["generic-h1"]}>Upload Photo</h1>
                 <label htmlFor="img" />
-                <input type="file" id="img" name="img" accept="image/*" multiple />
-
+                <input type="file" id="img" name="img" accept="image/*" multiple onChange={(e) => {
+                    previewImage(e);
+                }} />
 
                 {/* preview of the main recipe mini box */}
                 <h1 className={titleStyles["generic-h1"]}>Preview Recipe</h1>
-                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img="THIS IS A PLACEHOLDER IN NEW.TSX" tags={selectedTagsArray} url={recipeName} previewURL={true} />
+                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img={pictures.length > 0 ? pictures[0] : ""} tags={selectedTagsArray} url={recipeName} previewURL={true} />
 
                 {/* submit/finalize button */}
                 <div className={styles["finalize-wrapper"]}>

@@ -1,8 +1,10 @@
 // https://nextjs.org/learn/basics/dynamic-routes for dynamic routes and generating stuff
+import RecipeBox from "../../components/recipe/RecipeBox";
 const Recipe = () => {
     return (
         <div>
             This is a test recipe
+            {/* <RecipeBox /> */}
         </div>
     )
 }

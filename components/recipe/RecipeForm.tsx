@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
-import { trashCanIconSrc, draggableIconSrc } from './constants';
+import { trashCanIconSrc, draggableIconSrc } from '../constants';
 import styles from "../../styles/recipe/RecipeForm.module.css";
 import inputStyles from "../../styles/common/input.module.css";
 import titleStyles from "../../styles/common/title.module.css";

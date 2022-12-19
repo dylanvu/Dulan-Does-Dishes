@@ -3,10 +3,11 @@
 import styles from "../../styles/recipe/RecipeBox.module.css";
 import titleStyles from "../../styles/common/title.module.css";
 import { Checkbox, OrderedList, VStack, ListItem, Accordion, AccordionItem, AccordionPanel, AccordionButton, AccordionIcon, Box } from "@chakra-ui/react";
-import { RecipeBox } from "../../interfaces/recipe";
+import { RecipeBox } from "../../interfaces/components/recipe";
 import { createRecipeURL } from "../utils/id";
 import { useEffect, useState } from "react";
 import { Tag, TagLabel, HStack, Center } from "@chakra-ui/react";
+import RecipeCard from "../home/RecipeCard";
 
 
 const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
@@ -26,6 +27,8 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                 <h1 className={titleStyles["generic-title"]}>{url}</h1> : null}
 
             <h1 className={titleStyles["generic-title"]}>{title.length === 0 ? "Untitled Dish" : title}</h1>
+            {img.length > 0 ? <RecipeCard card={{ img: img, title: title }} size="large" tilt={"right"} /> : null}
+
             <h1 className={titleStyles["generic-h1"]}>Ingredients</h1>
             <div className={styles["recipe-list-wrapper"]}>
                 {ingredients.length === 0 || ingredients.at(0)?.length === 0 ? "No ingredients specified yet!" :

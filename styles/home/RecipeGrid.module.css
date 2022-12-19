@@ -5,6 +5,8 @@
     align-items: stretch;
     align-content: center;
     flex-wrap: wrap;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .recipe-grid-container {

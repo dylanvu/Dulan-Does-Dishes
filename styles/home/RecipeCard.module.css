@@ -5,10 +5,6 @@
     /* Cursor will be set to pointer on scroll view */
     cursor: default;
     align-self: center;
-    /* TODO: Define a custom mobile top margin */
-    margin-top: 5%;
-    margin-left: 2%;
-    margin-right: 2%;
     flex-shrink: 0;
     /* Opacity will be set to 1 on scroll view */
     opacity: 0;
@@ -17,8 +13,20 @@
     /* box-shadow: 1em; */
 }
 
+.non-opaque {
+    opacity: 1;
+}
+
 .recipe-card:hover {
     z-index: 10;
+}
+
+.tilted {
+    /* TODO: Define a custom mobile top margin */
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .no-tilt:hover {
