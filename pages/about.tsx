@@ -29,7 +29,7 @@ const About: NextPage = () => {
                     Heyo, I'm Dylan. My "name" (Dulan) comes from a common typo I used to make on accident, and how I somehow always end up being the dishwasher when I cook with my friends. I drew this raccoon (yes, it's a raccoon) while designing a shirt for UCSB AIChE.
                     <br />
                     <br />
-                    I started actually cooking after I started interning for a software and engineering company in December 2020 and wanted to make my own lunches. My approach to cooking is how I approach coding: I pick a central ingredient or theme, and make dishes entirely solely surrounding that ingredient or theme for about a month. I have an Instagram too: @DulanDoesDishes
+                    I started actually cooking after I started interning for a software and engineering company in December 2020 and wanted to make my own lunches. My approach to cooking is how I approach coding: I pick a central ingredient or theme, and make dishes entirely solely surrounding that ingredient or theme for about a month while trying to gradually ramp up the difficulty/complexity of the dish. I have an Instagram too: @DulanDoesDishes
                     <br />
                     <br />
                     Enjoy my life stories, bad plating, and alright food!
