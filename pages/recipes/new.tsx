@@ -15,7 +15,7 @@ import TextAreaInput from '../../components/common/textAreaInput';
 import { useState, MouseEventHandler, useRef, useEffect, ChangeEventHandler } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
-import { tag } from "../../interfaces/data/recipe";
+import { tag } from "../../interfaces/data/tag";
 import { tagButton } from '../../interfaces/components/tag';
 
 const NewRecipe: NextPage = () => {
