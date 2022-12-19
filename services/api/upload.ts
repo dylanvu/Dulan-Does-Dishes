@@ -1,4 +1,4 @@
-import { Recipe } from "../../interfaces/recipe";
+import { Recipe } from "../../interfaces/data/recipe";
 
 /**
  * Call the API to upload a recipe
