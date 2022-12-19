@@ -27,7 +27,7 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
         }
     }, []);
     return (
-        <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : null}`}>
+        <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`}>
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
                 {card.img.length > 0 ? <Image src={card.img} alt={card.title} layout="fill" /> : null}
             </div>

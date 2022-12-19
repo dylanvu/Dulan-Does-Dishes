@@ -1,11 +1,15 @@
 // https://nextjs.org/learn/basics/dynamic-routes for dynamic routes and generating stuff
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import RecipeBox from "../../components/recipe/RecipeBox";
+import { apiBase } from '../../components/constants';
 
 
 const Recipe: NextPage = () => {
-
+    useEffect(() => {
+        getStaticPathsT();
+    }, [])
     return (
         <div>
             <Head>
@@ -16,7 +20,7 @@ const Recipe: NextPage = () => {
             </Head>
 
             <main id="main">
-                <RecipeBox />
+                {/* <RecipeBox /> */}
             </main>
         </div>
     )
@@ -24,14 +28,18 @@ const Recipe: NextPage = () => {
 
 export default Recipe;
 
-// export const getAllRecipes = async () => {
-//     // http request to api
-// }
+export const getStaticPathsT = async () => {
+    // get all possible recipes from firestore for the url
+    const res = await fetch(`${apiBase}recipe/all`);
+    console.log(res)
+    if (res.ok) {
+        const json = await res.json();
+        console.log(json);
+    } else {
+        console.error("static props returned a " + res.status)
+    }
 
-// export const getStaticPaths = async (): Promise<{ params: { recipe: string } }> => {
-//     // get all possible recipes from firestore for the url
-//     await fetch("http://localhost:3000/api/recipe/")
-// }
+}
 
 // export const getStaticProps = async (params: { params: { recipe: string } }, fallback: boolean) => {
 //     // get the data we need for a recipe

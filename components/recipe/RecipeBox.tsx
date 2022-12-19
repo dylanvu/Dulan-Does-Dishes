@@ -10,14 +10,14 @@ import { Tag, TagLabel, HStack, Center } from "@chakra-ui/react";
 import RecipeCard from "../common/RecipeCard";
 
 
-const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
+const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
     useEffect(() => {
-        if (!previewURL || title === undefined || title === null || title.length > 0) {
+        if (!previewURL || name === undefined || name === null || name.length > 0) {
             changeUrl("");
         } else {
-            changeUrl(window.location.href + "/" + createRecipeURL(title));
+            changeUrl(window.location.href + "/" + createRecipeURL(name));
         }
-    }, [title]);
+    }, [name]);
 
     const [url, changeUrl] = useState("");
 
@@ -26,8 +26,8 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
             {previewURL ?
                 <h1 className={titleStyles["generic-title"]}>{url}</h1> : null}
 
-            <h1 className={titleStyles["generic-title"]}>{title && title.length === 0 || title === undefined ? "Untitled Dish" : title}</h1>
-            {img && img.length > 0 ? <RecipeCard card={{ img: img, title: title }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}
+            <h1 className={titleStyles["generic-title"]}>{name && name.length === 0 || name === undefined ? "Untitled Dish" : name}</h1>
+            {img && img.length > 0 ? <RecipeCard card={{ img: img, title: name }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}
 
             <h1 className={titleStyles["generic-h1"]}>Ingredients</h1>
             <div className={styles["recipe-list-wrapper"]}>
@@ -35,7 +35,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                     <VStack align="start">
                         {ingredients.map((ingredient, index) => {
                             return (
-                                <Checkbox key={`${title}-ingredient-${index}-recipe-box`} colorScheme="teal" borderColor="#9D9D9D">
+                                <Checkbox key={`${name}-ingredient-${index}-recipe-box`} colorScheme="teal" borderColor="#9D9D9D">
                                     {ingredient}
                                 </Checkbox>
                             )
@@ -51,7 +51,7 @@ const RecipeBox = ({ title, ingredients, steps, background, postCooking, rating,
                         <OrderedList spacing="0.5em">
                             {steps.map((step, index) => {
                                 return (
-                                    <ListItem key={`${title}-step-${index}-recipe-box`}>
+                                    <ListItem key={`${name}-step-${index}-recipe-box`}>
                                         {step}
                                     </ListItem>
                                 )

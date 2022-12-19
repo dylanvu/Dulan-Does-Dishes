@@ -8,15 +8,18 @@ import { Button, useToast, UseToastOptions, CircularProgress, Progress } from '@
 import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from "@chakra-ui/react";
 import { HStack, Center } from '@chakra-ui/react';
 import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
-import { uploadRecipe } from '../../services/api/upload';
+import { getTodayDate, getTodayLocal } from '../../components/utils/date';
+import { createRecipe } from '../../services/api/recipe';
+import { Recipe } from '../../interfaces/data/recipe';
 
 import TextAreaInput from '../../components/common/textAreaInput';
 
 import { useState, MouseEventHandler, useRef, useEffect, ChangeEventHandler } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
-import { tag } from "../../interfaces/data/tag";
+import { Tag as TagInterface } from "../../interfaces/data/tag";
 import { tagButton } from '../../interfaces/components/tag';
+import { createRecipeURL } from '../../components/utils/id';
 
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
@@ -51,7 +54,7 @@ const NewRecipe: NextPage = () => {
     /**
      * All selected tags for a recipe
      */
-    const [selectedTagsArray, changeSelectedTagsArray] = useState<tag[]>([]);
+    const [selectedTagsArray, changeSelectedTagsArray] = useState<TagInterface[]>([]);
 
     const [warnState, changeWarnState] = useState(false);
 
@@ -93,17 +96,33 @@ const NewRecipe: NextPage = () => {
     }, [tags]);
 
     const handleUpload = () => {
-        // TODO: Remember to create a function to build a recipe object
+
+        // if any of the list steps are blank, remove the blank entries
+        const ingredentsCopy = ingredientsList;
+        const stepsCopy = recipeSteps;
+        const filteredIngredients = ingredentsCopy.filter((ingredient) => ingredient.length > 0);
+        const filteredSteps = stepsCopy.filter((step) => step.length > 0);
+
+        const newRecipe: Recipe = {
+            name: recipeName,
+            img: pictures[0],
+            url: createRecipeURL(recipeName),
+            ingredients: filteredIngredients,
+            steps: filteredSteps,
+            rating: rating,
+            background: background,
+            postCooking: postCooking,
+            tags: selectedTagsArray,
+            date: getTodayDate()
+        }
         // verification has been done already
         changeUploadState("uploading");
 
-        // TODO: Make call to API
-        // uploadRecipe()
-        //     .then(() =>
-        //         changeUploadState("success")
-        //     ).catch(() =>
-        //         changeUploadState("api-error")
-        //     );
+        createRecipe(newRecipe).then(() =>
+            changeUploadState("success")
+        ).catch(() =>
+            changeUploadState("api-error")
+        );
     }
 
     const generateToast = (description: string, toastType: "warn" | "error"): boolean => {
@@ -205,23 +224,32 @@ const NewRecipe: NextPage = () => {
         }
 
         // if the steps or ingredients are all blank, yell at the user
+        console.log(ingredientsList);
+        if (ingredientsList.length === 0) {
+            isValid = generateToast("No ingredients were added.", "error");
+        }
+
         for (const ingredient of ingredientsList) {
             if (ingredient.length === 0) {
-                isValid = generateToast("No ingredients were added.", "error");
+                isValid = generateToast("An ingredient was left blank.", "error");
             }
         }
 
+        if (recipeSteps.length === 0) {
+            isValid = generateToast("No steps were added.", "error");
+        }
         for (const step of recipeSteps) {
             if (step.length === 0) {
-                isValid = generateToast("No steps were added.", "error");
+                isValid = generateToast("A step was left blank", "error");
             }
         }
+
 
         // if there is no image, yell at the user.
         // TODO: Handle image verification
-
-        // if any of the list steps are blank, remove the blank entries
-        // TODO: Handle blank list verification/parsing
+        if (previewImage.length === 0) {
+            isValid = generateToast("No image was uploaded!", "error");
+        }
 
         // warn user if background, rating, post cooking, and tags are blank
         if (background.length === 0) {
@@ -238,7 +266,7 @@ const NewRecipe: NextPage = () => {
 
         // check if any tags are selected
         // these will be the tags sent to the backend database
-        const allSelectTags: tag[] = [];
+        const allSelectTags: TagInterface[] = [];
         for (const tag of tags) {
             if (tag.size === selectedTagSize) {
                 allSelectTags.push({ name: tag.name, color: tag.color })
@@ -336,7 +364,7 @@ const NewRecipe: NextPage = () => {
 
                 {/* preview of the main recipe mini box */}
                 <h1 className={titleStyles["generic-h1"]}>Preview Recipe</h1>
-                <RecipeBox title={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img={pictures.length > 0 ? pictures[0] : ""} tags={selectedTagsArray} url={recipeName} previewURL={true} />
+                <RecipeBox date={getTodayLocal()} name={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img={pictures.length > 0 ? pictures[0] : ""} tags={selectedTagsArray} url={recipeName} previewURL={true} />
 
                 {/* submit/finalize button */}
                 <div className={styles["finalize-wrapper"]}>

@@ -1,6 +1,6 @@
 import styles from "../../styles/common/footer.module.css";
 import Image from "next/image";
-import { Input, Button } from "@chakra-ui/react";
+import Link from "next/link";
 
 const Footer = () => {
     const year = new Date().getFullYear();
@@ -16,9 +16,9 @@ const Footer = () => {
             <br />
             <br />
             <div>
-                <a href="/login">
+                <Link href="/login">
                     <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} />
-                </a>
+                </Link>
             </div>
             <a
                 href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
