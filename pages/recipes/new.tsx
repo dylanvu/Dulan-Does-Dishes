@@ -25,6 +25,16 @@ const NewRecipe: NextPage = () => {
     const [postCooking, changePostCooking] = useState("");
     const [rating, changeRating] = useState("");
 
+    /**
+     * State to hold the value of the new tag
+     */
+    const [newTag, changeNewTag] = useState("");
+
+    /**
+     * State to hold the HEX color of the new tag
+     */
+    const [newTagColor, changeNewTagColor] = useState("");
+
     const [uploadState, changeUploadState] = useState<"uploading" | "success" | "idle" | "api-error">("idle");
 
     /**
@@ -50,15 +60,16 @@ const NewRecipe: NextPage = () => {
     const selectedTagSize = "md";
 
     useEffect(() => {
-        // query database for all available tags
+        // TODO: query database for all available tags
+
         // make everything small size for default and make larger when selected
         const tagRes: tagButton[] = [{
-            name: "Dulan Does Dishes Original",
+            name: "DULAN DOES DISHES ORIGINAL",
             color: "#1abc9c",
             size: 'sm'
         },
         {
-            name: "Dinner",
+            name: "DINNER",
             color: "#3498db",
             size: 'sm'
         }];
@@ -79,6 +90,8 @@ const NewRecipe: NextPage = () => {
         // TODO: Remember to create a function to build a recipe object
         // verification has been done already
         changeUploadState("uploading");
+
+        // TODO: Make call to API
         // uploadRecipe()
         //     .then(() =>
         //         changeUploadState("success")
@@ -87,14 +100,7 @@ const NewRecipe: NextPage = () => {
         //     );
     }
 
-    const generateToast = (description: string, toastOptions: UseToastOptions): boolean => {
-        toastOptions.description = description;
-        toast(toastOptions);
-        return false;
-    }
-
-    const handleRecipeSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
-        e.preventDefault();
+    const generateToast = (description: string, toastType: "warn" | "error"): boolean => {
 
         let genericErrorToast: UseToastOptions = {
             description: "testing",
@@ -114,6 +120,49 @@ const NewRecipe: NextPage = () => {
             position: "bottom-left"
         }
 
+        let toastOption: UseToastOptions;
+
+        if (toastType === "warn") {
+            toastOption = genericWarningToast;
+        } else {
+            toastOption = genericErrorToast;
+        }
+
+        toastOption.description = description;
+        toast(toastOption);
+        return false;
+    }
+
+    const submitNewTag = () => {
+        // sanitize the inputs
+        let isValidTag = true;
+        if (newTag.length === 0) {
+            isValidTag = false;
+            generateToast("Invalid tag name", "error");
+        }
+        if (newTagColor.length === 0) {
+            isValidTag = false;
+            generateToast("Invalid tag color value", "error");
+        }
+
+        // TODO: upload to backend with no recipess
+        if (isValidTag) {
+            // update the tags state
+            changeTags([...tags, { name: newTag, color: newTagColor, size: unselectedTagSize }]);
+
+            // reset the states to be blank
+            changeNewTag("");
+            changeNewTagColor("");
+        } else {
+            generateToast("One or more tag options were invalid. No tag was added.", "error");
+        }
+
+
+    }
+
+    const handleRecipeSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.preventDefault();
+
         toast.closeAll();
 
         // do some validation:
@@ -121,37 +170,39 @@ const NewRecipe: NextPage = () => {
         let isValid = true;
         let noWarning = true;
         if (recipeName.length === 0) {
-            isValid = generateToast("Recipe name is blank.", genericErrorToast);
+            isValid = generateToast("Recipe name is blank.", "error");
         }
 
         // if the steps or ingredients are all blank, yell at the user
         for (const ingredient of ingredientsList) {
             if (ingredient.length === 0) {
-                isValid = generateToast("No ingredients were added.", genericErrorToast);
+                isValid = generateToast("No ingredients were added.", "error");
             }
         }
 
         for (const step of recipeSteps) {
             if (step.length === 0) {
-                isValid = generateToast("No steps were added.", genericErrorToast);
+                isValid = generateToast("No steps were added.", "error");
             }
         }
 
         // if there is no image, yell at the user.
+        // TODO: Handle image verification
 
         // if any of the list steps are blank, remove the blank entries
+        // TODO: Handle blank list verification/parsing
 
         // warn user if background, rating, post cooking, and tags are blank
         if (background.length === 0) {
-            noWarning = generateToast("Background is blank.", genericWarningToast);
+            noWarning = generateToast("Background is blank.", "warn");
         }
 
         if (rating.length === 0) {
-            noWarning = generateToast("Rating is blank.", genericWarningToast);
+            noWarning = generateToast("Rating is blank.", "warn");
         }
 
         if (postCooking.length === 0) {
-            noWarning = generateToast("Post Cooking is blank.", genericWarningToast);
+            noWarning = generateToast("Post Cooking is blank.", "warn");
         }
 
         // check if any tags are selected
@@ -164,7 +215,7 @@ const NewRecipe: NextPage = () => {
         }
 
         if (allSelectTags.length === 0) {
-            noWarning = generateToast("No tags specified.", genericWarningToast);
+            noWarning = generateToast("No tags specified.", "warn");
         }
 
 
@@ -234,6 +285,14 @@ const NewRecipe: NextPage = () => {
                         })
                     }
                 </HStack>
+
+                <h1 className={titleStyles["generic-h1"]}>Add New Tag</h1>
+                <input placeholder={`My new tag name...`} className={inputStyles["generic-input"]} onChange={(e) => {
+                    e.preventDefault();
+                    changeNewTag(e.target.value.toUpperCase().trim());
+                }} /> &nbsp;
+                {newTag.length > 0 ? <button className={inputStyles["generic-btn"]} onClick={submitNewTag}>Create <b>{newTag}</b> tag</button> : null}
+                {/* TODO: Need a color wheel picker */}
 
 
 
