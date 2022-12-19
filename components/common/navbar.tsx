@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../styles/common/navbar.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Navbar = () => {
     const [responsiveClass, setResponsive] = useState("inactive");
@@ -17,15 +18,25 @@ const Navbar = () => {
 
     return (
         <nav className={`${styles.navbar} ${styles[responsiveClass]}`} id="navbar">
-            <a className={styles["main-link"]} href="/">
-                <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} />
-                <span>Dulan Does Dishes</span>
-            </a>
+            <Link href="/">
+                <div className={`${styles["main-link"]} ${styles["link"]}`}>
+                    <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} alt="Dulan Does Dishes Logo" />
+                    <span>Dulan Does Dishes</span>
+                </div>
+            </Link>
 
-            <a className={styles["nav-link"]} href="/about"><span>About</span></a>
-            <a className={styles["nav-link"]} href="/recipes"><span>Recipes</span></a>
-            <a className={styles["nav-link"]} href="https://vu-dylan.github.io/" target="_blank" rel="noopener noreferrer"><span>"Cooking's like coding!"</span></a>
 
+            <Link href="/about">
+                <div className={styles["link"]}>About</div>
+            </Link>
+
+            <Link href="/recipes">
+                <div className={styles["link"]}>Recipes</div>
+
+            </Link>
+
+
+            <a className={styles["link"]} target="_blank" rel="noopener noreferrer" href="https://vu-dylan.github.io/"><span>&quot;Cooking&apos;s like coding!&quot;</span></a>
             <div className={`${styles.hamburger} ${styles[responsiveClass]}`} id="hamburger" onClick={() => toggleBurger()}>
                 <span className={styles.line}></span>
                 <span className={styles.line}></span>

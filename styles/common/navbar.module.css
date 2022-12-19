@@ -23,7 +23,7 @@
 }
 
 /* Navbar links */
-.navbar a {
+.navbar .link {
     float: left;
     align-items: center;
     font-size: 20px;
@@ -44,12 +44,12 @@
 }
 
 /* The navbar icons */
-.navbar a span {
+.navbar .main-link span {
     display: inline-block;
     vertical-align: middle;
 }
 
-.navbar a:hover {
+.navbar .link:hover {
     background-color: #F8F0DF;
 }
 
