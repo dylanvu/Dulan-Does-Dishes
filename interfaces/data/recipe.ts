@@ -1,3 +1,5 @@
+import { tag } from "./tag";
+
 export interface Recipe {
     /**
      * Image src
@@ -28,11 +30,4 @@ export interface Recipe {
     postCooking: string | null;
 
     tags: tag[];
-}
-
-
-
-export interface tag {
-    name: string,
-    color: string,
 }
