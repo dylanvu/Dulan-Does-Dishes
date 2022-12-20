@@ -32,7 +32,6 @@ const Navbar = () => {
 
             <Link href="/recipes">
                 <div className={styles["link"]}>Recipes</div>
-
             </Link>
 
 

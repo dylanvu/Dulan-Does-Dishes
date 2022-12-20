@@ -116,11 +116,11 @@
         display: block;
     }
 
-    .navbar a {
+    .navbar .link {
         transition: height 0.5s;
     }
 
-    .navbar.inactive a:not(:first-child) {
+    .navbar.inactive .link:not(:first-child) {
         display: none;
     }
 
