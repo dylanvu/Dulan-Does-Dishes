@@ -4,7 +4,7 @@ import Head from 'next/head';
 import styles from '../styles/home/Home.module.css';
 import titleStyles from "../styles/common/title.module.css";
 import RecipeCard from '../components/common/RecipeCard';
-import { RecipeCard as RecipeCardInterface } from '../interfaces/components/recipe';
+import { Recipe } from "../interfaces/data/recipe";
 import RecipeBlock from '../components/home/RecipeBlock';
 import { useEffect, useState } from 'react';
 import { getLatestRecipes, getDailyRecipes } from '../services/api/recipe';
@@ -12,9 +12,9 @@ import { CircularProgress } from '@chakra-ui/react';
 
 const Home: NextPage = () => {
 
-  const [latestRecipes, setLatestRecipes] = useState<RecipeCardInterface[]>([]);
+  const [latestRecipes, setLatestRecipes] = useState<Recipe[]>([]);
 
-  const [dailyRecipes, setDailyRecipes] = useState<RecipeCardInterface[]>([]);
+  const [dailyRecipes, setDailyRecipes] = useState<Recipe[]>([]);
 
 
   const loadingCircle = <CircularProgress isIndeterminate color="teal" />
@@ -25,9 +25,7 @@ const Home: NextPage = () => {
     getLatestRecipes(2).then((recipes) => {
       if (recipes) {
         // convert the recepies to cards
-        const recepieCards = recipes.map((recipe) => {
-          return { ...recipe, title: recipe.name }
-        });
+        const recepieCards = recipes;
         if (recepieCards.length >= 2) {
           setLatestRecipes(recepieCards);
         } else {
@@ -40,9 +38,7 @@ const Home: NextPage = () => {
     getDailyRecipes().then((recipes) => {
       if (recipes) {
         // convert the recepies to cards
-        const recepieCards = recipes.map((recipe) => {
-          return { ...recipe, title: recipe.name }
-        });
+        const recepieCards = recipes;
         if (recepieCards.length >= 2) {
           setDailyRecipes(recepieCards);
         } else {
@@ -53,20 +49,8 @@ const Home: NextPage = () => {
 
   }, []);
 
-  const exampleCard: RecipeCardInterface = {
-    title: "Thit Kho Test",
-    img: "/static/img/kho.jpg",
-    url: "thit-kho-test"
-  }
-
-  const exampleCard2: RecipeCardInterface = {
-    title: "Thit Kho Test 2",
-    img: "/static/img/kho.jpg",
-    url: "thit-kho-test"
-  }
-
   return (
-    <div className={styles["main"]}>
+    <div className={styles["home"]}>
       <Head>
         <title>Dulan Does Dishes</title>
         <meta name="description" content="Cooking" />
@@ -74,7 +58,7 @@ const Home: NextPage = () => {
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
       </Head>
 
-      <main id="main">
+      <main id="main" className={styles["main"]}>
         <br />
         <h1 className={titleStyles["generic-title"]}>
           Latest
@@ -112,9 +96,15 @@ const Home: NextPage = () => {
           loadingCircle
         }
 
-        <RecipeBlock tilt='right' card={exampleCard} />
-        <RecipeBlock tilt='left' card={exampleCard2} />
-        <br />
+        {dailyRecipes.length >= 2 ?
+          <div>
+            <RecipeBlock tilt='right' card={dailyRecipes[1]} text="rating" />
+            <RecipeBlock tilt='left' card={dailyRecipes[0]} text="postCooking" />
+          </div>
+          :
+          null
+        }
+
       </main>
     </div>
   )

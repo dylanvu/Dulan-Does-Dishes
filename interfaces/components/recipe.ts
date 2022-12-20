@@ -9,7 +9,7 @@ export interface RecipeCard {
     /**
      * Title of the recipe
      */
-    title: string,
+    name: string,
 
     /**
      * Place where the card points to

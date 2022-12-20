@@ -1,5 +1,10 @@
-.main {
+.home {
   margin-top: -20px;
+}
+
+.main {
+  padding-bottom: 7%;
+  padding-top: 2%;
 }
 
 .left-new {

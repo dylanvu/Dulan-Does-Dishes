@@ -6,13 +6,14 @@ import { useEffect, useState } from 'react';
 import { RecipeCard } from "../../interfaces/components/recipe";
 import { CircularProgress } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { Recipe } from "../../interfaces/data/recipe";
 
 /**
  * 
  * @param param0 unique key specifies an additional add on to the element id. This is for the homepage where latest and featured may be the same dish, and so no unique id can be generated just by the title
  * @returns 
  */
-const RecipeCard = ({ card, size, tilt, visible, titleInvisible, uniqueKey }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean, uniqueKey?: string }) => {
+const RecipeCard = ({ card, size, tilt, visible, titleInvisible, uniqueKey }: { card: RecipeCard | Recipe, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean, uniqueKey?: string }) => {
 
     // const [imgDecompressed, setImgDecompressed] = useState<string>("");
 
@@ -24,13 +25,13 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible, uniqueKey }: { 
     const [observer, setIntersectionObserver] = useState<IntersectionObserver>();
 
     useEffect(() => {
-        if (!visible && card && card.title && card.title.length > 0) {
+        if (!visible && card && card.name && card.name.length > 0) {
             // add a manually specified unique key to the end of the id
             let uKey = "";
             if (uniqueKey) {
                 uKey = uniqueKey;
             }
-            const validElementID = createValidElementId(card.title + uKey);
+            const validElementID = createValidElementId(card.name + uKey);
             setElementID(validElementID)
         }
     }, []);
@@ -78,12 +79,12 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible, uniqueKey }: { 
                 null
             }
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                {card && card.img && card.img.length > 0 ? <Image src={card.img} alt={card.title} layout="fill" /> : null}
+                {card && card.img && card.img.length > 0 ? <Image src={card.img} alt={card.name} layout="fill" /> : null}
             </div>
 
-            {!titleInvisible && !clicked && card.title.length > 0 ?
+            {!titleInvisible && !clicked && card.name.length > 0 ?
                 <div className={styles["recipe-card-label"]}>
-                    {card.title}
+                    {card.name}
                 </div>
                 : null}
         </div >
