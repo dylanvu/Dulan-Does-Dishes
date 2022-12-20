@@ -37,25 +37,24 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
     }, []);
 
     useEffect(() => {
-        // // decompress image
-        // const decomp = lzma.decompress(card.img);
-        // if (decomp) {
-        //     setImgDecompressed(decomp);
-        // }
         setImgDecompressed(card.img);
     }, [card.img]);
 
     const handleClick = () => {
-        toggleClicked(true);
-        router.push(`/recipes/${card.url}`);
+        if (card.url) {
+            toggleClicked(true);
+            router.push(`/recipes/${card.url}`);
+        }
     }
 
     return (
         <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`} onClick={handleClick}>
-            <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                {clicked ? <CircularProgress isIndeterminate color="teal" /> : null}
-                {!clicked && imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
-            </div>
+            {clicked ? <CircularProgress isIndeterminate color="teal" /> :
+                <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
+                    {!clicked && imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
+                </div>
+            }
+
             {!titleInvisible && !clicked && card.title.length > 0 ?
                 <div className={styles["recipe-card-label"]}>
                     {card.title}

@@ -6,87 +6,20 @@ import RecipeGrid from '../../components/recipe/RecipeGrid';
 import titleStyles from "../../styles/common/title.module.css";
 import { useEffect, useState, ChangeEventHandler } from 'react';
 import { RecipeCard as RecipeCardInterface } from '../../interfaces/components/recipe';
+import { CircularProgress } from '@chakra-ui/react';
+import { getAllRecipes } from '../../services/api/recipe';
 
 import { Input, Accordion, AccordionItem, AccordionIcon, AccordionButton, Box, AccordionPanel } from '@chakra-ui/react';
 
 const Recipes: NextPage = () => {
 
-  const Recipes: RecipeCardInterface[] = [
-    {
-      img: "/static/img/steak.jpg",
-      title: "Watermelon Steak",
-      url: "watermelon-steak"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho Test",
-      url: "thit-kho-test"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 1",
-      url: "thit-kho-1"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 2",
-      url: "thit-kho-2"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 3",
-      url: "thit-kho-3"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 4",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 5",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 6",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 7",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 8",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 9",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 10",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 11",
-      url: "thit-kho-4"
-    },
-    {
-      img: "/static/img/kho.jpg",
-      title: "Thit Kho 12",
-      url: "thit-kho-4"
-    },
-  ];
-
   const [searchField, changeSearchField] = useState("");
 
   const [searchFieldStyle, changeSearchFieldStyle] = useState<"outline" | "filled">("outline");
+
+  const [pageState, changePageState] = useState<"idle" | "loading" | "error">("idle");
+
+  const [recipes, changeRecipes] = useState<RecipeCardInterface[]>([]);
 
   useEffect(() => {
     // change search bar style if it is filled or not
@@ -97,6 +30,23 @@ const Recipes: NextPage = () => {
     changeSearchField(event.target.value)
   }
 
+  useEffect(() => {
+    changePageState("loading");
+    getAllRecipes().then((res) => {
+      if (res) {
+        const recipeCardArray: RecipeCardInterface[] = res.map((recipe) => {
+          return { ...recipe, title: recipe.name }
+        })
+        changeRecipes(recipeCardArray);
+        changePageState("idle");
+      } else {
+        changePageState("error");
+      }
+    }).catch((e) => {
+      console.error(e);
+    });
+  }, [])
+
   return (
     <div>
       <Head>
@@ -106,7 +56,7 @@ const Recipes: NextPage = () => {
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
       </Head>
 
-      <main id="main">
+      <main id="main" className={styles["main"]}>
         <div className={styles["search-container"]}>
           <div className={styles["search-bar"]}>
             <Input variant={searchFieldStyle} placeholder='Search for a dish...' colorScheme="teal" focusBorderColor='#79B4B7' onChange={handleSearchChange} />
@@ -135,7 +85,10 @@ const Recipes: NextPage = () => {
           </div>
 
         </div>
-        <RecipeGrid recipes={Recipes} size="small" flex={true} />
+        {pageState === "loading" ?
+          <CircularProgress isIndeterminate color="teal" size="md" />
+          :
+          <RecipeGrid recipes={recipes} size="small" flex={true} />}
       </main>
     </div>
   )

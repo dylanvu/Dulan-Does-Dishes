@@ -1,7 +1,6 @@
 // https://nextjs.org/learn/basics/dynamic-routes for dynamic routes and generating stuff
-import type { GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import type { GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 import RecipeBox from "../../components/recipe/RecipeBox";
 import { Recipe as RecipeInterface } from '../../interfaces/data/recipe';
 import { getAllRecipes, getRecipeData } from '../../services/api/recipe';
