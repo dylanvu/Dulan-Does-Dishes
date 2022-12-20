@@ -10,6 +10,7 @@ import { HStack, Center } from '@chakra-ui/react';
 import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 import { getTodayDate, getTodayLocal } from '../../components/utils/date';
 import { createRecipe } from '../../services/api/recipe';
+import { getAllTags, createTag } from '../../services/api/tag';
 import { Recipe } from '../../interfaces/data/recipe';
 
 import TextAreaInput from '../../components/common/textAreaInput';
@@ -70,21 +71,19 @@ const NewRecipe: NextPage = () => {
 
     useEffect(() => {
         // TODO: query database for all available tags
-
-        // make everything small size for default and make larger when selected
-        const tagRes: tagButton[] = [{
-            name: "DULAN DOES DISHES ORIGINAL",
-            color: "#1abc9c",
-            size: 'sm'
-        },
-        {
-            name: "DINNER",
-            color: "#3498db",
-            size: 'sm'
-        }];
-        changeTags(tagRes);
-
-        // show list of tags
+        getAllTags().then((tags) => {
+            if (tags) {
+                // convert each tag to a tag button
+                // make everything small size for default and make larger when selected
+                const tagButtons: tagButton[] = tags.map((tag) => {
+                    return { ...tag, size: unselectedTagSize }
+                });
+                console.log(tagButtons)
+                changeTags(tagButtons);
+            } else {
+                console.error("all tags returned null")
+            }
+        });
     }, []);
 
     useEffect(() => {
@@ -212,14 +211,20 @@ const NewRecipe: NextPage = () => {
             generateToast("Invalid tag color value", "error");
         }
 
-        // TODO: upload to backend with no recipess
         if (isValidTag) {
-            // update the tags state
-            changeTags([...tags, { name: newTag, color: newTagColor, size: unselectedTagSize }]);
+            const newTagObj: TagInterface = {
+                name: newTag,
+                color: newTagColor
+            }
+            // TODO: upload to backend with no recipes
+            createTag(newTagObj).then(() => {
+                // TODO: update the tags state by calling the api again but also preserving the state of clicked tags already 
+                changeTags([...tags, { name: newTag, color: newTagColor, size: unselectedTagSize }]);
 
-            // reset the states to be blank
-            changeNewTag("");
-            changeNewTagColor("");
+                // reset the states to be blank
+                changeNewTag("");
+                changeNewTagColor("#FFFFFF");
+            })
         } else {
             generateToast("One or more tag options were invalid. No tag was added.", "error");
         }
@@ -307,6 +312,10 @@ const NewRecipe: NextPage = () => {
         }
     }
 
+    const handleColorChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        changeNewTagColor(e.target.value)
+    }
+
     return (
         <div>
             <Head>
@@ -330,45 +339,51 @@ const NewRecipe: NextPage = () => {
                 <TextAreaInput title="Post-Cooking Remarks" placeholder="What happened during or after cooking? Any other random information?" changeTextAreaState={changePostCooking} />
 
                 {/* Recipe tags */}
-                <h1 className={titleStyles["generic-h1"]}>Tags</h1>
+                <h1 className={titleStyles["generic-h1"]}>Available Tags</h1>
                 <HStack align="center" justify="center" spacing={4}>
                     {
-                        tags.map((tag, index) => {
-                            return (
-                                <Center key={tag.name + tag.color + "-new"}>
-                                    <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
-                                        let tagsCopy = tags;
-                                        const thisTag = {
-                                            name: tag.name, color: tag.color
-                                        }
-                                        if (tag.size === unselectedTagSize) {
-                                            // make larger when clicked
-                                            tagsCopy[index] = { ...tagsCopy[index], size: selectedTagSize }
-                                        } else {
-                                            tagsCopy[index] = { ...tagsCopy[index], size: unselectedTagSize }
-                                        }
+                        tags.length > 0 ?
+                            tags.map((tag, index) => {
+                                return (
+                                    <Center key={tag.name + tag.color + "-new"}>
+                                        <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
+                                            let tagsCopy = tags;
+                                            const thisTag = {
+                                                name: tag.name, color: tag.color
+                                            }
+                                            if (tag.size === unselectedTagSize) {
+                                                // make larger when clicked
+                                                tagsCopy[index] = { ...tagsCopy[index], size: selectedTagSize }
+                                            } else {
+                                                tagsCopy[index] = { ...tagsCopy[index], size: unselectedTagSize }
+                                            }
 
-                                        // add this modified tag back into the array of buttons
-                                        changeTags([...tagsCopy]);
-                                    }}>
-                                        <TagLabel>
-                                            {tag.name}
-                                        </TagLabel>
-                                        {tag.size === unselectedTagSize ? null : <TagCloseButton />}
-                                    </Tag>
-                                </Center>
-                            )
-                        })
+                                            // add this modified tag back into the array of buttons
+                                            changeTags([...tagsCopy]);
+                                        }}>
+                                            <TagLabel>
+                                                {tag.name}
+                                            </TagLabel>
+                                            {tag.size === unselectedTagSize ? null : <TagCloseButton />}
+                                        </Tag>
+                                    </Center>
+                                )
+                            })
+                            :
+                            <div>
+                                No tags created yet!
+                            </div>
                     }
+
                 </HStack>
 
                 <h1 className={titleStyles["generic-h1"]}>Add New Tag</h1>
-                <input placeholder={`My new tag name...`} className={inputStyles["generic-input"]} onChange={(e) => {
+                <input type="color" id="tag-color-input" className={styles["color-input"]} onChange={handleColorChange} />&nbsp;
+                <input placeholder={`My new tag name...`} className={inputStyles["generic-input"]} value={newTag} onChange={(e) => {
                     e.preventDefault();
                     changeNewTag(e.target.value.toUpperCase().trim());
                 }} /> &nbsp;
-                {newTag.length > 0 ? <button className={inputStyles["generic-btn"]} onClick={submitNewTag}>Create <b>{newTag}</b> tag</button> : null}
-                {/* TODO: Need a color wheel picker */}
+                {newTag.length > 0 ? <button className={inputStyles["generic-btn"]} style={{ backgroundColor: newTagColor }} onClick={submitNewTag}>Create <b>{newTag}</b> tag</button> : null}
 
 
 

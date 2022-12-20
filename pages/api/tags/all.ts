@@ -14,7 +14,7 @@ const getAllTags = async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(`Client sent a ${req.method} insead of a GET for all tags`);
         return res.status(400).send("Invalid Request Type, needs to be GET");
     }
-    console.log("Getting all recipes");
+    console.log("Getting all tags");
     const queryRes = await getAllItems(tagsCollection);
     if (queryRes) {
         console.log(queryRes.length);

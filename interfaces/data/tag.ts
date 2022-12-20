@@ -21,6 +21,21 @@ export function isTag(arg: any): arg is Tag {
     return true;
 }
 
-export interface TagModel {
+/**
+ * This is what gets put into the database
+ */
+export interface TagModel extends Tag {
     recipes: Recipe[]
+}
+
+export function isTagModel(arg: any): arg is TagModel {
+    if (!isTag(arg)) {
+        return false;
+    }
+
+    if (!("recipes" in arg)) {
+        return false;
+    }
+
+    return true;
 }

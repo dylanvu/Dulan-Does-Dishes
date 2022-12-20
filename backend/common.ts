@@ -27,13 +27,14 @@ export const getSingleItem = async (collection: string, name: string): Promise<D
 /**
  * Query a collection for all the items
  */
-export const getAllItems = async (collection: string): Promise<DBItem[] | null> => {
+export const getAllItems = async (collection: string): Promise<DBItem[]> => {
     const itemArray: DBItem[] = [];
+    console.log("Getting all items inside of " + collection)
     const collectionRef = firestore.collection(collection);
     const snap = await collectionRef.get();
     if (snap.empty) {
         console.error(`Snapshot is empty after querying ${collection}`);
-        return null;
+        return [];
     } else {
         // add each doc as the appropriate type
         snap.forEach(doc => {

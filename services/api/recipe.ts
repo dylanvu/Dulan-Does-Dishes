@@ -3,7 +3,7 @@ import { apiBase } from "../../components/constants";
 export const getAllRecipes = async (): Promise<Recipe[] | null> => {
     // http request to api
     try {
-        const res = await fetch(`${apiBase}/recipe/all`);
+        const res = await fetch(`${apiBase}/recipes/all`);
         if (res.ok) {
             return await res.json();
         } else {
@@ -19,7 +19,7 @@ export const getAllRecipes = async (): Promise<Recipe[] | null> => {
 export const createRecipe = async (data: Recipe) => {
     console.log("Creating new recipe", data);
     try {
-        const res = await fetch(`${apiBase}/recipe/new`, {
+        const res = await fetch(`${apiBase}/recipes/new`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export const createRecipe = async (data: Recipe) => {
 export const getRecipeData = async (recipeName: string): Promise<Recipe | null> => {
     console.log(`Getting ${recipeName} from api`)
     try {
-        const res = await fetch(`${apiBase}/recipe/recipe?name=${recipeName}`, {
+        const res = await fetch(`${apiBase}/recipes/recipe?name=${recipeName}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ export const getRecipeData = async (recipeName: string): Promise<Recipe | null> 
 export const getLatestRecipes = async (count: number): Promise<Recipe[] | null> => {
     console.log(`Getting ${count} latest recipes from api`)
     try {
-        const res = await fetch(`${apiBase}/recipe/latest?count=${count}`, {
+        const res = await fetch(`${apiBase}/recipes/latest?count=${count}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ export const getLatestRecipes = async (count: number): Promise<Recipe[] | null> 
 export const getDailyRecipes = async (): Promise<Recipe[] | null> => {
     console.log(`Getting daily recipes from api`);
     try {
-        const res = await fetch(`${apiBase}/recipe/daily`, {
+        const res = await fetch(`${apiBase}/recipes/daily`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
