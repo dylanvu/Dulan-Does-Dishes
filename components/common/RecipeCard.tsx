@@ -12,7 +12,7 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
 
     const [imgDecompressed, setImgDecompressed] = useState<string>("");
 
-    const [clicked, toggleClicked] = useState<boolean>(true);
+    const [clicked, toggleClicked] = useState<boolean>(false);
 
     const router = useRouter();
 
