@@ -16,7 +16,7 @@
  * @param threshold between 0 and 1, where 1 is 100% of the element is needed in view to trigger the callback
  * @param callback function to execute when the threshold is reached
  */
-export function createScrollObserver(element: HTMLElement, threshold: number, intersectCallback: Function, intersectParams?: any, deIntersectCallback?: Function, deIntersectParams?: any) {
+export function createScrollObserver(element: HTMLElement, threshold: number, intersectCallback: Function, intersectParams?: any, deIntersectCallback?: Function, deIntersectParams?: any): IntersectionObserver {
     const intersectObserverOptions: IntersectionObserverInit = {
         root: document.querySelector("#app"),
         rootMargin: "0px",
@@ -37,4 +37,5 @@ export function createScrollObserver(element: HTMLElement, threshold: number, in
 
     let intersectObserver = new IntersectionObserver(intersectionCallback, intersectObserverOptions);
     intersectObserver.observe(element);
+    return intersectObserver;
 }

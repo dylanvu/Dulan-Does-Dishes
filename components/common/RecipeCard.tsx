@@ -7,8 +7,12 @@ import { RecipeCard } from "../../interfaces/components/recipe";
 import { CircularProgress } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-
-const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean }) => {
+/**
+ * 
+ * @param param0 unique key specifies an additional add on to the element id. This is for the homepage where latest and featured may be the same dish, and so no unique id can be generated just by the title
+ * @returns 
+ */
+const RecipeCard = ({ card, size, tilt, visible, titleInvisible, uniqueKey }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean, uniqueKey?: string }) => {
 
     // const [imgDecompressed, setImgDecompressed] = useState<string>("");
 
@@ -16,9 +20,29 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
 
     const router = useRouter();
 
+    const [elementID, setElementID] = useState("");
+    const [observer, setIntersectionObserver] = useState<IntersectionObserver>();
+
     useEffect(() => {
         if (!visible && card && card.title && card.title.length > 0) {
-            const recipeCardElem = document.querySelector(`#${createValidElementId(card.title)}`) as HTMLElement;
+            // add a manually specified unique key to the end of the id
+            let uKey = "";
+            if (uniqueKey) {
+                uKey = uniqueKey;
+            }
+            const validElementID = createValidElementId(card.title + uKey);
+            setElementID(validElementID)
+        }
+    }, []);
+
+    useEffect(() => {
+        // remove current observer
+        if (observer) {
+            observer.disconnect()
+        }
+        // create a new one
+        if (elementID.length > 0) {
+            const recipeCardElem = document.querySelector(`#${elementID}`) as HTMLElement;
             if (recipeCardElem) {
                 const setVisible = (element: HTMLElement) => {
                     element.style.opacity = "1";
@@ -28,19 +52,14 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
                     element.style.opacity = "0";
                     element.style.cursor = "auto"
                 }
-                createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem);
+                const newObserver = createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem);
+                setIntersectionObserver(newObserver);
                 // createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem, setInvisible, recipeCardElem);
             } else {
-                if (card) {
-                    console.error(`Tried to query ${createValidElementId(card.title)} for scrollable`);
-                }
+                console.error(`Could not find ${elementID} to add observer to`);
             }
         }
-    }, []);
-
-    // useEffect(() => {
-    //     setImgDecompressed(card.img);
-    // }, [card.img]);
+    }, [elementID])
 
     const handleClick = () => {
         if (card.url) {
@@ -50,7 +69,7 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
     }
 
     return (
-        <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`} onClick={handleClick}>
+        <div id={elementID} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`} onClick={handleClick}>
             {clicked ?
                 <div className={styles["progress-overlay"]}>
                     <CircularProgress isIndeterminate color="teal" size="2em" />

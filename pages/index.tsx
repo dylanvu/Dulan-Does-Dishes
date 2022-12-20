@@ -53,11 +53,6 @@ const Home: NextPage = () => {
 
   }, []);
 
-  const recipeTest = [
-    { title: "Thit Kho Gochujang", img: '/static/img/kho.jpg', url: "thit-kho-test" },
-    { title: "Honey Garlic Chicken Noodles", img: '/static/img/kho.jpg', url: "thit-kho-test" }
-  ];
-
   const exampleCard: RecipeCardInterface = {
     title: "Thit Kho Test",
     img: "/static/img/kho.jpg",
@@ -81,21 +76,16 @@ const Home: NextPage = () => {
 
       <main id="main">
         <br />
-        {/* <h1 className={titleStyles["generic-title"]}>
-          Dishes of the Day
-        </h1>
-        <RecipeGrid size="large" recipes={recipeTest} flex={false} /> */}
-
         <h1 className={titleStyles["generic-title"]}>
           Latest
         </h1>
         {latestRecipes.length >= 2 ?
           <div className={styles["tilted-wrapper"]}>
             <div className={styles["left-new"]}>
-              <RecipeCard card={latestRecipes[0]} size="large" tilt="right" />
+              <RecipeCard key="test" card={latestRecipes[0]} size="large" tilt="right" uniqueKey='-latest-1' />
             </div>
             <div className={styles["right-new"]}>
-              <RecipeCard card={latestRecipes[1]} size="large" tilt="left" />
+              <RecipeCard key="test2" card={latestRecipes[1]} size="large" tilt="left" uniqueKey='-latest-2' />
             </div>
           </div>
           :
@@ -103,16 +93,19 @@ const Home: NextPage = () => {
         }
 
 
+        <div>
+
+        </div>
         <h1 className={titleStyles["generic-title"]}>
           Dishes of the Day
         </h1>
         {dailyRecipes.length >= 2 ?
           <div className={styles["tilted-wrapper"]}>
-            <div className={styles["right-new"]}>
-              <RecipeCard card={dailyRecipes[0]} size="large" tilt="left" />
-            </div>
             <div className={styles["left-new"]}>
-              <RecipeCard card={dailyRecipes[1]} size="large" tilt="right" />
+              <RecipeCard card={dailyRecipes[0]} size="large" tilt="right" uniqueKey='-daily-1' />
+            </div>
+            <div className={styles["right-new"]}>
+              <RecipeCard card={dailyRecipes[1]} size="large" tilt="left" uniqueKey='-daily-2' />
             </div>
           </div>
           :
