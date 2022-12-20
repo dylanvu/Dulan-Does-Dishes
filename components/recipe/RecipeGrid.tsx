@@ -1,8 +1,9 @@
-import RecipeCard from '../common/RecipeCard';
+import { RecipeCard as RecipeCardInterface } from "../../interfaces/components/recipe";
+import RecipeCard from "../common/RecipeCard";
 import styles from "../../styles/recipe/RecipeGrid.module.css";
 
 interface RecipeGrid {
-    recipes: RecipeCard[];
+    recipes: RecipeCardInterface[];
     size: "small" | "large";
     flex: boolean
 }

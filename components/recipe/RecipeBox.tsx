@@ -13,10 +13,15 @@ import RecipeCard from "../common/RecipeCard";
 
 const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, img, previewURL, tags }: RecipeBox) => {
     useEffect(() => {
-        if (!previewURL || name === undefined || name === null || name.length > 0) {
+        if (name === undefined || name === null || name.length > 0) {
             changeUrl("");
         } else {
-            changeUrl(window.location.href + "/" + createRecipeURL(name));
+            const recipeURL = createRecipeURL(name);
+            if (previewURL) {
+                changeUrl(window.location.href + "/" + recipeURL);
+            } else {
+                changeUrl(recipeURL);
+            }
         }
     }, [name]);
 
@@ -40,7 +45,7 @@ const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, 
                 <h1 className={titleStyles["generic-title"]}>{url}</h1> : null}
 
             <h1 className={titleStyles["generic-title"]}>{name && name.length === 0 || name === undefined ? "Untitled Dish" : name}</h1>
-            {img && img.length > 0 ? <RecipeCard card={{ img: img, title: name }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}
+            {img && img.length > 0 ? <RecipeCard card={{ img: img, title: name, url: url }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}
 
             <h1 className={titleStyles["generic-h1"]}>Ingredients</h1>
             <div className={styles["recipe-list-wrapper"]}>

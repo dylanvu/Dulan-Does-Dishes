@@ -30,7 +30,7 @@ export interface Recipe extends DBItem {
     date: string;
 }
 
-export function isRecipe(arg: Object): arg is Recipe {
+export function isRecipe(arg: any): arg is Recipe {
     if (!("img" in arg)) {
         return false;
     }

@@ -2,79 +2,91 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import styles from '../../styles/recipe/index.module.css';
-import RecipeCard from '../../components/common/RecipeCard';
 import RecipeGrid from '../../components/recipe/RecipeGrid';
 import titleStyles from "../../styles/common/title.module.css";
 import { useEffect, useState, ChangeEventHandler } from 'react';
+import { RecipeCard as RecipeCardInterface } from '../../interfaces/components/recipe';
 
 import { Input, Accordion, AccordionItem, AccordionIcon, AccordionButton, Box, AccordionPanel } from '@chakra-ui/react';
 
 const Recipes: NextPage = () => {
 
-  const Recipes: RecipeCard[] = [
+  const Recipes: RecipeCardInterface[] = [
     {
       img: "/static/img/steak.jpg",
-      title: "Watermelon Steak"
+      title: "Watermelon Steak",
+      url: "watermelon-steak"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho "
+      title: "Thit Kho Test",
+      url: "thit-kho-test"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 1"
+      title: "Thit Kho 1",
+      url: "thit-kho-1"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 2"
+      title: "Thit Kho 2",
+      url: "thit-kho-2"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 3"
+      title: "Thit Kho 3",
+      url: "thit-kho-3"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 4"
+      title: "Thit Kho 4",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 5"
+      title: "Thit Kho 5",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 6"
+      title: "Thit Kho 6",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 7"
+      title: "Thit Kho 7",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 8"
+      title: "Thit Kho 8",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 9"
+      title: "Thit Kho 9",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 10"
+      title: "Thit Kho 10",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 11"
+      title: "Thit Kho 11",
+      url: "thit-kho-4"
     },
     {
       img: "/static/img/kho.jpg",
-      title: "Thit Kho 12"
+      title: "Thit Kho 12",
+      url: "thit-kho-4"
     },
   ];
 
   const [searchField, changeSearchField] = useState("");
 
   const [searchFieldStyle, changeSearchFieldStyle] = useState<"outline" | "filled">("outline");
-
-  const [tagSet, setTagSet] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     // change search bar style if it is filled or not

@@ -6,9 +6,10 @@ export interface Tag extends DBItem {
      * Color of the tag
      */
     color: string,
+    size?: string
 }
 
-export function isTag(arg: Object): arg is Tag {
+export function isTag(arg: any): arg is Tag {
     if (!("color" in arg)) {
         return false;
     }

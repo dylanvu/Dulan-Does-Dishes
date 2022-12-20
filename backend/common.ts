@@ -3,6 +3,7 @@ import { DBItem } from "../interfaces/data/common";
 import { firestore } from './_app';
 import { recipesCollection, tagsCollection } from "./constants";
 import { createRecipeURL } from "../components/utils/id";
+import { Recipe } from "../interfaces/data/recipe";
 
 
 /**
@@ -56,7 +57,12 @@ export const getAllItems = async (collection: string): Promise<DBItem[] | null> 
  * @param data the data to update to
  */
 export const pushNewItem = async (collection: string, data: DBItem): Promise<void> => {
-    const docName = "url" in data ? data.url as string : createRecipeURL(data.name);
+    let docName: string = "";
+    if ("url" in data) {
+        docName = (data as Recipe).url as string;
+    } else {
+        docName = createRecipeURL(data.name);
+    }
     await firestore.collection(collection).doc(docName).set(data, { merge: true });
     console.log(`done uploading new item with id ${docName}`);
     return;

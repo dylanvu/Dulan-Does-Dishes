@@ -9,7 +9,12 @@ export interface RecipeCard {
     /**
      * Title of the recipe
      */
-    title: string
+    title: string,
+
+    /**
+     * Place where the card points to
+     */
+    url: string
 }
 
 export interface RecipeBox extends Recipe {

@@ -3,30 +3,32 @@ import Head from 'next/head';
 
 import styles from '../styles/home/Home.module.css';
 import titleStyles from "../styles/common/title.module.css";
-import RecipeGrid from '../components/recipe/RecipeGrid';
 import RecipeCard from '../components/common/RecipeCard';
+import { RecipeCard as RecipeCardInterface } from '../interfaces/components/recipe';
 import RecipeBlock from '../components/home/RecipeBlock';
 
 const Home: NextPage = () => {
 
   const recipeTest = [
-    { title: "Thit Kho Gochujang", img: '/static/img/kho.jpg' },
-    { title: "Honey Garlic Chicken Noodles", img: '/static/img/kho.jpg' }
+    { title: "Thit Kho Gochujang", img: '/static/img/kho.jpg', url: "thit-kho-test" },
+    { title: "Honey Garlic Chicken Noodles", img: '/static/img/kho.jpg', url: "thit-kho-test" }
   ];
 
   const newRecipes = [
-    { title: "Salmon Garlic Oven Roast", img: '/static/img/kho.jpg' },
-    { title: "Mongolian Tofu", img: '/static/img/kho.jpg' }
+    { title: "Salmon Garlic Oven Roast", img: '/static/img/kho.jpg', url: "thit-kho-test" },
+    { title: "Mongolian Tofu", img: '/static/img/kho.jpg', url: "thit-kho-test" }
   ];
 
-  const exampleCard: RecipeCard = {
+  const exampleCard: RecipeCardInterface = {
     title: "Thit Kho Test",
-    img: "/static/img/kho.jpg"
+    img: "/static/img/kho.jpg",
+    url: "thit-kho-test"
   }
 
-  const exampleCard2: RecipeCard = {
+  const exampleCard2: RecipeCardInterface = {
     title: "Thit Kho Test 2",
-    img: "/static/img/kho.jpg"
+    img: "/static/img/kho.jpg",
+    url: "thit-kho-test"
   }
 
   return (

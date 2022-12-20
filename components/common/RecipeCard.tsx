@@ -4,9 +4,18 @@ import { createScrollObserver } from "../utils/scroll";
 import { createValidElementId } from "../utils/id";
 import { useEffect, useState } from 'react';
 import { RecipeCard } from "../../interfaces/components/recipe";
+import { CircularProgress } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 
 const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean }) => {
+
+    const [imgDecompressed, setImgDecompressed] = useState<string>("");
+
+    const [clicked, toggleClicked] = useState<boolean>(true);
+
+    const router = useRouter();
+
     useEffect(() => {
         if (!visible && card.title && card.title.length > 0) {
             const recipeCardElem = document.querySelector(`#${createValidElementId(card.title)}`) as HTMLElement;
@@ -36,21 +45,43 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
         setImgDecompressed(card.img);
     }, [card.img]);
 
-    const [imgDecompressed, setImgDecompressed] = useState<string>("");
+    const handleClick = () => {
+        toggleClicked(true);
+        router.push(`/recipes/${card.url}`);
+    }
 
     return (
-        <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`}>
+        <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`} onClick={handleClick}>
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                {imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
+                {clicked ? <CircularProgress isIndeterminate color="teal" /> : null}
+                {!clicked && imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
             </div>
-            {!titleInvisible && card.title.length > 0 ?
+            {!titleInvisible && !clicked && card.title.length > 0 ?
                 <div className={styles["recipe-card-label"]}>
                     {card.title}
                 </div>
                 : null}
-
-        </div>
+        </div >
     )
+
+
+    // <CircularProgress isIndeterminate color="teal" />
+
+
+    // return (
+    //     <Link href={`/recipes/${card.url}`}>
+    //         <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`}>
+    //             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
+    //                 {imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
+    //             </div>
+    //             {!titleInvisible && card.title.length > 0 ?
+    //                 <div className={styles["recipe-card-label"]}>
+    //                     {card.title}
+    //                 </div>
+    //                 : null}
+    //         </div>
+    //     </Link>
+    // )
 }
 
 export default RecipeCard;
