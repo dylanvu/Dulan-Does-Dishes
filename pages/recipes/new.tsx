@@ -21,8 +21,6 @@ import { Tag as TagInterface } from "../../interfaces/data/tag";
 import { tagButton } from '../../interfaces/components/tag';
 import { createRecipeURL } from '../../components/utils/id';
 
-// import { compress } from 'lz-string';
-
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
     const [recipeSteps, changeRecipeSteps] = useState<string[]>([]);
@@ -179,7 +177,7 @@ const NewRecipe: NextPage = () => {
             const file = files[0];
             const reader = new FileReader();
             // reader.onloadend = () => {
-            //     const comp = compress(reader.result as string);
+            //     const comp = lzma.compress(reader.result as string);
             //     changePictures([comp]);
             // }
             reader.onloadend = () => {
@@ -315,6 +313,7 @@ const NewRecipe: NextPage = () => {
                 <title>Dulan Does Dishes</title>
                 <meta name="description" content="Cooking" />
                 <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
             </Head>
             <main className={styles.main} id="main">
                 <h1 className={titleStyles["generic-h1"]}>Dish Name</h1>

@@ -7,10 +7,6 @@ import { Recipe as RecipeInterface } from '../../interfaces/data/recipe';
 import { getAllRecipes, getRecipeData } from '../../services/api/recipe';
 
 const Recipe = (props: RecipeInterface) => {
-    useEffect(() => {
-        console.log(props);
-    }, []);
-
     return (
         <div>
             <Head>
@@ -18,6 +14,7 @@ const Recipe = (props: RecipeInterface) => {
                 {/* make the content the title */}
                 <meta name="description" content="Cooking, Life Stories, and more!" />
                 <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
             </Head>
 
             <main id="main">

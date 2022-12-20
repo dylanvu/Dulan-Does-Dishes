@@ -7,7 +7,7 @@ export const getAllRecipes = async (): Promise<Recipe[] | null> => {
         if (res.ok) {
             return await res.json();
         } else {
-            console.error("static props returned a " + res.status);
+            console.error("getAllRecipes returned a " + res.status);
             return [];
         }
     } catch (e) {

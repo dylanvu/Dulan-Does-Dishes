@@ -17,7 +17,7 @@ const Footer = () => {
             <br />
             <div>
                 <Link href="/login">
-                    <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} />
+                    <Image src="/static/img/logo-small.png" alt="Dulan Does Dishes Logo" width={logoSize} height={logoSize} />
                 </Link>
             </div>
             <a

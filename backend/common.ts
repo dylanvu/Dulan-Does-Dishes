@@ -45,6 +45,7 @@ export const getAllItems = async (collection: string): Promise<DBItem[] | null> 
             }
             itemArray.push(dbItem);
         });
+        console.log(`getAllItems found ${itemArray.length} items inside of ${collection}`);
     }
     return itemArray;
 }

@@ -12,6 +12,7 @@ const Login: NextPage = () => {
                 <title>Dulan Does Dishes</title>
                 <meta name="description" content="Cooking, Life Stories, and more!" />
                 <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
             </Head>
 
             <main id="main">

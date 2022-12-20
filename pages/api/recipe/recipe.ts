@@ -20,7 +20,7 @@ const getSingleDish = async (req: NextApiRequest, res: NextApiResponse) => {
             // validate result
             if (isRecipe(recipe)) {
                 console.log(`Successfully got recipe matching ${name} from ${recipesCollection}`);
-                res.status(201).json(recipe);
+                return res.status(201).json(recipe);
             } else {
                 // something wrong with backend data
                 console.error(`Found ${name} inside of ${recipesCollection} but it did not pass the recipe typeguard`);
@@ -28,13 +28,13 @@ const getSingleDish = async (req: NextApiRequest, res: NextApiResponse) => {
             }
         } else {
             // could not find item
-            res.status(404).send(`Could not find recipe named ${name}`);
+            return res.status(404).send(`Could not find recipe named ${name}`);
         }
     } else {
         // request data is bad
         console.error(`Params did not have name in it`);
         console.log(params);
-        res.status(400).send("Incorrect parameter to api route. Missing \"name\".");
+        return res.status(400).send("Incorrect parameter to api route. Missing \"name\".");
     }
 }
 

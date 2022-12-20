@@ -17,21 +17,23 @@ const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("Getting all recipes");
     const queryRes = await getAllItems(recipesCollection);
     if (queryRes) {
+        console.log(queryRes.length);
         // only send back recipe items
         const recipeArray: Recipe[] = [];
         for (const item of queryRes) {
             if (isRecipe(item)) {
                 recipeArray.push(item);
+            } else {
+                console.log(item.name + " is not a recipe");
             }
-
-            // send everything that matches
-            console.log(`Found all ${recipeArray.length} recipes`);
-            // console.log(recipeArray);
-            res.status(200).json(recipeArray);
         }
+        // send everything that matches
+        console.log(`Found all ${recipeArray.length} recipes`);
+        // console.log(recipeArray);
+        return res.status(200).json(recipeArray);
     } else {
         console.error("All recipes returned null");
-        res.status(502).send("Error");
+        return res.status(502).send("Error");
     }
 }
 

@@ -4,7 +4,6 @@ import { createScrollObserver } from "../utils/scroll";
 import { createValidElementId } from "../utils/id";
 import { useEffect, useState } from 'react';
 import { RecipeCard } from "../../interfaces/components/recipe";
-// import { decompress } from "lz-string";
 
 
 const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean }) => {
@@ -30,7 +29,7 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
 
     useEffect(() => {
         // // decompress image
-        // const decomp = decompress(card.img);
+        // const decomp = lzma.decompress(card.img);
         // if (decomp) {
         //     setImgDecompressed(decomp);
         // }
