@@ -27,7 +27,6 @@
     position: absolute;
     right: 3%;
     bottom: -10%;
-    display: flex;
     font-style: normal;
     float: right;
     background-color: #79B4B7;
@@ -70,4 +69,13 @@
 .block-card-container {
     margin-left: -2.3vw;
     margin-top: -2vh;
+}
+
+.progress-container {
+    background-color: black;
+    z-index: 1;
+    width: 100%;
+    margin: auto;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
 }
