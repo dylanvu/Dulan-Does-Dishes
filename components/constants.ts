@@ -11,7 +11,7 @@ export const hostName = "http://localhost:3000/";
 // export const hostName = window.location.protocol + "//" + window.location.hostname + "/";
 
 /**
- * Returns the host name plus +"/api/"
- * @example http://localhost:3000/api/
+ * Returns the host name plus +"/api"
+ * @example http://localhost:3000/api
  */
-export const apiBase = hostName + "/api/";
+export const apiBase = hostName + "/api";

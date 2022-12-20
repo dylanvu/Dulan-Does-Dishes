@@ -7,6 +7,7 @@ import { RecipeBox } from "../../interfaces/components/recipe";
 import { createRecipeURL } from "../utils/id";
 import { useEffect, useState } from "react";
 import { Tag, TagLabel, HStack, Center } from "@chakra-ui/react";
+import { Tag as TagInterface } from "../../interfaces/data/tag";
 import RecipeCard from "../common/RecipeCard";
 
 
@@ -18,6 +19,18 @@ const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, 
             changeUrl(window.location.href + "/" + createRecipeURL(name));
         }
     }, [name]);
+
+    useEffect(() => {
+        // convert from a map to an array to iterate through
+        const tagArrayFromRecord: TagInterface[] = [];
+        for (const tag in tags) {
+            tagArrayFromRecord.push(tags[tag]);
+        }
+        changeTagArray([...tagArrayFromRecord]);
+
+    }, [tags]);
+
+    const [tagArray, changeTagArray] = useState<TagInterface[]>([])
 
     const [url, changeUrl] = useState("");
 
@@ -117,12 +130,12 @@ const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, 
                 </Accordion>
             </div>
 
-            {tags === null || tags === undefined || tags.length === 0 ? null :
+            {tags === null || tags === undefined || tagArray.length === 0 ? null :
                 <div className={styles["tags-wrapper"]}>
                     <h1 className={titleStyles["generic-h1"]}>Tags</h1>
                     <HStack align="center" justify="center" spacing={4}>
                         {
-                            tags.map((tag) => {
+                            tagArray.map((tag) => {
                                 return (
                                     <Center key={tag.name + tag.color + "-recipe-box"}>
                                         <Tag cursor="pointer" backgroundColor={tag.color}>

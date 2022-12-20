@@ -2,8 +2,9 @@ import styles from "../../styles/common/RecipeCard.module.css";
 import Image from 'next/image'
 import { createScrollObserver } from "../utils/scroll";
 import { createValidElementId } from "../utils/id";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { RecipeCard } from "../../interfaces/components/recipe";
+// import { decompress } from "lz-string";
 
 
 const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean }) => {
@@ -26,10 +27,22 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
             }
         }
     }, []);
+
+    useEffect(() => {
+        // // decompress image
+        // const decomp = decompress(card.img);
+        // if (decomp) {
+        //     setImgDecompressed(decomp);
+        // }
+        setImgDecompressed(card.img);
+    }, [card.img]);
+
+    const [imgDecompressed, setImgDecompressed] = useState<string>("");
+
     return (
         <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`}>
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                {card.img.length > 0 ? <Image src={card.img} alt={card.title} layout="fill" /> : null}
+                {imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
             </div>
             {!titleInvisible && card.title.length > 0 ?
                 <div className={styles["recipe-card-label"]}>

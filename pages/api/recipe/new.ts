@@ -16,10 +16,13 @@ const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     }
     // validate input
-    // console.log(req.body);
+    console.log(req.body);
     const body = req.body;
     if (isRecipe(body)) {
         console.log("Got new recipe");
+        // // compress image
+        // body.img = compress(body.img);
+
         await pushNewItem(recipesCollection, body);
         res.status(201).send("Recipe published to database");
     } else {
@@ -31,3 +34,11 @@ const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 export default createRecipe;
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb' // Set desired value here
+        }
+    }
+}

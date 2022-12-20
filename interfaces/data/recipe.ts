@@ -25,7 +25,7 @@ export interface Recipe extends DBItem {
 
     postCooking: string | null;
 
-    tags: Tag[];
+    tags: Record<string, Tag>;
 
     date: string;
 }

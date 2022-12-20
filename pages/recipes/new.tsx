@@ -21,6 +21,8 @@ import { Tag as TagInterface } from "../../interfaces/data/tag";
 import { tagButton } from '../../interfaces/components/tag';
 import { createRecipeURL } from '../../components/utils/id';
 
+// import { compress } from 'lz-string';
+
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
     const [recipeSteps, changeRecipeSteps] = useState<string[]>([]);
@@ -54,7 +56,7 @@ const NewRecipe: NextPage = () => {
     /**
      * All selected tags for a recipe
      */
-    const [selectedTagsArray, changeSelectedTagsArray] = useState<TagInterface[]>([]);
+    const [selectedTagsMap, changeSelectedTagsMap] = useState<Record<string, TagInterface>>({});
 
     const [warnState, changeWarnState] = useState(false);
 
@@ -92,7 +94,15 @@ const NewRecipe: NextPage = () => {
         const selectedTags = tags.filter((tag) => {
             return tag.size === selectedTagSize;
         });
-        changeSelectedTagsArray([...selectedTags]);
+        const tagMap: Record<string, TagInterface> = {};
+        for (const tag of selectedTags) {
+            const tagCopy = { ...tag } as TagInterface;
+            if ("size" in tagCopy) {
+                delete tagCopy["size"];
+            }
+            tagMap[tag.name] = tagCopy;
+        }
+        changeSelectedTagsMap(tagMap);
     }, [tags]);
 
     const handleUpload = () => {
@@ -112,16 +122,21 @@ const NewRecipe: NextPage = () => {
             rating: rating,
             background: background,
             postCooking: postCooking,
-            tags: selectedTagsArray,
+            tags: selectedTagsMap,
             date: getTodayDate()
         }
         // verification has been done already
         changeUploadState("uploading");
 
-        createRecipe(newRecipe).then(() =>
-            changeUploadState("success")
-        ).catch(() =>
-            changeUploadState("api-error")
+        createRecipe(newRecipe).then(() => {
+            changeUploadState("success");
+            console.log("success")
+
+        }
+        ).catch(() => {
+            changeUploadState("api-error");
+            console.log("api error")
+        }
         );
     }
 
@@ -163,8 +178,12 @@ const NewRecipe: NextPage = () => {
         if (files) {
             const file = files[0];
             const reader = new FileReader();
+            // reader.onloadend = () => {
+            //     const comp = compress(reader.result as string);
+            //     changePictures([comp]);
+            // }
             reader.onloadend = () => {
-                changePictures([reader.result as string])
+                changePictures([reader.result as string]);
             }
             reader.readAsDataURL(file);
             // for (let i = 0; i < file.length; i++) {
@@ -224,7 +243,6 @@ const NewRecipe: NextPage = () => {
         }
 
         // if the steps or ingredients are all blank, yell at the user
-        console.log(ingredientsList);
         if (ingredientsList.length === 0) {
             isValid = generateToast("No ingredients were added.", "error");
         }
@@ -364,7 +382,7 @@ const NewRecipe: NextPage = () => {
 
                 {/* preview of the main recipe mini box */}
                 <h1 className={titleStyles["generic-h1"]}>Preview Recipe</h1>
-                <RecipeBox date={getTodayLocal()} name={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img={pictures.length > 0 ? pictures[0] : ""} tags={selectedTagsArray} url={recipeName} previewURL={true} />
+                <RecipeBox date={getTodayLocal()} name={recipeName} ingredients={ingredientsList} steps={recipeSteps} background={background} postCooking={postCooking} rating={rating} img={pictures.length > 0 ? pictures[0] : ""} tags={selectedTagsMap} url={recipeName} previewURL={true} />
 
                 {/* submit/finalize button */}
                 <div className={styles["finalize-wrapper"]}>

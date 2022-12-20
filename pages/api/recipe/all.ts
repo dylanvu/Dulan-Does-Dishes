@@ -11,8 +11,10 @@ import { isRecipe, Recipe } from '../../../interfaces/data/recipe';
  */
 const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") {
+        console.log(`Client sent a ${req.method} insead of a GET for all recipes`);
         return res.status(400).send("Invalid Request Type, needs to be GET");
     }
+    console.log("Getting all recipes");
     const queryRes = await getAllItems(recipesCollection);
     if (queryRes) {
         // only send back recipe items
@@ -23,6 +25,8 @@ const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
             }
 
             // send everything that matches
+            console.log(`Found all ${recipeArray.length} recipes`);
+            // console.log(recipeArray);
             res.status(200).json(recipeArray);
         }
     } else {

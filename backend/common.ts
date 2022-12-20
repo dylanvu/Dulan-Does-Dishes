@@ -2,6 +2,7 @@
 import { DBItem } from "../interfaces/data/common";
 import { firestore } from './_app';
 import { recipesCollection, tagsCollection } from "./constants";
+import { createRecipeURL } from "../components/utils/id";
 
 
 /**
@@ -10,10 +11,16 @@ import { recipesCollection, tagsCollection } from "./constants";
  * @param name the name of the item to search for
  * @returns 
  */
-// export const getSingleItem = async (collection: string, name: string): Promise<DBItem | null> => {
-//     // TODO: This thing will work for recipes, tags, and really anything else
-//     return {};
-// }
+export const getSingleItem = async (collection: string, name: string): Promise<DBItem | null> => {
+    const docRef = firestore.collection(collection).doc(name);
+    const doc = await docRef.get();
+    if (!doc.exists) {
+        console.error(`Could not find ${name} in ${collection} - getSingleItem`);
+        return null;
+    } else {
+        return doc.data() as DBItem;
+    }
+}
 
 /**
  * Query a collection for all the items
@@ -48,7 +55,7 @@ export const getAllItems = async (collection: string): Promise<DBItem[] | null> 
  * @param data the data to update to
  */
 export const pushNewItem = async (collection: string, data: DBItem): Promise<void> => {
-    const docName = "url" in data ? data.url as string : data.name;
+    const docName = "url" in data ? data.url as string : createRecipeURL(data.name);
     await firestore.collection(collection).doc(docName).set(data, { merge: true });
     console.log(`done uploading new item with id ${docName}`);
     return;
