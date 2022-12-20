@@ -62,5 +62,54 @@ export const getRecipeData = async (recipeName: string): Promise<Recipe | null> 
         console.error(`Could not get recipe data for ${recipeName} because of ` + e);
         return null;
     }
+}
 
+export const getLatestRecipes = async (count: number): Promise<Recipe[] | null> => {
+    console.log(`Getting ${count} latest recipes from api`)
+    try {
+        const res = await fetch(`${apiBase}/recipe/latest?count=${count}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (res.ok) {
+            console.log(`request for ${count} latest recipes succeeded`)
+            const json = await res.json() as Recipe[];
+            return json;
+        } else {
+            console.error(`request for ${count} latest recipes failed due to ` + res.body);
+            throw new Error(`Failed to get data for ${count} recipes due to ` + res.body);
+        }
+
+    } catch (e) {
+        console.error(`Could not get latest recipes for ${count} recipes because of ` + e);
+        return null;
+    }
+}
+
+export const getDailyRecipes = async (): Promise<Recipe[] | null> => {
+    console.log(`Getting daily recipes from api`);
+    try {
+        const res = await fetch(`${apiBase}/recipe/daily`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (res.ok) {
+            console.log(`request for daily recipes succeeded`)
+            const json = await res.json() as Recipe[];
+            return json;
+        } else {
+            console.error(`request for daily recipes failed due to ` + res.body);
+            throw new Error(`Failed to get data for daily recipes due to ` + res.body);
+        }
+
+    } catch (e) {
+        console.error(`Could not get daily recipes because of ` + e);
+        return null;
+    }
 }

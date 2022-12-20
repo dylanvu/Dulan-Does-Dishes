@@ -146,7 +146,7 @@ const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, 
                             tagArray.map((tag) => {
                                 return (
                                     <Center key={tag.name + tag.color + "-recipe-box"}>
-                                        <Tag backgroundColor={tag.color}>
+                                        <Tag backgroundColor={tag.color} cursor="default">
                                             <TagLabel>
                                                 {tag.name}
                                             </TagLabel>

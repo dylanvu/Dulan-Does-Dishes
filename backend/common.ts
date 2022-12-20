@@ -4,6 +4,7 @@ import { firestore } from './_app';
 import { recipesCollection, tagsCollection } from "./constants";
 import { createRecipeURL } from "../components/utils/id";
 import { Recipe } from "../interfaces/data/recipe";
+import { generateRandomNumbersToday } from "./util";
 
 
 /**
@@ -66,4 +67,36 @@ export const pushNewItem = async (collection: string, data: DBItem): Promise<voi
     await firestore.collection(collection).doc(docName).set(data, { merge: true });
     console.log(`done uploading new item with id ${docName}`);
     return;
+}
+
+export const getLatestItem = async (collection: string, count: number): Promise<DBItem[] | null> => {
+    const queryRes = await firestore.collection(collection).orderBy('date', 'desc').limit(count).get();
+    if (queryRes.empty) {
+        console.error(`Query for latest ${count} items in ${collection} is empty`);
+        return null;
+    }
+
+    let items: DBItem[] = [];
+    queryRes.forEach((doc) => {
+        const data = doc.data() as DBItem;
+        items.push(data);
+    });
+    return items;
+}
+
+export const getRandomByDayItems = async (collection: string, count: number): Promise<DBItem[] | null> => {
+    // get all items
+    const allItems = await getAllItems(collection);
+    if (allItems) {
+        const items: DBItem[] = [];
+        const numItems = allItems.length;
+        const randoms = generateRandomNumbersToday(count, numItems);
+        for (let i = 0; i < count; i++) {
+            items.push(allItems[randoms[i]]);
+        }
+        return items;
+    } else {
+        console.error(`Could not get any items from getAllItems`);
+        return null;
+    }
 }

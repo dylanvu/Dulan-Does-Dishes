@@ -10,14 +10,14 @@ import { useRouter } from "next/router";
 
 const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: RecipeCard, size: "small" | "large", tilt?: "left" | "right" | undefined | null, visible?: boolean, titleInvisible?: boolean }) => {
 
-    const [imgDecompressed, setImgDecompressed] = useState<string>("");
+    // const [imgDecompressed, setImgDecompressed] = useState<string>("");
 
     const [clicked, toggleClicked] = useState<boolean>(false);
 
     const router = useRouter();
 
     useEffect(() => {
-        if (!visible && card.title && card.title.length > 0) {
+        if (!visible && card && card.title && card.title.length > 0) {
             const recipeCardElem = document.querySelector(`#${createValidElementId(card.title)}`) as HTMLElement;
             if (recipeCardElem) {
                 const setVisible = (element: HTMLElement) => {
@@ -31,14 +31,16 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
                 createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem);
                 // createScrollObserver(recipeCardElem, 0.05, setVisible, recipeCardElem, setInvisible, recipeCardElem);
             } else {
-                console.error(`Tried to query ${createValidElementId(card.title)} for scrollable`);
+                if (card) {
+                    console.error(`Tried to query ${createValidElementId(card.title)} for scrollable`);
+                }
             }
         }
     }, []);
 
-    useEffect(() => {
-        setImgDecompressed(card.img);
-    }, [card.img]);
+    // useEffect(() => {
+    //     setImgDecompressed(card.img);
+    // }, [card.img]);
 
     const handleClick = () => {
         if (card.url) {
@@ -57,7 +59,7 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
                 null
             }
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                {imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
+                {card && card.img && card.img.length > 0 ? <Image src={card.img} alt={card.title} layout="fill" /> : null}
             </div>
 
             {!titleInvisible && !clicked && card.title.length > 0 ?
