@@ -42,7 +42,10 @@ const RecipeBox = ({ name, ingredients, steps, background, postCooking, rating, 
     return (
         <div className={styles["main-recipe-box"]}>
             {previewURL ?
-                <h1 className={titleStyles["generic-title"]}>{url}</h1> : null}
+                <h1 className={titleStyles["generic-title"]}>{url}</h1>
+                :
+                null
+            }
 
             <h1 className={titleStyles["generic-title"]}>{name && name.length === 0 || name === undefined ? "Untitled Dish" : name}</h1>
             {img && img.length > 0 ? <RecipeCard card={{ img: img, title: name, url: url }} size="large" tilt={"right"} titleInvisible={true} visible={true} /> : null}

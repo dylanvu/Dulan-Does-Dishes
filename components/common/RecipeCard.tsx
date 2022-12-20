@@ -49,11 +49,16 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
 
     return (
         <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`} onClick={handleClick}>
-            {clicked ? <CircularProgress isIndeterminate color="teal" /> :
-                <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                    {!clicked && imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
+            {clicked ?
+                <div className={styles["progress-overlay"]}>
+                    <CircularProgress isIndeterminate color="teal" size="2em" />
                 </div>
+                :
+                null
             }
+            <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
+                {imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
+            </div>
 
             {!titleInvisible && !clicked && card.title.length > 0 ?
                 <div className={styles["recipe-card-label"]}>
@@ -62,25 +67,6 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible }: { card: Recip
                 : null}
         </div >
     )
-
-
-    // <CircularProgress isIndeterminate color="teal" />
-
-
-    // return (
-    //     <Link href={`/recipes/${card.url}`}>
-    //         <div id={createValidElementId(card.title)} className={`${styles["recipe-card"]} ${tilt ? `${styles[`${tilt}-tilt`]} ${styles["tilted"]}` : styles[`no-tilt`]} ${visible ? styles[`non-opaque`] : ""}`}>
-    //             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-    //                 {imgDecompressed.length > 0 ? <Image src={imgDecompressed} alt={card.title} layout="fill" /> : null}
-    //             </div>
-    //             {!titleInvisible && card.title.length > 0 ?
-    //                 <div className={styles["recipe-card-label"]}>
-    //                     {card.title}
-    //                 </div>
-    //                 : null}
-    //         </div>
-    //     </Link>
-    // )
 }
 
 export default RecipeCard;
