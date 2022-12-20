@@ -1,1 +1,11 @@
 /* Styling for the page for displaying a recipe + other information about the dish */
+.recipe-page {
+    margin-top: -2.5vh;
+    position: relative;
+}
+
+.main {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    position: relative;
+}

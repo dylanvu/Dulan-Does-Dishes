@@ -4,10 +4,11 @@ import Head from 'next/head';
 import RecipeBox from "../../components/recipe/RecipeBox";
 import { Recipe as RecipeInterface } from '../../interfaces/data/recipe';
 import { getAllRecipes, getRecipeData } from '../../services/api/recipe';
+import styles from "../../styles/recipe/RecipePage.module.css";
 
 const Recipe = (props: RecipeInterface) => {
     return (
-        <div>
+        <div className={styles["recipe-page"]}>
             <Head>
                 <title>Dulan Does Dishes</title>
                 {/* make the content the title */}
@@ -16,7 +17,7 @@ const Recipe = (props: RecipeInterface) => {
                 <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
             </Head>
 
-            <main id="main">
+            <main id="main" className={styles["main"]}>
                 <RecipeBox img={props.img} ingredients={props.ingredients} steps={props.steps} rating={props.rating} background={props.background} postCooking={props.postCooking} tags={props.tags} previewURL={false} url={props.url} date={props.date} name={props.name} />
             </main>
         </div>
