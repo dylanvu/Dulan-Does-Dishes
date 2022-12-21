@@ -377,7 +377,7 @@ const NewRecipe: NextPage = () => {
 
                 </HStack>
 
-                <h1 className={titleStyles["generic-h1"]}>Add New Tag</h1>
+                <h1 className={titleStyles["generic-h1"]}>Create/Edit Tag</h1>
                 <input type="color" id="tag-color-input" className={styles["color-input"]} onChange={handleColorChange} />&nbsp;
                 <input placeholder={`My new tag name...`} className={inputStyles["generic-input"]} value={newTag} onChange={(e) => {
                     e.preventDefault();
