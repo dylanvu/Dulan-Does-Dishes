@@ -1,5 +1,4 @@
 import { DBItem } from './common';
-import { Recipe } from "./recipe"
 
 export interface Tag extends DBItem {
     /**
@@ -25,7 +24,10 @@ export function isTag(arg: any): arg is Tag {
  * This is what gets put into the database
  */
 export interface TagModel extends Tag {
-    recipes: Recipe[]
+    /**
+     * Make this be a string of recipe urls
+     */
+    recipes: string[]
 }
 
 export function isTagModel(arg: any): arg is TagModel {

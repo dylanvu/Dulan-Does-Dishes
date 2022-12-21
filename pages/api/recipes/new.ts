@@ -1,8 +1,13 @@
+import { DBItem } from './../../../interfaces/data/common';
+import { tagsCollection } from './../../../backend/constants';
+import { getSingleItem } from './../../../backend/common';
 // creates a new recipe entry in backend
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { pushNewItem } from '../../../backend/common';
 import { recipesCollection } from '../../../backend/constants';
 import { isRecipe } from '../../../interfaces/data/recipe';
+import { createRecipeURL } from '../../../components/utils/id';
+import { isTag, isTagModel } from '../../../interfaces/data/tag';
 
 /**
  * Get create new recipe
@@ -23,6 +28,23 @@ const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
         // body.img = compress(body.img);
 
         await pushNewItem(recipesCollection, body);
+
+        // now update the tags
+        for (const tag of Object.keys(body.tags)) {
+            const currTag = await getSingleItem(tagsCollection, createRecipeURL(tag));
+            if (currTag) {
+                if (isTagModel(currTag)) {
+                    // update the tag with new data
+                    await pushNewItem(tagsCollection, { ...currTag, recipes: [...currTag.recipes, body.url] } as DBItem);
+                } else {
+                    console.error(`Tag ${currTag} failed tag typecheck`)
+                }
+            } else {
+                // could not add recipe to tag
+                console.error(`${tag} ended up being null when queried`)
+            }
+        }
+
         return res.status(201).send("Recipe published to database");
     } else {
         // request data is bad

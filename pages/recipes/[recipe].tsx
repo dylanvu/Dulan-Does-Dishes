@@ -1,5 +1,5 @@
 // https://nextjs.org/learn/basics/dynamic-routes for dynamic routes and generating stuff
-import type { GetStaticProps, GetStaticPropsContext } from 'next';
+import type { GetStaticProps, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import RecipeBox from "../../components/recipe/RecipeBox";
 import { Recipe as RecipeInterface } from '../../interfaces/data/recipe';
@@ -42,7 +42,7 @@ export const getStaticPaths = async () => {
             }
         });
         return {
-            paths, fallback: false
+            paths, fallback: true // enable new paths to be rendered
         };
     } else {
         console.error(`Error in retrieving all recipe urls in getStaticPaths`);
@@ -51,7 +51,7 @@ export const getStaticPaths = async () => {
 }
 
 // https://stackoverflow.com/questions/65078245/how-to-make-next-js-getstaticprops-work-with-typescript
-export const getStaticProps: GetStaticProps = async (params: GetStaticPropsContext): Promise<{ props: RecipeInterface }> => {
+export const getStaticProps: GetStaticProps = async (params: GetStaticPropsContext): Promise<GetStaticPropsResult<RecipeInterface>> => {
     // get the data we need for a recipe
     console.log("Got params: ", params);
     const recipeParams = params.params;
@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps = async (params: GetStaticPropsConte
         console.log(`Running getStaticProps for ${recipe}`);
         const data = await getRecipeData(recipe as string);
         if (data) {
-            return { props: data };
+            return { props: data, revalidate: 2.628e+6 }; // revalidate every month at most
         } else {
             throw new Error("Could not get static props");
         }
