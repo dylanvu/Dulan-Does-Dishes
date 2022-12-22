@@ -141,14 +141,14 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
         const filteredSteps = stepsCopy.filter((step) => step.length > 0);
 
         const newRecipe: Recipe = {
-            name: recipeName,
+            name: recipeName.trim(),
             img: pictures[0],
             url: createRecipeURL(recipeName),
             ingredients: filteredIngredients,
             steps: filteredSteps,
-            rating: rating,
-            background: background,
-            postCooking: postCooking,
+            rating: rating.trim(),
+            background: background.trim(),
+            postCooking: postCooking.trim(),
             tags: selectedTagsMap,
             date: getTodayDate()
         }
@@ -247,7 +247,7 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
 
         if (isValidTag) {
             const newTagObj: TagInterface = {
-                name: newTag,
+                name: newTag.trim(),
                 color: newTagColor
             }
             if (jwt) {
@@ -359,7 +359,7 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
             <h1 className={titleStyles["generic-h1"]}>Dish Name</h1>
             <input value={recipeName} placeholder={`My amazing dish...`} className={inputStyles["generic-input"]} onChange={(e) => {
                 e.preventDefault();
-                changeRecipeName(e.target.value.trim());
+                changeRecipeName(e.target.value);
             }} />
             <RecipeForm title="Ingredients" numbered={false} changeListState={changeIngredientsList} initialItems={recipe && recipe.ingredients ? recipe.ingredients : undefined} />
             <RecipeForm title="Steps" numbered={true} changeListState={changeRecipeSteps} initialItems={recipe && recipe.steps ? recipe.steps : undefined} />
@@ -412,7 +412,7 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
             <input type="color" id="tag-color-input" className={styles["color-input"]} onChange={handleColorChange} />&nbsp;
             <input placeholder={`My new tag name...`} className={inputStyles["generic-input"]} value={newTag} onChange={(e) => {
                 e.preventDefault();
-                changeNewTag(e.target.value.toUpperCase().trim());
+                changeNewTag(e.target.value.toUpperCase());
             }} /> &nbsp;
             {newTag.length > 0 ? <button className={inputStyles["generic-btn"]} style={{ backgroundColor: newTagColor }} onClick={submitNewTag}>Create <b>{newTag}</b> tag</button> : null}
 

@@ -26,8 +26,36 @@
     transition: background-color 0.1s;
     padding: 0.5em;
     border-radius: 0.2em;
+    max-width: 90vw;
 }
 
 .generic-btn:hover {
     background-color: #629194;
+}
+
+/* <--------------- mobile, device specific ----------------> */
+
+@media screen and (max-height: 569px) and (min-height: 373px) {
+
+    /* For small, short mobile devices like iPhone 5 in portrait mode, most iPhones in landscape mode*/
+    .generic-input {
+        width: 80%;
+    }
+
+}
+
+@media screen and (max-width: 1024px) and (min-height: 389px) {
+
+    /* This is large mobile device portrait mode */
+    .generic-input {
+        width: 80%;
+    }
+
+
+}
+
+@media screen and (min-width: 767px) and (max-width: 1366px) and (min-height: 768px) and (max-height: 1025px) {
+
+    /* iPad and iPad pro */
+
 }
