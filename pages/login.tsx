@@ -47,8 +47,12 @@ const Login: NextPage = () => {
             }).catch((e) => {
                 console.error(e);
                 setLoginState("error");
-                setErrorMessage(JSON.stringify(e));
-            })
+                if (typeof e === "string") {
+                    setErrorMessage(e);
+                } else {
+                    setErrorMessage("An unknown error has occurred.");
+                }
+            });
         }
     }, [loginState])
 
@@ -74,17 +78,34 @@ const Login: NextPage = () => {
                     </InputGroup>
                 </div>
                 <div className={styles["login-button-container"]}>
-                    {loginState === "idle" ?
+                    {loginState === "idle" || loginState === "error" ?
                         <Button onClick={handleLogin} color="teal">
                             Yes. Grant me access.
                         </Button>
                         :
-                        null
+                        loginState === "logging-in" ?
+                            <CircularProgress isIndeterminate color="teal" />
+                            :
+                            null
                     }
-
                 </div>
-
-
+                <div className={styles["feedback"]}>
+                    {loginState === "success" ?
+                        <div className={styles["success"]}>
+                            Welcome back!
+                        </div>
+                        :
+                        loginState === "error" ?
+                            <div className={styles["error"]}>
+                                AN ERROR HAS OCCURRED:
+                                <br />
+                                <br />
+                                {errorMessage}
+                            </div>
+                            :
+                            null
+                    }
+                </div>
             </main>
         </div>
     )

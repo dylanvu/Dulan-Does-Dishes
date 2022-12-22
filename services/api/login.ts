@@ -18,11 +18,18 @@ export const login = async (password: string) => {
         if (res.ok) {
             return await res.json();
         } else {
-            console.error(res)
-            throw new Error(JSON.stringify(res.body));
+            const errorJSON = await res.json();
+            console.error(errorJSON)
+            throw new Error(JSON.stringify(errorJSON));
         }
     } catch (e) {
-        console.error("Could not create login because of " + JSON.stringify(e));
-        throw new Error(JSON.stringify(e));
+        if (e instanceof Error) {
+            const error = e.message;
+            console.error("Could not create login because of \"" + error + "\" error ");
+            throw error;
+        } else {
+            throw new Error(JSON.stringify(e));
+
+        }
     }
 }

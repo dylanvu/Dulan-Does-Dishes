@@ -13,3 +13,16 @@
 .login-button-container {
     margin-top: 5vh;
 }
+
+.success {
+    color: #27ae60
+}
+
+.error {
+    color: #c0392b
+}
+
+.feedback {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}

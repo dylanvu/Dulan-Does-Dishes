@@ -12,7 +12,7 @@ const handleLoginAttempt = async (req: NextApiRequest, res: NextApiResponse) => 
     // check if maximum login attempts have exceeded in database. This is to prevent brute force attacks
     const attempts = await getAllItems(invalidLoginCollection);
     if (attempts.length > maxLoginAttempts) {
-        // if login attempts have exceeded, I (the website owner) needs to manually clear the attempts
+        // if login attempts have exceeded, I (the website owner) need to manually clear the attempts
         res.status(401).json("Maximum login attempts have exceeded. Please contact website owner to clear invalid login attempts.");
         return;
     }
