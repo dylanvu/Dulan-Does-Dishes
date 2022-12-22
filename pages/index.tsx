@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const [dailyRecipes, setDailyRecipes] = useState<Recipe[]>([]);
 
 
-  const loadingCircle = <CircularProgress isIndeterminate color="teal" />
+  const loadingCircle = <CircularProgress isIndeterminate color="teal" size="xs" />
 
   useEffect(() => {
 
