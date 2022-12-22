@@ -26,7 +26,12 @@ const Login: NextPage = () => {
     const handleShow = () => setShowPass(!showPass);
 
     const handleLogin = () => {
-        setLoginState("logging-in");
+        if (password.length === 0) {
+            setLoginState("error");
+            setErrorMessage("No password was inputted in.");
+        } else {
+            setLoginState("logging-in");
+        }
     }
 
     useEffect(() => {

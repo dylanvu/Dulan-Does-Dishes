@@ -151,37 +151,37 @@
     /* For small, short mobile devices like iPhone 5 in portrait mode, iPhone 6 in landscape*/
 
     /* shorter orientations get an ugly version of the navbar */
-    .navbar.is-responsive a {
+    .navbar.is-responsive .link {
         display: flex;
         width: auto;
         transition: background-color 0.25s;
     }
 }
 
-@media screen and (max-width: 1024px) and (min-height: 570px) {
+@media screen and (max-width: 1024px) and (min-height: 389px) {
 
     /* This is large mobile device portrait mode */
 
     /* Tall enough orientations to accomodate for a "row by row" nav bar */
-    .navbar.is-responsive a {
+    .navbar.is-responsive .link {
         display: flex;
         width: 100%;
         transition: background-color 0.25s;
     }
 }
 
-@media screen and (max-width: 1024px) and (min-height: 570px) {
+@media screen and (max-width: 1024px) and (min-height: 389px) {
 
     /* This is large mobile device landscape mode and also iPhone X portrait */
 
     /* Tall enough orientations to accomodate for a "row by row" nav bar */
-    .navbar.is-responsive a {
+    .navbar.is-responsive .link {
         display: flex;
         width: 100%;
         transition: background-color 0.25s;
     }
 
-    .navbar a,
+    .navbar .link,
     .navbar .name {
         font-size: 1.35rem;
     }
