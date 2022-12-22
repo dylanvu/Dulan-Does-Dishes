@@ -14,3 +14,12 @@
 .main {
     min-height: 100vh;
 }
+
+.radio-group {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.tags {
+    margin-bottom: 2vh;
+}

@@ -70,7 +70,6 @@ const NewRecipe: NextPage = () => {
     const selectedTagSize = "md";
 
     useEffect(() => {
-        // TODO: query database for all available tags
         getAllTags().then((tags) => {
             if (tags) {
                 // convert each tag to a tag button
@@ -348,9 +347,6 @@ const NewRecipe: NextPage = () => {
                                     <Center key={tag.name + tag.color + "-new"}>
                                         <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
                                             let tagsCopy = tags;
-                                            const thisTag = {
-                                                name: tag.name, color: tag.color
-                                            }
                                             if (tag.size === unselectedTagSize) {
                                                 // make larger when clicked
                                                 tagsCopy[index] = { ...tagsCopy[index], size: selectedTagSize }

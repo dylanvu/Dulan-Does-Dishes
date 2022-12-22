@@ -17,7 +17,7 @@ const RecipeGrid = (props: RecipeGrid) => {
                 {props.recipes.map((recipe) => {
                     const randomTilt = tiltOptions[Math.floor(Math.random() * tiltOptions.length)];
                     return (
-                        <RecipeCard card={recipe} key={recipe.title} size={props.size} tilt={randomTilt} />
+                        <RecipeCard card={recipe} key={recipe.name} size={props.size} tilt={randomTilt} />
                     )
                 })}
             </div>

@@ -1,6 +1,6 @@
 import { TagModel, Tag } from "../../interfaces/data/tag";
 import { apiBase } from "../../components/constants";
-export const getAllTags = async (): Promise<Tag[] | null> => {
+export const getAllTags = async (): Promise<TagModel[] | null> => {
     // http request to api
     try {
         const res = await fetch(`${apiBase}/tags/all`);
