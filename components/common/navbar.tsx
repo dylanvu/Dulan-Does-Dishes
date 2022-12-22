@@ -17,34 +17,51 @@ const Navbar = () => {
         }
     }
 
+    function setResponsiveInactive(): void {
+        console.log("inactive")
+        setResponsive('inactive');
+    }
+
     const logoSize = "50px";
 
     return (
         <nav className={`${styles.navbar} ${styles[responsiveClass]}`} id="navbar">
-            <Link href="/">
-                <div className={`${styles["main-link"]} ${styles["link"]}`}>
+            <Link href="/" >
+                <div className={`${styles["main-link"]} ${styles["link"]}`} onClick={setResponsiveInactive}>
                     <Image src="/static/img/logo-small.png" width={logoSize} height={logoSize} alt="Dulan Does Dishes Logo" />
-                    <span>Dulan Does Dishes</span>
+                    <span>
+                        Dulan Does Dishes
+                    </span>
                 </div>
             </Link>
 
             {jwt && jwt.jwt ?
                 <Link href="/recipes/new">
-                    <div className={styles["link"]}>New</div>
+                    <div className={styles["link"]} onClick={setResponsiveInactive}>
+                        New
+                    </div>
                 </Link>
                 :
                 null
             }
-            <Link href="/about">
-                <div className={styles["link"]}>About</div>
+            <Link href="/about" >
+                <div className={styles["link"]} onClick={setResponsiveInactive}>
+                    About
+                </div>
             </Link>
 
             <Link href="/recipes">
-                <div className={styles["link"]}>Recipes</div>
+                <div className={styles["link"]} onClick={setResponsiveInactive}>
+                    Recipes
+                </div>
             </Link>
 
 
-            <a className={styles["link"]} target="_blank" rel="noopener noreferrer" href="https://vu-dylan.github.io/"><span>&quot;Cooking&apos;s like coding!&quot;</span></a>
+            <a className={styles["link"]} target="_blank" rel="noopener noreferrer" href="https://vu-dylan.github.io/" onClick={setResponsiveInactive}>
+                <span>
+                    &quot;Cooking&apos;s like coding!&quot;
+                </span>
+            </a>
             <div className={`${styles.hamburger} ${styles[responsiveClass]}`} id="hamburger" onClick={() => toggleBurger()}>
                 <span className={styles.line}></span>
                 <span className={styles.line}></span>
