@@ -4,7 +4,7 @@ import titleStyles from "../../styles/common/title.module.css";
 import RecipeForm from './RecipeForm';
 import { Button, useToast, UseToastOptions, CircularProgress, Progress } from '@chakra-ui/react';
 import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from "@chakra-ui/react";
-import { HStack, Center } from '@chakra-ui/react';
+import { Flex, Center } from '@chakra-ui/react';
 import { Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 import { getTodayDate, getTodayLocal } from '../utils/date';
 import { createRecipe } from '../../services/api/recipe';
@@ -371,39 +371,42 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
 
             {/* Recipe tags */}
             <h1 className={titleStyles["generic-h1"]}>Available Tags</h1>
-            <HStack align="center" justify="center" spacing={4}>
-                {
-                    tags.length > 0 ?
-                        tags.map((tag, index) => {
-                            return (
-                                <Center key={tag.name + tag.color + "-new"}>
-                                    <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
-                                        let tagsCopy = tags;
-                                        if (tag.size === unselectedTagSize) {
-                                            // make larger when clicked
-                                            tagsCopy[index] = { ...tagsCopy[index], size: selectedTagSize }
-                                        } else {
-                                            tagsCopy[index] = { ...tagsCopy[index], size: unselectedTagSize }
-                                        }
+            <div className={styles["tag-container"]}>
+                <Flex align="center" justify="center" gap={4} flexWrap="wrap">
+                    {
+                        tags.length > 0 ?
+                            tags.map((tag, index) => {
+                                return (
+                                    <Center key={tag.name + tag.color + "-new"}>
+                                        <Tag cursor="pointer" backgroundColor={tag.color} size={tag.size} onClick={() => {
+                                            let tagsCopy = tags;
+                                            if (tag.size === unselectedTagSize) {
+                                                // make larger when clicked
+                                                tagsCopy[index] = { ...tagsCopy[index], size: selectedTagSize }
+                                            } else {
+                                                tagsCopy[index] = { ...tagsCopy[index], size: unselectedTagSize }
+                                            }
 
-                                        // add this modified tag back into the array of buttons
-                                        changeTags([...tagsCopy]);
-                                    }}>
-                                        <TagLabel>
-                                            {tag.name}
-                                        </TagLabel>
-                                        {tag.size === unselectedTagSize ? null : <TagCloseButton />}
-                                    </Tag>
-                                </Center>
-                            )
-                        })
-                        :
-                        <div>
-                            No tags created yet!
-                        </div>
-                }
+                                            // add this modified tag back into the array of buttons
+                                            changeTags([...tagsCopy]);
+                                        }}>
+                                            <TagLabel>
+                                                {tag.name}
+                                            </TagLabel>
+                                            {tag.size === unselectedTagSize ? null : <TagCloseButton />}
+                                        </Tag>
+                                    </Center>
+                                )
+                            })
+                            :
+                            <div>
+                                No tags created yet!
+                            </div>
+                    }
 
-            </HStack>
+                </Flex>
+            </div>
+
 
             <h1 className={titleStyles["generic-h1"]}>Create/Edit Tag</h1>
             <input type="color" id="tag-color-input" className={styles["color-input"]} onChange={handleColorChange} />&nbsp;
