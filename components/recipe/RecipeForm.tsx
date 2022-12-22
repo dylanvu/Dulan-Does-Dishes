@@ -11,7 +11,7 @@ import titleStyles from "../../styles/common/title.module.css";
 
 resetServerContext();
 
-const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbered: boolean, changeListState: (list: string[]) => void }) => {
+const RecipeForm = ({ title, numbered, changeListState, initialItems }: { title: string, numbered: boolean, changeListState: (list: string[]) => void, initialItems?: string[] }) => {
 
     const grid = 8;
 
@@ -27,7 +27,11 @@ const RecipeForm = ({ title, numbered, changeListState }: { title: string, numbe
 
     useEffect(() => {
         // create an initial first item
-        addNewitem();
+        if (initialItems && initialItems.length > 0) {
+            setItems([...initialItems])
+        } else {
+            addNewitem();
+        }
     }, []);
 
     const reorder = (inputArg: string[], startIndex: number, endIndex: number) => {

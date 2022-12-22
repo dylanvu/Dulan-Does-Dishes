@@ -5,8 +5,18 @@ import RecipeBox from "../../components/recipe/RecipeBox";
 import { Recipe as RecipeInterface } from '../../interfaces/data/recipe';
 import { getAllRecipes, getRecipeData } from '../../services/api/recipe';
 import styles from "../../styles/recipe/RecipePage.module.css";
+import { jwtContext } from '../_app';
+import { Button } from '@chakra-ui/react';
+import { useContext, useState } from 'react';
+import RecipeEditor from '../../components/recipe/RecipeEditor';
 
 const Recipe = (props: RecipeInterface) => {
+    const jwt = useContext(jwtContext);
+    const [showEditor, switchShowEditor] = useState(false);
+    const editRecipe = () => {
+        switchShowEditor(!showEditor);
+    }
+
     return (
         <div className={styles["recipe-page"]}>
             <Head>
@@ -18,6 +28,17 @@ const Recipe = (props: RecipeInterface) => {
             </Head>
 
             <main id="main" className={styles["main"]}>
+                {jwt && jwt.jwt ?
+                    <Button colorScheme="teal" onClick={editRecipe}>
+                        Edit recipe!
+                    </Button>
+                    :
+                    null
+                }
+                {showEditor ?
+                    <RecipeEditor recipe={props} />
+                    :
+                    null}
                 <RecipeBox img={props.img} ingredients={props.ingredients} steps={props.steps} rating={props.rating} background={props.background} postCooking={props.postCooking} tags={props.tags} previewURL={false} url={props.url} date={props.date} name={props.name} />
             </main>
         </div>
