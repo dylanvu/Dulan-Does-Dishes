@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { pushNewItem } from '../../../backend/common';
 import { tagsCollection } from '../../../backend/constants';
 import { isTag } from '../../../interfaces/data/tag';
+import { verifyJWT } from '../../../backend/auth';
 
 /**
  * Get create new tag
@@ -14,6 +15,20 @@ const createTag = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "POST") {
         return res.status(400).json("Invalid Request Type, needs to be POST");
     }
+
+    // check if authenticated
+    const jwt = req.headers.authorization;
+    if (jwt) {
+        // verify JWT
+        const verified = verifyJWT(jwt);
+        if (!verified) {
+            return res.status(401).json("JWT is not valid");
+        }
+    } else {
+        console.error("Missing JWT");
+        return res.status(401).json("Missing JWT");
+    }
+
     // validate input
     console.log(req.body);
     const body = req.body;

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from '../../styles/common/navbar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { jwtContext } from '../../pages/_app';
 
 const Navbar = () => {
     const [responsiveClass, setResponsive] = useState("inactive");
+    const jwt = useContext(jwtContext);
+
     function toggleBurger() {
         // console.log("Burger clicked");
         if (responsiveClass === "inactive") {
@@ -25,7 +28,13 @@ const Navbar = () => {
                 </div>
             </Link>
 
-
+            {jwt && jwt.jwt ?
+                <Link href="/recipes/new">
+                    <div className={styles["link"]}>New</div>
+                </Link>
+                :
+                null
+            }
             <Link href="/about">
                 <div className={styles["link"]}>About</div>
             </Link>

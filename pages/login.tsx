@@ -1,20 +1,57 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { ChangeEventHandler, useEffect, useState, useContext } from 'react';
 import { login } from '../services/api/login';
 import styles from '../styles/Login/Login.module.css';
-
+import titleStyles from '../styles/common/title.module.css';
+import { InputGroup, InputRightElement, Button, Input } from '@chakra-ui/react';
+import { CircularProgress } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { jwtContext } from './_app';
 
 const Login: NextPage = () => {
+    const [password, setPassword] = useState<string>("");
+    const [showPass, setShowPass] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loginState, setLoginState] = useState<"logging-in" | "idle" | "error" | "success">("idle");
+
+    const router = useRouter();
+
+    const jwt = useContext(jwtContext);
+
+    const handlePasswordInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setPassword(e.target.value);
+    }
+
+    const handleShow = () => setShowPass(!showPass);
+
+    const handleLogin = () => {
+        setLoginState("logging-in");
+    }
+
     useEffect(() => {
-        login("mushroomparmesanrisotto2").then((res) => {
-            console.log(res);
-            // save in local storage
-            localStorage.setItem("jwt", res);
-        }).catch((e) => {
-            console.error(e);
-        })
-    }, [])
+        if (loginState === "logging-in") {
+            // make request
+            login(password).then((res) => {
+                // console.log(res);
+                // save in local storage
+                localStorage.setItem("jwt", res);
+                // change provider
+                if (jwt && jwt.setJWT) {
+                    jwt.setJWT(res);
+                } else {
+                    console.error("setJWT function context or jwt is null")
+                }
+                setLoginState("success");
+                router.push("/");
+            }).catch((e) => {
+                console.error(e);
+                setLoginState("error");
+                setErrorMessage(JSON.stringify(e));
+            })
+        }
+    }, [loginState])
+
     return (
         <div>
             <Head>
@@ -24,8 +61,30 @@ const Login: NextPage = () => {
                 <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon.ico"></link>
             </Head>
 
-            <main id="main">
-                Login Coming soon!
+            <main id="main" className={styles["main"]}>
+                <h1 className={titleStyles['generic-h1']}>Are you the dishwasher?</h1>
+                <div className={styles['password-input']}>
+                    <InputGroup pr='4.5rem'>
+                        <Input type={showPass ? 'text' : 'password'} placeholder="Enter password..." onChange={handlePasswordInput} />
+                        <InputRightElement width='4.5rem'>
+                            <Button onClick={handleShow} colorScheme="teal">
+                                {showPass ? "Hide" : "Show"}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </div>
+                <div className={styles["login-button-container"]}>
+                    {loginState === "idle" ?
+                        <Button onClick={handleLogin} color="teal">
+                            Yes. Grant me access.
+                        </Button>
+                        :
+                        null
+                    }
+
+                </div>
+
+
             </main>
         </div>
     )

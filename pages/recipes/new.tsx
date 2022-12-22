@@ -15,12 +15,14 @@ import { Recipe } from '../../interfaces/data/recipe';
 
 import TextAreaInput from '../../components/common/textAreaInput';
 
-import { useState, MouseEventHandler, useRef, useEffect, ChangeEventHandler } from 'react';
+import { useState, MouseEventHandler, useRef, useEffect, ChangeEventHandler, useContext } from 'react';
 import RecipeBox from '../../components/recipe/RecipeBox';
 
 import { Tag as TagInterface } from "../../interfaces/data/tag";
 import { tagButton } from '../../interfaces/components/tag';
 import { createRecipeURL } from '../../components/utils/id';
+
+import { jwtContext } from '../_app';
 
 const NewRecipe: NextPage = () => {
     const [recipeName, changeRecipeName] = useState("");
@@ -62,6 +64,8 @@ const NewRecipe: NextPage = () => {
     const cancelRef = useRef<any>();
 
     const toast = useToast();
+
+    const jwt = useContext(jwtContext);
 
     /**
      * Control the size of tags
@@ -123,17 +127,21 @@ const NewRecipe: NextPage = () => {
         }
         // verification has been done already
         changeUploadState("uploading");
+        if (jwt) {
+            createRecipe(newRecipe, jwt.jwt).then(() => {
+                changeUploadState("success");
+                console.log("success")
 
-        createRecipe(newRecipe).then(() => {
-            changeUploadState("success");
-            console.log("success")
+            }
+            ).catch(() => {
+                changeUploadState("api-error");
+                console.log("api error")
+            }
+            );
+        } else {
+            console.error("Clientside: missing jwt");
+        }
 
-        }
-        ).catch(() => {
-            changeUploadState("api-error");
-            console.log("api error")
-        }
-        );
     }
 
     const generateToast = (description: string, toastType: "warn" | "error"): boolean => {
@@ -215,15 +223,19 @@ const NewRecipe: NextPage = () => {
                 name: newTag,
                 color: newTagColor
             }
-            // TODO: upload to backend with no recipes
-            createTag(newTagObj).then(() => {
-                // TODO: update the tags state by calling the api again but also preserving the state of clicked tags already 
-                changeTags([...tags, { name: newTag, color: newTagColor, size: unselectedTagSize }]);
+            if (jwt) {
+                createTag(newTagObj, jwt.jwt).then(() => {
+                    // TODO: update the tags state by calling the api again but also preserving the state of clicked tags already 
+                    changeTags([...tags, { name: newTag, color: newTagColor, size: unselectedTagSize }]);
 
-                // reset the states to be blank
-                changeNewTag("");
-                changeNewTagColor("#FFFFFF");
-            })
+                    // reset the states to be blank
+                    changeNewTag("");
+                    changeNewTagColor("#FFFFFF");
+                })
+            } else {
+                console.error("Clientside error: missing JWT");
+            }
+
         } else {
             generateToast("One or more tag options were invalid. No tag was added.", "error");
         }

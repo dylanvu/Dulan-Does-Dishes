@@ -16,13 +16,18 @@ export const getAllRecipes = async (): Promise<Recipe[] | null> => {
     }
 }
 
-export const createRecipe = async (data: Recipe) => {
+export const createRecipe = async (data: Recipe, jwt: string | null) => {
+    if (!jwt) {
+        console.error("Missing JWT");
+        throw new Error("You are not logged in!");
+    }
     console.log("Creating new recipe", data);
     try {
         const res = await fetch(`${apiBase}/recipes/new`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': jwt
             },
             body: JSON.stringify(data)
         });

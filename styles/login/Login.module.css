@@ -1,0 +1,15 @@
+.password-input {
+    margin-top: 5vh;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main {
+    min-height: 100vh;
+    padding-top: 20vh;
+}
+
+.login-button-container {
+    margin-top: 5vh;
+}

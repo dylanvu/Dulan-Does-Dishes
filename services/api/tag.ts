@@ -17,7 +17,11 @@ export const getAllTags = async (): Promise<TagModel[] | null> => {
     }
 }
 
-export const createTag = async (data: Tag) => {
+export const createTag = async (data: Tag, jwt: string | null) => {
+    if (!jwt) {
+        console.error("Missing JWT");
+        throw new Error("You are not logged in!");
+    }
     console.log("Creating new tag", data);
     // convert the tag object into something the database needs
     const newTag: TagModel = { ...data, recipes: [] };
@@ -25,7 +29,8 @@ export const createTag = async (data: Tag) => {
         const res = await fetch(`${apiBase}/tags/new`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': jwt
             },
             body: JSON.stringify(newTag)
         });

@@ -27,7 +27,7 @@ const About: NextPage = () => {
                     <Image src="/static/img/logo.png" width="400vw" height="400vw" />
                 </div>
                 <div className={styles["bio"]}>
-                    Heyo, I&aposm Dylan. My &quotname&quot (Dulan) comes from a common typo I used to make on accident, and how I somehow always end up being the dishwasher when I cook with my friends. I drew this raccoon (yes, it&aposs a raccoon) while designing a shirt for UCSB AIChE.
+                    Heyo, I&apos;m Dylan. My &quot;name&quot; (Dulan) comes from a common typo I used to make on accident, and how I somehow always end up being the dishwasher when I cook with my friends. I drew this raccoon (yes, it&apos;s a raccoon) while designing a shirt for UCSB AIChE.
                     <br />
                     <br />
                     I started actually cooking after I started interning for a software and engineering company in December 2020 and wanted to make my own lunches. My approach to cooking is how I approach coding: I pick a central ingredient or theme, and make dishes entirely solely surrounding that ingredient or theme for about a month while trying to gradually ramp up the difficulty/complexity of the dish. I have an Instagram too: @DulanDoesDishes
@@ -47,7 +47,7 @@ const About: NextPage = () => {
                     Coding.
                     <br />
                     <br />
-                    This website was my way of learning Next.js and beefing (heh) up my UI skills. Kind of like how I approach learning how to cook. I think cooking&aposs a bit like coding actually. Maybe this is why cooking is a pretty stereotypical hobby for CS majors. I&aposm most proud especially with the recipe editor/creator. This website&aposs currently the culmination of my standard web development knowledge (excluding things I know about websockets) as of the end of December 2022 (so nearly 2 years or so since I learned React.js and started coding) and I think this sort of serves as a landmark/checkpoint in my current abilities. I developed most of this website over the winter break.
+                    This website was my way of learning Next.js and beefing (heh) up my UI skills. Kind of like how I approach learning how to cook. I think cooking&apos;s a bit like coding actually. Maybe this is why cooking is a pretty stereotypical hobby for CS majors. I&apos;m most proud especially with the recipe editor/creator. This website&apos;s currently the culmination of my standard web development knowledge (excluding things I know about websockets) as of the end of December 2022 (so nearly 2 years or so since I learned React.js and started coding) and I think this sort of serves as a landmark/checkpoint in my current abilities. I developed most of this website over the winter break.
                     <br />
                     <br />
                     Here are the things I learned/took away/advanced in from this project:
