@@ -10,7 +10,9 @@ import titleStyles from "../styles/common/title.module.css";
 const About: NextPage = () => {
     const takeAways: string[] = ["Dynamic Routes using Next.js and server-side rendering", "First legit full-stack project I built by myself from scratch, also with TypeScript and Next.js", "Scrollable Observers", "A bit more difficult CSS styling (those tiltled pictures tilted me)", "Using more Chakra UI components", "Drag and drop UI and creating a field editor from scratch", "Working with a filtering and tagging system"];
 
-    const techstack: string[] = ["Next.js", "TypeScript", "Firestore", "Chakra UI"]
+    const techstack: string[] = ["Next.js", "TypeScript", "Firestore", "Chakra UI", "JSON Web Tokens"]
+
+    const improve: string[] = ["Plan out my inheritance, interfaces, and classes better and see how they would integrate between frontend and backend", "Try to rip out more logic from the frontend components", "Figure out a better way to organize common functions shared between frontend and backend"];
 
     return (
         <div className={styles["about"]}>
@@ -39,7 +41,7 @@ const About: NextPage = () => {
                 <br />
                 <br />
 
-                <h1 className={titleStyles["generic-h1"]}>For the Coding Nerds Only</h1>
+                <h1 className={titleStyles["generic-h1"]} id="github">For the Coding Nerds Only</h1>
                 <div className={styles["bio"]}>
                     You know what I like as much as cooking?
                     <br />
@@ -47,7 +49,7 @@ const About: NextPage = () => {
                     Coding.
                     <br />
                     <br />
-                    This website was my way of learning Next.js and beefing (heh) up my UI skills. Kind of like how I approach learning how to cook. I think cooking&apos;s a bit like coding actually. Maybe this is why cooking is a pretty stereotypical hobby for CS majors. I&apos;m most proud especially with the recipe editor/creator. This website&apos;s currently the culmination of my standard web development knowledge (excluding things I know about websockets) as of the end of December 2022 (so nearly 2 years or so since I learned React.js and started coding) and I think this sort of serves as a landmark/checkpoint in my current abilities. I developed most of this website over the winter break.
+                    This website was my way of learning Next.js and beefing (heh) up my UI skills. Kind of like how I approach learning how to cook. I think cooking&apos;s a bit like coding actually. Maybe this is why cooking is a pretty stereotypical hobby for CS majors. I&apos;m most proud especially with the recipe editor/creator. This website&apos;s currently the culmination of my standard web development knowledge (excluding things I know about websockets) as of the end of December 2022 (so nearly 2 years or so since I learned React.js and started coding) and I think this sort of serves as a landmark/checkpoint in my current abilities. I developed most of this website over the 2022 winter break.
                     <br />
                     <br />
                     Here are the things I learned/took away/advanced in from this project:
@@ -76,6 +78,22 @@ const About: NextPage = () => {
                             )
                         })}
                     </ul>
+                    <br />
+                    <br />
+                    Things I'd Improve
+                    <br />
+                    <br />
+                    <ul>
+                        {improve.map((lesson, index) => {
+                            return (
+                                <li key={"takeaway-" + index}>
+                                    {lesson}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <br />
+                    <br />
                 </div>
                 <br />
                 <br />
