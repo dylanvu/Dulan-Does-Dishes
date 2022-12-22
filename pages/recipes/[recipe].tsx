@@ -30,7 +30,7 @@ const Recipe = (props: RecipeInterface) => {
             <main id="main" className={styles["main"]}>
                 {jwt && jwt.jwt ?
                     <Button colorScheme="teal" onClick={editRecipe}>
-                        Edit recipe!
+                        {showEditor ? "Edit Recipe!" : "Remove Editor!"}
                     </Button>
                     :
                     null

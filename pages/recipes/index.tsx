@@ -12,7 +12,7 @@ import { getAllTags } from '../../services/api/tag';
 
 import { checkName } from '../../components/utils/name';
 
-import { HStack, Center } from '@chakra-ui/react';
+import { Flex, Center } from '@chakra-ui/react';
 import { Tag, TagLabel, TagCloseButton, RadioGroup, Radio } from '@chakra-ui/react'
 import { Input, Accordion, AccordionItem, AccordionIcon, AccordionButton, Box, AccordionPanel } from '@chakra-ui/react';
 
@@ -200,18 +200,19 @@ const Recipes: NextPage = () => {
                   <div className={styles["filter-options"]}>
                     <div className={styles["radio-group"]}>
                       <RadioGroup defaultValue='all' onChange={handleRadioChange}>
-                        <HStack spacing={5} direction='row' align="center" justify="center">
+                        <Flex align="center" justify="center" gap={4} flexWrap="wrap">
                           <Radio colorScheme='teal' value='all'>
                             INCLUDES ALL
                           </Radio>
                           <Radio colorScheme='teal' value='one'>
                             INCLUDES ONE
                           </Radio>
-                        </HStack>
+                        </Flex>
                       </RadioGroup>
                     </div>
                     <div className={styles["tags"]}>
-                      <HStack align="center" justify="center" spacing={4}>
+                      <Flex align="center" justify="center" gap={4} flexWrap="wrap">
+
                         {allTags.length > 0 ?
                           allTags.map((tag, index) => {
                             return (
@@ -236,9 +237,11 @@ const Recipes: NextPage = () => {
                             )
                           })
                           :
-                          <CircularProgress isIndeterminate color="teal" />
+                          <div className={styles["progress-container"]}>
+                            <CircularProgress isIndeterminate color="teal" />
+                          </div>
                         }
-                      </HStack>
+                      </Flex>
                     </div>
                   </div>
                 </AccordionPanel >
@@ -248,7 +251,9 @@ const Recipes: NextPage = () => {
 
         </div>
         {pageState === "loading" ?
-          <CircularProgress isIndeterminate color="teal" size="md" />
+          <div className={styles["progress-container"]}>
+            <CircularProgress isIndeterminate color="teal" size="xs" />
+          </div>
           :
 
           filteredRecipes.length > 0 ?
