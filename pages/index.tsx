@@ -25,9 +25,9 @@ const Home: NextPage = () => {
     getLatestRecipes(2).then((recipes) => {
       if (recipes) {
         // convert the recepies to cards
-        const recepieCards = recipes;
-        if (recepieCards.length >= 2) {
-          setLatestRecipes(recepieCards);
+        const recipeCards = recipes;
+        if (recipeCards.length >= 2) {
+          setLatestRecipes(recipeCards);
         } else {
           console.error("Less than 2 latest recipes found");
         }
@@ -38,9 +38,10 @@ const Home: NextPage = () => {
     getDailyRecipes().then((recipes) => {
       if (recipes) {
         // convert the recepies to cards
-        const recepieCards = recipes;
-        if (recepieCards.length >= 2) {
-          setDailyRecipes(recepieCards);
+        const recipeCards = recipes;
+        if (recipeCards.length >= 2) {
+          console.log(recipeCards)
+          setDailyRecipes(recipeCards);
         } else {
           console.error("Less than 2 daily recipes found");
         }
@@ -66,10 +67,10 @@ const Home: NextPage = () => {
         {latestRecipes.length >= 2 ?
           <div className={styles["tilted-wrapper"]}>
             <div className={styles["left-new"]}>
-              <RecipeCard key="test" card={latestRecipes[0]} size="large" tilt="right" uniqueKey='-latest-1' />
+              <RecipeCard key="test" card={latestRecipes[1]} size="large" tilt="right" uniqueKey='-latest-1' />
             </div>
             <div className={styles["right-new"]}>
-              <RecipeCard key="test2" card={latestRecipes[1]} size="large" tilt="left" uniqueKey='-latest-2' />
+              <RecipeCard key="test2" card={latestRecipes[0]} size="large" tilt="left" uniqueKey='-latest-2' />
             </div>
           </div>
           :

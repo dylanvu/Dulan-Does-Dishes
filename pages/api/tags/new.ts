@@ -12,7 +12,7 @@ import { isTag } from '../../../interfaces/data/tag';
  */
 const createTag = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "POST") {
-        return res.status(400).send("Invalid Request Type, needs to be POST");
+        return res.status(400).json("Invalid Request Type, needs to be POST");
     }
     // validate input
     console.log(req.body);
@@ -20,12 +20,12 @@ const createTag = async (req: NextApiRequest, res: NextApiResponse) => {
     if (isTag(body)) {
         console.log("Got new tag");
         await pushNewItem(tagsCollection, body);
-        return res.status(201).send("Tag published to database");
+        return res.status(201).json("Tag published to database");
     } else {
         // request data is bad
         console.error("The following thing did not pass the tag typecheck");
         console.error(JSON.stringify(body));
-        return res.status(400).send("Item sent is not a tag");
+        return res.status(400).json("Item sent is not a tag");
     }
 }
 

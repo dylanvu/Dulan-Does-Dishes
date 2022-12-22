@@ -79,7 +79,11 @@ const RecipeCard = ({ card, size, tilt, visible, titleInvisible, uniqueKey }: { 
                 null
             }
             <div className={`${styles["recipe-card-img-container"]} ${styles[`recipe-card-img-${size}`]}`} >
-                {card && card.img && card.img.length > 0 ? <Image src={card.img} alt={card.name} layout="fill" /> : null}
+                {card && card.img && card.img.length > 0 ?
+                    <Image src={card.img} alt={card.name} layout="fill" />
+                    :
+                    null
+                }
             </div>
 
             {!titleInvisible && !clicked && card.name.length > 0 ?

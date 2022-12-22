@@ -85,6 +85,22 @@ export const getLatestItem = async (collection: string, count: number): Promise<
     return items;
 }
 
+/**
+ * Clear out entire collection. **SHOULD BE USED ON SMALL COLLECTIONS ONLY**
+ * @param collection collection to delete all documents of
+ */
+export const clearCollection = async (collection: string) => {
+    const collectionRef = firestore.collection(collection);
+    const snap = await collectionRef.get();
+    const batch = firestore.batch();
+    if (!snap.empty) {
+        snap.docs.forEach((doc) => {
+            batch.delete(doc.ref)
+        });
+        await batch.commit();
+    }
+}
+
 export const getRandomByDayItems = async (collection: string, count: number): Promise<DBItem[] | null> => {
     // get all items
     const allItems = await getAllItems(collection);

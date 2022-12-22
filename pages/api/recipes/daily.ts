@@ -2,7 +2,7 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recipesCollection } from '../../../backend/constants';
-import { getLatestItem } from '../../../backend/common';
+import { getRandomByDayItems } from '../../../backend/common';
 
 /**
  * Gets the daily dishes
@@ -13,16 +13,18 @@ import { getLatestItem } from '../../../backend/common';
 const getDailyRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") {
         console.error(`Client sent a ${req.method} insead of a GET for the latest dishes`);
-        res.status(400).send("Invalid Request Type, needs to be GET");
+        res.status(400).json("Invalid Request Type, needs to be GET");
         return;
     }
 
     // hardcode 2 for now
-    const query = await getLatestItem(recipesCollection, 2);
+    const query = await getRandomByDayItems(recipesCollection, 2);
     if (query) {
+        console.log("got random")
         return res.status(200).json(query);
     } else {
-        return res.status(502).send(`Could not obtain latest recipes. Contact the owner of the website.`);
+        console.log("Could not get random")
+        return res.status(502).json(`Could not obtain latest recipes. Contact the owner of the website.`);
     }
 
 }

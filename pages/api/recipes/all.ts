@@ -12,7 +12,7 @@ import { isRecipe, Recipe } from '../../../interfaces/data/recipe';
 const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") {
         console.log(`Client sent a ${req.method} insead of a GET for all recipes`);
-        return res.status(400).send("Invalid Request Type, needs to be GET");
+        return res.status(400).json("Invalid Request Type, needs to be GET");
     }
     console.log("Getting all recipes");
     const queryRes = await getAllItems(recipesCollection);
@@ -33,7 +33,7 @@ const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).json(recipeArray);
     } else {
         console.error("All recipes returned null");
-        return res.status(502).send("Error");
+        return res.status(502).json("Error");
     }
 }
 

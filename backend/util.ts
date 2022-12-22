@@ -38,14 +38,23 @@ function mulberry32(a: number) {
 }
 
 /**
+ * Generate a random integer between low and high (both inclusive) using mulberry32 seeded rng
+ * @param low 
+ * @param high 
+ */
+function randomBetween(rand: () => number, low: number, high: number) {
+    return Math.floor(rand() * (high - low + 1) + low);
+}
+
+/**
  * Return an array of uniquely randomly generated numbers between 0 and modulo based on today's date
  * @param count number of values
- * @param max the maximum
+ * @param max the maximum (not inclusive)
  * @returns 
  */
 export function generateRandomNumbersToday(count: number, max: number): number[] {
-
-    const seedString = new Date().toISOString();
+    const today = new Date();
+    const seedString = today.getFullYear.toString() + today.getMonth.toString() + today.getDay.toString();
 
     const checkThreshold = 1000;
 
@@ -61,17 +70,18 @@ export function generateRandomNumbersToday(count: number, max: number): number[]
     let randomNumSet: Set<number> = new Set();
     for (let i = 0; i < count; i++) {
         let iteration = 0;
-        let randNum = rand() % max;
+        let randNum = randomBetween(rand, 0, max - 1);
         while (randomNumSet.has(randNum)) {
             if (iteration > checkThreshold) {
                 console.log("Threshold exceeded")
                 break;
             }
             iteration++;
-            randNum = rand();
+            randNum = randomBetween(rand, 0, max - 1);
         }
         randomNumSet.add(randNum);
     }
     const randNums = Array.from(randomNumSet);
+    console.log(randNums);
     return randNums;
 }

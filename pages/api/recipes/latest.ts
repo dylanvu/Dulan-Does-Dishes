@@ -12,7 +12,7 @@ import { getLatestItem } from '../../../backend/common';
 const getLatestRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") {
         console.error(`Client sent a ${req.method} insead of a GET for the latest dishes`);
-        res.status(400).send("Invalid Request Type, needs to be GET");
+        res.status(400).json("Invalid Request Type, needs to be GET");
         return;
     }
     // get parameter from request
@@ -25,19 +25,19 @@ const getLatestRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
             if (query) {
                 return res.status(200).json(query);
             } else {
-                return res.status(502).send(`Could not obtain latest recipes. Contact the owner of the website.`);
+                return res.status(502).json(`Could not obtain latest recipes. Contact the owner of the website.`);
             }
         } else {
             // not a number
             console.error(`${params.count} is not a number`);
-            return res.status(400).send(`Incorrect parameter to api route. ${params.count} is not a number.`);
+            return res.status(400).json(`Incorrect parameter to api route. ${params.count} is not a number.`);
         }
 
     } else {
         // request data is bad
         console.error(`Params did not have count in it`);
         console.log(params);
-        return res.status(400).send("Incorrect parameter to api route. Missing \"count\".");
+        return res.status(400).json("Incorrect parameter to api route. Missing \"count\".");
     }
 }
 

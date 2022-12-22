@@ -7,7 +7,7 @@ import { isRecipe } from '../../../interfaces/data/recipe';
 const getSingleDish = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") {
         console.log(`Client sent a ${req.method} insead of a GET for single dish`);
-        res.status(400).send("Invalid Request Type, needs to be GET");
+        res.status(400).json("Invalid Request Type, needs to be GET");
         return;
     }
     // get parameter from request
@@ -24,17 +24,17 @@ const getSingleDish = async (req: NextApiRequest, res: NextApiResponse) => {
             } else {
                 // something wrong with backend data
                 console.error(`Found ${name} inside of ${recipesCollection} but it did not pass the recipe typeguard`);
-                res.status(502).send(`Found item with same id but it is not a recipe. Contact the owner of the website.`);
+                res.status(502).json(`Found item with same id but it is not a recipe. Contact the owner of the website.`);
             }
         } else {
             // could not find item
-            return res.status(404).send(`Could not find recipe named ${name}`);
+            return res.status(404).json(`Could not find recipe named ${name}`);
         }
     } else {
         // request data is bad
         console.error(`Params did not have name in it`);
         console.log(params);
-        return res.status(400).send("Incorrect parameter to api route. Missing \"name\".");
+        return res.status(400).json("Incorrect parameter to api route. Missing \"name\".");
     }
 }
 
