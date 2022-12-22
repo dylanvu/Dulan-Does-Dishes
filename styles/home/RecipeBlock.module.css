@@ -79,3 +79,61 @@
     margin-top: 0.2em;
     margin-bottom: 0.2em;
 }
+
+/* <--------------- mobile, device specific ----------------> */
+
+
+@media screen and (max-height: 569px) and (min-height: 373px) {
+
+    /* For small, short mobile devices like iPhone 5 in portrait mode, most iPhones in landscape mode*/
+    .see-recipe-container {
+        padding: 0.8em 0.8em;
+        text-align: center;
+        z-index: 2;
+    }
+
+
+    .recipe-block-text-container {
+        /* margin-left: auto;
+        margin-right: auto; */
+        width: 85%;
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .recipe-block {
+        margin-top: 2rem;
+    }
+
+    .block-card-container {
+        align-self: center;
+        justify-self: center;
+    }
+
+}
+
+@media screen and (max-width: 1024px) and (min-height: 389px) {
+
+    /* This is large mobile device portrait mode */
+    .see-recipe-container {
+        padding: 0.5em 0.8em;
+        width: 25vw;
+        z-index: 2;
+        bottom: auto;
+    }
+
+    .recipe-block-text-container {
+        margin-left: auto;
+        margin-right: auto;
+        width: 93%;
+        margin-top: 0;
+        margin-bottom: 0.2em;
+    }
+
+    .recipe-block {
+        display: block;
+        padding-bottom: 2.5em;
+    }
+}
