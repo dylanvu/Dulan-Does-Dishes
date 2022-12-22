@@ -105,13 +105,13 @@ const RecipeForm = ({ title, numbered, changeListState, initialItems }: { title:
             <DragDropContext onDragEnd={dragEnd}>
                 <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
-                        <div {...provided.droppableProps} style={getListStyle(snapshot.isDraggingOver)} ref={provided.innerRef}>
+                        <div {...provided.droppableProps} style={getListStyle(snapshot.isDraggingOver)} ref={provided.innerRef} className={styles["steps-form-container"]}>
                             {items.map((item, index: number) => {
                                 // Array of refs assignment: https://mattclaffey.medium.com/adding-react-refs-to-an-array-of-items-96e9a12ab40c
                                 const currInputRef = (element: any) => (inputRefs.current?.push(element));
                                 // disable strict-mode to make draggable work https://stackoverflow.com/questions/71819073/react-beautiful-dnd-unable-to-find-draggable-with-id-x
                                 return (
-                                    <div key={`recipe-${index}-recipe-form`}>
+                                    <div key={`recipe-${index}-recipe-form`} className={styles["single-item"]}>
                                         <Draggable key={`${title}-item-${index}-recipe-form`} draggableId={`${title}-item-${index}`} index={index}>
                                             {(provided, snapshot) => (
                                                 <div style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
@@ -122,13 +122,16 @@ const RecipeForm = ({ title, numbered, changeListState, initialItems }: { title:
                                                     {/* Add one to start at item 1 */}
                                                     {numbered ? <label className={styles["recipe-item-number"]}>{index + 1}. </label> : null}
                                                     <textarea name={`item-${index}`} value={items[index]} placeholder={`${singularTitle} ${index + 1}...`} onChange={(e) => { handleInputChange(e.target.value, index) }} ref={currInputRef} className={inputStyles["generic-textarea"]}></textarea>
-                                                    <span>&nbsp;&nbsp;</span>
-                                                    <Image className={styles["drag-icon"]} src={draggableIconSrc} alt={"Draggable Icon"} layout="fixed" width={iconSize} height={iconSize} />
-                                                    <span>&nbsp;&nbsp;</span>
-                                                    <Image className={styles["trash-icon"]} src={trashCanIconSrc} alt={"Trash Can Icon"} layout="fixed" width={iconSize} height={iconSize} onClick={() => {
-                                                        console.log("Deleting step" + index);
-                                                        deleteItem(index);
-                                                    }} />
+                                                    <span className={styles["form-icons-container"]}>
+                                                        <span>&nbsp;&nbsp;</span>
+                                                        <Image className={styles["drag-icon"]} src={draggableIconSrc} alt={"Draggable Icon"} layout="fixed" width={iconSize} height={iconSize} />
+                                                        <span>&nbsp;&nbsp;</span>
+                                                        <Image className={styles["trash-icon"]} src={trashCanIconSrc} alt={"Trash Can Icon"} layout="fixed" width={iconSize} height={iconSize} onClick={() => {
+                                                            console.log("Deleting step" + index);
+                                                            deleteItem(index);
+                                                        }} />
+                                                    </span>
+
                                                 </div>
                                             )}
                                         </Draggable>

@@ -39,3 +39,19 @@
     padding-left: 0.6em;
     cursor: pointer;
 }
+
+.steps-form-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: auto;
+    flex-direction: column;
+}
+
+.single-item {
+    display: flex;
+}
+
+.form-icons-container {
+    position: relative;
+}
