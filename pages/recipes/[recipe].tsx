@@ -10,10 +10,12 @@ import { useContext, useState } from 'react';
 import RecipeEditor from '../../components/recipe/RecipeEditor';
 import { getAllItems, getSingleItem } from '../../backend/common';
 import { recipesCollection } from '../../backend/constants';
+import titleStyles from "../../styles/common/title.module.css"
 
 const Recipe = (props: RecipeInterface) => {
     const jwt = useContext(jwtContext);
     const [showEditor, switchShowEditor] = useState(false);
+
     const editRecipe = () => {
         switchShowEditor(!showEditor);
     }
@@ -31,15 +33,19 @@ const Recipe = (props: RecipeInterface) => {
             <main id="main" className={styles["main"]}>
                 {jwt && jwt.jwt ?
                     <Button colorScheme="teal" onClick={editRecipe}>
-                        {showEditor ? "Edit Recipe!" : "Remove Editor!"}
+                        {showEditor ? "Remove Editor!" : "Edit Recipe!"}
                     </Button>
                     :
                     null
                 }
                 {showEditor ?
-                    <RecipeEditor recipe={props} />
+                    <div>
+                        <RecipeEditor recipe={props} />
+                        <h1 className={titleStyles["generic-title"]}>Original Recipe:</h1>
+                    </div>
                     :
-                    null}
+                    null
+                }
                 <RecipeBox img={props.img} ingredients={props.ingredients} steps={props.steps} rating={props.rating} background={props.background} postCooking={props.postCooking} tags={props.tags} previewURL={false} url={props.url} date={props.date} name={props.name} />
             </main>
         </div>
