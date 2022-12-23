@@ -26,7 +26,7 @@ const About: NextPage = () => {
             <main id="main" className={styles["about-main"]}>
                 <h1 className={titleStyles["generic-h1"]}>About the Dishwasher</h1>
                 <div className={styles["about-picture-container"]}>
-                    <Image src="/static/img/logo.png" width="400vw" height="400vw" />
+                    <Image src="/static/img/logo.png" width="400vw" height="400vw" alt="Dulan Does Dishes Logo" />
                 </div>
                 <div className={styles["bio"]}>
                     Heyo, I&apos;m Dylan. My &quot;name&quot; (Dulan) comes from a common typo I used to make on accident, and how I somehow always end up being the dishwasher when I cook with my friends. I drew this raccoon (yes, it&apos;s a raccoon) while designing a shirt for UCSB AIChE.
