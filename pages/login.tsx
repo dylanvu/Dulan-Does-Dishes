@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { ChangeEventHandler, useEffect, useState, useContext } from 'react';
 import { login } from '../services/api/login';
-import styles from '../styles/Login/Login.module.css';
+import styles from '../styles/login/Login.module.css';
 import titleStyles from '../styles/common/title.module.css';
 import { InputGroup, InputRightElement, Button, Input } from '@chakra-ui/react';
 import { CircularProgress } from '@chakra-ui/react';
