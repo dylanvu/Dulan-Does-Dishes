@@ -419,7 +419,7 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
 
 
             {/* main image upload for the dish */}
-            <h1 className={titleStyles["generic-h1"]}>Upload Photo</h1>
+            <h1 className={titleStyles["generic-h1"]}>Upload Photo (square, 500x500)</h1>
             <label htmlFor="img" />
             <input type="file" id="img" name="img" accept="image/*" multiple onChange={(e) => {
                 previewImage(e);
