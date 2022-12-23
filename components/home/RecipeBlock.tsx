@@ -1,7 +1,7 @@
 
 import styles from "../../styles/home/RecipeBlock.module.css";
 import RecipeCard from "../common/RecipeCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Progress } from "@chakra-ui/react";
 import { Recipe } from "../../interfaces/data/recipe";
@@ -18,11 +18,34 @@ const RecipeBlock = ({ imgLeft, card, tilt, text }: { imgLeft?: boolean, card: R
         }
     }
 
+    const [blockText, setBlockText] = useState(card[text]);
+
+    useEffect(() => {
+        const cardText = card[text];
+        if (!cardText || cardText.length === 0) {
+            // try to get something else
+            for (const key of possibleKeys) {
+                const keyText = card[key];
+                if (keyText && keyText.length > 0) {
+                    setBlockText(keyText);
+                    return;
+                }
+            }
+            // make a placeholder text
+            const placeholder = `Introducing, ${card.name}! Is it a great dish? A bad dish? You'll have to click to find out!`;
+            setBlockText(placeholder);
+        } else {
+            setBlockText(cardText);
+        }
+    }, []);
+
+    const possibleKeys: Array<"rating" | "background" | "postCooking"> = ["rating", "background", "postCooking"]
+
     return (
         <div className={`${styles["recipe-block"]} ${tilt ? styles[`tilt-${tilt}`] : null}`}>
             <div className={styles["recipe-block-text-container"]}>
                 <div className={styles["recipe-block-text"]}>
-                    {card[text]}
+                    {blockText}
                 </div>
                 <div className={styles["see-recipe-container"]} onClick={handleClick}>
                     <div>
