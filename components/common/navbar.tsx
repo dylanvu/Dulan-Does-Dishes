@@ -18,7 +18,6 @@ const Navbar = () => {
     }
 
     function setResponsiveInactive(): void {
-        console.log("inactive")
         setResponsive('inactive');
     }
 
