@@ -431,7 +431,9 @@ const RecipeEditor = ({ recipe }: { recipe: Recipe | undefined }) => {
 
             {/* submit/finalize button */}
             <div className={styles["finalize-wrapper"]}>
-                {uploadState === "idle" ? <button onClick={handleRecipeSubmit} className={inputStyles["generic-btn"]}>Done!</button> : null}
+                <button onClick={handleRecipeSubmit} className={inputStyles["generic-btn"]}>
+                    Done!
+                </button>
                 {uploadState === "uploading" ? <CircularProgress isIndeterminate color="#79B4B7" /> : null}
                 {uploadState === "api-error" ? <Progress value={100} hasStripe colorScheme="red" /> : null}
                 {uploadState === "success" ? <Progress value={100} colorScheme="green" /> : null}

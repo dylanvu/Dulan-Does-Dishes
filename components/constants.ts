@@ -6,9 +6,7 @@ export const draggableIconSrc = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA
  * Returns the host name
  * @example http://localhost:3000/
  */
-export const hostName = process.env.NODE_ENV === "development" ? "http://localhost:3000/" : "";
-
-// export const hostName = window.location.protocol + "//" + window.location.hostname + "/";
+export const hostName = process.env.NODE_ENV === "development" ? "http://localhost:3000" : ""; // when deployed, Next automatically adds in the hostname?
 
 /**
  * Returns the host name plus +"/api"
