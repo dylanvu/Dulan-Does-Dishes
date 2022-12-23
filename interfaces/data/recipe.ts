@@ -70,3 +70,17 @@ export function isRecipe(arg: any): arg is Recipe {
 
     return true;
 }
+
+export function isRecipeArray(arg: any): arg is Recipe[] {
+    if (!Array.isArray(arg)) {
+        return false;
+    }
+
+    for (const item of arg) {
+        if (!isRecipe(item)) {
+            return false;
+        }
+    }
+
+    return true;
+}

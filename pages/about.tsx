@@ -80,7 +80,7 @@ const About: NextPage = () => {
                     </ul>
                     <br />
                     <br />
-                    Things I'd Improve
+                    Things I&apos;d Improve
                     <br />
                     <br />
                     <ul>
