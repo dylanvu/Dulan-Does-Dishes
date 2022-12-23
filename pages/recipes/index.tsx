@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 
 import styles from '../../styles/recipe/index.module.css';
@@ -7,7 +7,6 @@ import titleStyles from "../../styles/common/title.module.css";
 import { useEffect, useState, ChangeEventHandler } from 'react';
 import { RecipeCard as RecipeCardInterface } from '../../interfaces/components/recipe';
 import { CircularProgress } from '@chakra-ui/react';
-import { getAllRecipes } from '../../services/api/recipe';
 import { getAllTags } from '../../services/api/tag';
 
 import { checkName } from '../../components/utils/name';
@@ -16,10 +15,19 @@ import { Flex, Center } from '@chakra-ui/react';
 import { Tag, TagLabel, TagCloseButton, RadioGroup, Radio } from '@chakra-ui/react'
 import { Input, Accordion, AccordionItem, AccordionIcon, AccordionButton, Box, AccordionPanel } from '@chakra-ui/react';
 
-import { Recipe } from '../../interfaces/data/recipe';
+import { isRecipeArray, Recipe } from '../../interfaces/data/recipe';
 import { tagButton } from '../../interfaces/components/tag';
+import { getAllItems } from '../../backend/common';
+import { recipesCollection, tagsCollection } from '../../backend/constants';
+import { isTagModelArray, TagModel } from '../../interfaces/data/tag';
 
-const Recipes: NextPage = () => {
+/**
+* Control the size of tags
+*/
+const unselectedTagSize = "sm";
+const selectedTagSize = "md";
+
+const RecipesPage = (props: { recipes: Recipe[], tags: tagButton[] }) => {
 
   /**
    * The value in the search field
@@ -28,19 +36,19 @@ const Recipes: NextPage = () => {
 
   const [searchFieldStyle, changeSearchFieldStyle] = useState<"outline" | "filled">("outline");
 
-  const [pageState, changePageState] = useState<"idle" | "loading" | "error">("idle");
+  // const [pageState, changePageState] = useState<"idle" | "loading" | "error">("idle");
 
   /**
    * All recipes in the database, rendered as cards
    */
-  const [recipes, changeRecipes] = useState<Recipe[]>([]);
+  const [recipes, _] = useState<Recipe[]>(props.recipes);
 
   const [filteredRecipes, changeFilteredRecipes] = useState<RecipeCardInterface[]>([]);
 
   /**
    * All available tags to be selected for filtering
    */
-  const [allTags, changeAllTags] = useState<tagButton[]>([]);
+  const [allTags, changeAllTags] = useState<tagButton[]>(props.tags);
 
   /**
    * For selecting between all or one tag matching
@@ -56,12 +64,6 @@ const Recipes: NextPage = () => {
  */
   const [selectedTags, setSelectedTags] = useState<tagButton[]>([]);
 
-  /**
- * Control the size of tags
- */
-  const unselectedTagSize = "sm";
-  const selectedTagSize = "md";
-
   useEffect(() => {
     // change search bar style if it is filled or not
     changeSearchFieldStyle(searchField.length > 0 ? "filled" : "outline")
@@ -72,35 +74,12 @@ const Recipes: NextPage = () => {
   }
 
   useEffect(() => {
-    changePageState("loading");
-    getAllRecipes().then((res) => {
-      if (res) {
-        const recipeCardArray: RecipeCardInterface[] = res.map((recipe) => {
-          return { ...recipe, title: recipe.name }
-        })
-        changeRecipes(res);
-        changeFilteredRecipes(recipeCardArray);
-        changePageState("idle");
-      } else {
-        changePageState("error");
-      }
-    }).catch((e) => {
-      console.error(e);
-    });
 
-    // get all tags
-    getAllTags().then((tags) => {
-      if (tags) {
-        const tagButtons: tagButton[] = tags.map((tag) => {
-          return {
-            name: tag.name,
-            color: tag.color,
-            size: unselectedTagSize
-          }
-        })
-        changeAllTags(tagButtons);
-      }
-    })
+    const recipeCardArray: RecipeCardInterface[] = props.recipes.map((recipe) => {
+      return { ...recipe, title: recipe.name }
+    });
+    changeFilteredRecipes(recipeCardArray);
+
   }, []);
 
   // refilter based on when filter options or selected tags change
@@ -250,7 +229,17 @@ const Recipes: NextPage = () => {
           </div>
 
         </div>
-        {pageState === "loading" ?
+
+        {
+          filteredRecipes.length > 0 ?
+            <RecipeGrid recipes={filteredRecipes} size="small" flex={true} />
+            :
+            <div>
+              No recipes found!
+            </div>
+        }
+
+        {/* {pageState === "loading" ?
           <div className={styles["progress-container"]}>
             <CircularProgress isIndeterminate color="teal" size="xs" />
           </div>
@@ -262,11 +251,37 @@ const Recipes: NextPage = () => {
             <div>
               No recipes found!
             </div>
-
-        }
+        } */}
       </main>
     </div>
   )
 }
 
-export default Recipes
+export default RecipesPage;
+
+export const getStaticProps = async (params: GetStaticPropsContext): Promise<GetStaticPropsResult<{ recipes: Recipe[], tags: tagButton[] }>> => {
+  const recipes = await getAllItems(recipesCollection);
+  if (!recipes || !isRecipeArray(recipes)) {
+    console.error("No recipes found");
+    throw new Error("No recipes found");
+  }
+
+  // now get the tags
+
+  const tags = await getAllItems(tagsCollection);
+  if (tags && isTagModelArray(tags)) {
+    // convert to tagButtons
+    const tagButtons: tagButton[] = tags.map((tag) => {
+      return {
+        name: tag.name,
+        color: tag.color,
+        size: unselectedTagSize
+      }
+    })
+
+    return { props: { recipes: recipes, tags: tagButtons }, revalidate: 604800 }; // revalidate once a week at most
+  } else {
+    console.error("No tags found");
+    throw new Error("No tags found");
+  }
+}

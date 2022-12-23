@@ -3,7 +3,6 @@ import type { GetStaticProps, GetStaticPropsContext, GetStaticPropsResult } from
 import Head from 'next/head';
 import RecipeBox from "../../components/recipe/RecipeBox";
 import { isRecipe, isRecipeArray, Recipe as RecipeInterface } from '../../interfaces/data/recipe';
-import { getAllRecipes, getRecipeData } from '../../services/api/recipe';
 import styles from "../../styles/recipe/RecipePage.module.css";
 import { jwtContext } from '../_app';
 import { Button } from '@chakra-ui/react';

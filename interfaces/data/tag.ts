@@ -20,6 +20,20 @@ export function isTag(arg: any): arg is Tag {
     return true;
 }
 
+export function isTagArray(arg: any): arg is Tag[] {
+    if (!Array.isArray(arg)) {
+        return false;
+    }
+
+    for (const tag of arg) {
+        if (!isTag(tag)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /**
  * This is what gets put into the database
  */
@@ -37,6 +51,20 @@ export function isTagModel(arg: any): arg is TagModel {
 
     if (!("recipes" in arg)) {
         return false;
+    }
+
+    return true;
+}
+
+export function isTagModelArray(arg: any): arg is TagModel[] {
+    if (!Array.isArray(arg)) {
+        return false;
+    }
+
+    for (const tag of arg) {
+        if (!isTagModel(tag)) {
+            return false;
+        }
     }
 
     return true;
