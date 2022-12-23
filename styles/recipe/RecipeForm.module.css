@@ -48,10 +48,26 @@
     flex-direction: column;
 }
 
-.single-item {
-    display: flex;
-}
 
 .form-icons-container {
     position: relative;
+}
+
+
+@media screen and (max-height: 569px) and (min-height: 373px) {
+
+    /* For small, short mobile devices like iPhone 5 in portrait mode, most iPhones in landscape mode*/
+    .single-item {
+        display: flex;
+    }
+
+}
+
+@media screen and (max-width: 1023px) and (min-height: 389px) {
+
+    /* This is large mobile device portrait mode */
+    .single-item {
+        display: flex;
+    }
+
 }
