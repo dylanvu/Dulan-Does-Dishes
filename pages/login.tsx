@@ -37,6 +37,7 @@ const Login: NextPage = () => {
     useEffect(() => {
         if (loginState === "logging-in") {
             // make request
+            console.log("Logging in with password " + password)
             login(password).then((res) => {
                 // console.log(res);
                 // save in local storage
