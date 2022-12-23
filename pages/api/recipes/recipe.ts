@@ -24,10 +24,11 @@ const getSingleDish = async (req: NextApiRequest, res: NextApiResponse) => {
             } else {
                 // something wrong with backend data
                 console.error(`Found ${name} inside of ${recipesCollection} but it did not pass the recipe typeguard`);
-                res.status(502).json(`Found item with same id but it is not a recipe. Contact the owner of the website.`);
+                return res.status(502).json(`Found item with same id but it is not a recipe. Contact the owner of the website.`);
             }
         } else {
             // could not find item
+            console.error(`Could not find recipe named ${name}`)
             return res.status(404).json(`Could not find recipe named ${name}`);
         }
     } else {
